@@ -1,0 +1,40 @@
+@keyframes spinner {
+  0% {
+    transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) rotate(360deg);
+  }
+}
+
+.spinner {
+
+  &__container {
+    height: 5rem;
+  }
+
+  &__animation {
+    animation: 1.5s linear infinite spinner;
+    animation-play-state: inherit;
+    border: solid 5px #cfd0d1;
+    border-bottom-color: #9F9F9C;
+    border-radius: 50%;
+    content: "";
+    height: 4rem;
+    width: 4rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    will-change: transform;
+    line-height: 5rem;
+
+    &--mini {
+      position: relative;
+      border: solid 3px #cfd0d1;
+      border-bottom-color: #9F9F9C;
+      height: 2rem;
+      width: 2rem;
+    }
+  }
+}

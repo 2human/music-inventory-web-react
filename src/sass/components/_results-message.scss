@@ -1,0 +1,8 @@
+.results-message {    
+
+    font-weight: 700;
+
+    @include respond(phone-port) {
+        font-size: 1.1rem;
+    }         
+}
