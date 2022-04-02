@@ -12,6 +12,10 @@
 	vertical-align: middle;
 	// box-shadow: 0 1rem 2rem rgba($color-black, .2);	
 
+	&--big { 
+		font-size: 1.6rem;
+	}
+
 	&:hover {
 		transform: translateY(-.2rem);
 		box-shadow: 0 1rem 2rem rgba($color-black, .2);  /* subtle shadow with .2 opacity */ 

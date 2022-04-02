@@ -7,10 +7,9 @@
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
-    "sass": "^1.49.10",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -18,7 +17,7 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "test": "jest --watchAll",
-    "compile:sass": "node-sass sass/main.scss index.css -w"
+    "compile:sass": "node-sass src/sass/main.scss src/index.css -w"
   },
   "eslintConfig": {
     "extends": [
@@ -42,9 +41,14 @@
     "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
-    "jest": "^27.5.1"
+    "jest": "^27.5.1",
+    "node-sass": "^7.0.1"
   },
   "jest": {
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/test/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/src/test/__mocks__/styleMock.js"
+    }
   }
 }
