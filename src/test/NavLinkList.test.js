@@ -1,6 +1,6 @@
 import React from 'react';
-import { NavLinkList } from '../components/Navigation/NavLinkList';
 import { createContainer } from "./domManipulators";
+import { NavLinkList } from '../components/Navigation/NavLinkList';
 
 describe('NavLinkList', () => {
   
@@ -46,3 +46,4 @@ describe('NavLinkList', () => {
   });
 
 });
+

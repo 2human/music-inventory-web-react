@@ -35,6 +35,15 @@ Dark green: #28b485
 
 html {
   font-size: 62.5%; }
+  @media only screen and (max-width: 75em) {
+    html {
+      font-size: 56.25%; } }
+  @media only screen and (max-width: 56.25em) {
+    html {
+      font-size: 50%; } }
+  @media only screen and (min-width: 112.5em) {
+    html {
+      font-size: 75%; } }
 
 body {
   box-sizing: border-box;
@@ -262,15 +271,6 @@ body {
     box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.1); }
   .form__input::-webkit-input-placeholder {
     color: #999; }
-  .form__input--keyword {
-    width: 50rem;
-    margin-bottom: 0;
-    vertical-align: middle;
-    margin-right: .5rem; }
-    @media only screen and (max-width: 37.5em) {
-      .form__input--keyword {
-        width: 25%;
-        flex-grow: 1; } }
   .form__input--short {
     width: 14.32rem; }
     @media only screen and (max-width: 37.5em) {
@@ -351,13 +351,6 @@ body {
 
 .form__checkbox-group {
   display: inline-block; }
-
-.form__group--basic-search {
-  width: 64rem;
-  margin: 0 auto; }
-  @media only screen and (max-width: 37.5em) {
-    .form__group--basic-search {
-      width: 100%; } }
 
 @media only screen and (max-width: 37.5em) {
   .form__group--keyword {
@@ -577,7 +570,7 @@ body {
 .navigation {
   display: flex;
   width: 100%;
-  height: 7rem;
+  height: 7.5rem;
   padding: .5rem 5%;
   position: fixed;
   top: 0;
@@ -635,7 +628,7 @@ body {
   position: relative;
   background-color: #F8F8F8;
   display: block;
-  margin: 0 auto;
+  margin: 2rem auto 1.5rem;
   padding: 2rem 6rem;
   border-radius: 1rem;
   width: 72rem;
@@ -645,6 +638,24 @@ body {
     .search-form {
       width: 98vw;
       padding: 1rem 3rem; } }
+  .search-form__basic-search-inputs {
+    width: 64rem;
+    margin: 0 auto; }
+    @media only screen and (max-width: 37.5em) {
+      .search-form__basic-search-inputs {
+        width: 100%; } }
+  @media only screen and (max-width: 37.5em) {
+    .search-form__keyword-container {
+      display: flex; } }
+  .search-form__keyword-input {
+    width: 50rem;
+    margin-bottom: 0;
+    vertical-align: middle;
+    margin-right: .5rem; }
+    @media only screen and (max-width: 37.5em) {
+      .search-form__keyword-input {
+        width: 25%;
+        flex-grow: 1; } }
 
 .advanced-search__row {
   width: 100%; }

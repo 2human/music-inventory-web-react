@@ -2,7 +2,7 @@
     position: relative;
     background-color: #F8F8F8;
     display: block;
-    margin: 0 auto;
+    margin: 2rem auto 1.5rem;
     padding: 2rem 6rem;
     border-radius: 1rem;
     width: 72rem;
@@ -13,4 +13,33 @@
         width: 98vw;
         padding: 1rem 3rem;        
     }
+    
+    &__basic-search-inputs {
+        width: 64rem;
+        margin: 0 auto;
+
+        @include respond(phone-land) {
+        width: 100%;   
+        }
+    }
+
+    &__keyword-container {
+        @include respond(phone-land) {
+          display: flex;
+        }
+    } 
+
+    &__keyword-input {
+        width: 50rem;
+        margin-bottom: 0;
+        vertical-align: middle;
+        margin-right: .5rem;
+  
+        @include respond(phone-land) {
+          width: 25%;   //this is just to reset the property so that it will fill element
+          flex-grow: 1;
+        }
+    }
+
+
 }

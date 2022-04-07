@@ -6,26 +6,31 @@ export const Navigation = () => {
 
   const links = ['Home', 'Search', 'Shop', 'About'];
 
-  // console.log((<img
-  //   src={'../../assets/images/logo-small.jpg'}
-  //   alt="Logo" className="navigation__logo"
-  //   width="100"
-  //   />).props.src);
-
   return (
-    <header className="navigation">
+    <NavigationContainer>
       <Logo />
       <NavLinkList links={links}/>
       <DonateBtn />
-    </header>
+    </NavigationContainer>
   );
 };
+
+const NavigationContainer = ({ children }) => {
+  return(
+    <header className="navigation">
+      {children}
+    </header>
+  );
+
+}
+
 
 const Logo = () => <img
                       src={logo}
                       alt="Logo" className="navigation__logo"
                       width="100"
                     />
+
 
 const DonateBtn = () => <a 
                           id="donateBtn"
@@ -34,7 +39,5 @@ const DonateBtn = () => <a
                         >
                           Donate
                         </a>
-
-
 
 

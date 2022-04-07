@@ -1,6 +1,7 @@
 import React from 'react';
-import { Navigation } from '../components/Navigation/Navigation';
 import { createContainer } from "./domManipulators";
+import { Navigation } from '../components/Navigation/Navigation';
+import { NavLinkList } from '../components/Navigation/NavLinkList';
 
 
 //TODO add test for verifying logo source
@@ -41,10 +42,7 @@ describe('Navigation', () => {
   it('renders the donate button', () => {
     render(<Navigation />);
     expect(element('a#donateBtn.btn.btn--big')).not.toBeNull();
-
   });
-
-
-
+  
 });
 
