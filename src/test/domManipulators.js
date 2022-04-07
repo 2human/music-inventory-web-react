@@ -2,6 +2,10 @@ import ReactDOM from 'react-dom';
 import ReactTestUtils, { act } from 'react-dom/test-utils';
 
 export const createContainer = () => {
+  
+  const labelFor = formElement =>
+    container.querySelector(`label[for="${formElement}"]`);
+
   const container = document.createElement('div');
   const element = selector =>
       container.querySelector(selector);
@@ -23,6 +27,7 @@ export const createContainer = () => {
   return {
     render: component => ReactDOM.render(component, container),
     container,
+    labelFor,
     element,
     elements,
     click: simulateEvent('click'),

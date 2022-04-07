@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { TableSelect } from './TableSelect';
 
 
 export const SearchForm = () => {  
   const [keywords, setKeywords] = useState("");
   const [selectedTable, setSelectedTable] = useState("sources");
 
-  const handleKeywordInput = ({ target }) => {
-    setKeywords(target.value);
-  };
+  useEffect(() => {
+  })
 
   const handleSubmit = event => {
     event.preventDefault();
   };
+
+  const handleKeywordInput = ({ target }) => {
+    setKeywords(target.value);
+  };
+  
+  const handleTableChange = ({ target }) => {
+    setSelectedTable(target.value);
+  }
 
   const tableOptions = [
     {
@@ -43,7 +51,8 @@ export const SearchForm = () => {
 
       <TableSelect 
         tableOptions={tableOptions}
-        selectedTable={selectedTable} />
+        selectedTable={selectedTable}
+        handleTableChange={handleTableChange} />
 
       <FieldSelectContainer>
 
@@ -52,7 +61,6 @@ export const SearchForm = () => {
     </form>
   );
 };
-
 
 const KeywordInputAndSubmitContainer = ({ children }) => (
   <div 
@@ -83,72 +91,8 @@ const SubmitSearchButton = () =>
     className="btn btn--blue"
     value="Search" />;
 
-export const TableSelect = ({ tableOptions, selected }) => {
 
-  return (
-    <React.Fragment>      
-      <TableSelectContainer >
-        {tableOptions.map( option => 
-          <TableSelectOption 
-            key={option.name}
-            name={option.name}
-            label={option.label}
-            selected={option.name === selected}/>
-        )}
-      </TableSelectContainer>
-    </React.Fragment>
-  )  
-}
-
-export const TableSelectContainer = ({ children }) => {
-  return (
-    <div id="tableSelect" className="u-margin-bottom-tiny">
-      {children}
-    </div>
-  );
-};
-
-export const TableSelectOption = ({ name, label, selected }) => {
-  return(
-    <React.Fragment>           
-      <input 
-        className="form__radio-button" 
-        type="radio" 
-        name="table" 
-        value={name} 
-        id={name}
-        defaultChecked={selected}
-
-      />
-      <label htmlFor={name}>
-        <b>{label}</b>
-      </label>                        
-    </React.Fragment>
-  );
-};
 
 const FieldSelectContainer = ({ children }) => 
   <div className="search-form__basic-search">{children}</div>;
 
-
-TableSelect.defaultProps = {
-  tableOptions: [
-    {
-      name: 'collections',
-      label: 'Collections'
-    },
-    {
-      name: 'sources',
-      label: 'Sources'
-    },
-    {
-      name: 'entries',
-      label: 'Entries'
-    }
-  ]
-}
-
-TableSelectOption.defaultProps = {
-  name: 'name',
-  label: 'label'
-}

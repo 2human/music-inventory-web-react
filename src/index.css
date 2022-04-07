@@ -356,7 +356,7 @@ body {
   .form__group--keyword {
     display: flex; } }
 
-.form__radio-button, .form__checkbox {
+.form__checkbox {
   vertical-align: text-bottom;
   width: 1.5rem; }
 
@@ -460,6 +460,17 @@ body {
     color: #000; }
   .navlink-list__link:hover {
     color: #0088a9; }
+
+.table-select__radio-btn {
+  vertical-align: text-bottom;
+  width: 1.5rem;
+  margin-right: .3rem;
+  padding: 1rem; }
+
+.table-select__radio-label {
+  font-weight: 700; }
+  .table-select__radio-label:not(:last-child) {
+    margin-right: .3rem; }
 
 .row {
   max-width: 114rem;

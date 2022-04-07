@@ -1,8 +1,6 @@
 import React from 'react';
 import { createContainer } from './domManipulators';
-import { SearchForm,
-        TableSelect,
-        TableSelectOption } from '../components/SearchForm/SearchForm';
+import { SearchForm } from '../components/SearchForm/SearchForm';
 
 
 describe('SearchForm', () => {
@@ -77,66 +75,4 @@ describe('SearchForm', () => {
   });
 
   
-});
-
-describe('TableSelect', () => {
-  let render, element, elements;
-  
-  const labelFor = formElement =>
-    element(`label[for="${formElement}"]`);
-
-  beforeEach(() => {
-    ({ render, element, elements } = createContainer());
-  });
-
-  const tableOptions = [
-    {
-      name: 'option1',
-      label: 'Option11'
-    },
-    {
-      name: 'option2',
-      label: 'Option2'
-    }
-  ]
-
-  it('renders the tableSelect container element', () => {
-    render(<TableSelect />);
-    expect(element('div#tableSelect')).not.toBeNull();
-  });
-
-  it('renders a radio button for each option', () => { 
-    render(<TableSelect tableOptions={tableOptions}/>);
-    const radioButtons = 
-      elements('#tableSelect input[type="radio"]');
-    expect(radioButtons).toHaveLength(tableOptions.length);
-  }); 
-
-  it('renders the right label text', () => {    
-    render(<TableSelect tableOptions={tableOptions}/>);
-    const radioLabels = 
-      elements('#tableSelect label');
-    expect(labelFor(tableOptions[1].name)).not.toBeNull();
-    expect(labelFor(tableOptions[1].name).textContent)
-      .toEqual(tableOptions[1].label); 
-  });
-
-  it('assigns an id to each radio option that matches the label id', () =>{
-    render(<TableSelect tableOptions={tableOptions} />);
-    const radioButtons = elements('#tableSelect input');
-    expect(radioButtons[0].id).toEqual(tableOptions[0].name);
-    expect(radioButtons[1].id).toEqual(tableOptions[1].name);
-  });
-
-  it('initially selects the selected option', () => {
-    render(<TableSelectOption selected={true} />);
-    expect(element('input').checked).toBeTruthy();
-  });
-
-  it('initially does not selected non-selected options', () => {
-    render(<TableSelectOption selected={false} />);
-    expect(element('input').checked).toBeFalsy();
-  });
-  
-
 });
