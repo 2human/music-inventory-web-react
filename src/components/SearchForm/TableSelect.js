@@ -2,35 +2,31 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { selectTable } from '../../assets/data/actions';
 
-
-
-
-export const TableSelect = ({ 
-    tableOptions,
-    handleTableChange,
-    selectedTable
-  }) => {
-
+export const TableSelect = ({
+  tableOptions,
+  handleTableChange,
+  selectedTable,
+}) => {
   // console.log(props.searchInput);
 
-  useEffect( () => {
+  useEffect(() => {
     selectTable(selectedTable);
   }, []);
 
-  return ( 
-    <TableSelectContainer >
-      {tableOptions.map( option => 
-        <TableSelectOption 
+  return (
+    <TableSelectContainer>
+      {tableOptions.map((option) => (
+        <TableSelectOption
           key={option.name}
           name={option.name}
           label={option.label}
           selected={option.name === selectedTable}
           handleTableChange={handleTableChange}
-          />
-      )}
+        />
+      ))}
     </TableSelectContainer>
-  )  
-}
+  );
+};
 
 const TableSelectContainer = ({ children }) => {
   return (
@@ -40,22 +36,26 @@ const TableSelectContainer = ({ children }) => {
   );
 };
 
-export const TableSelectOption = 
-  ({ name, label, selected, handleTableChange }) => {
-  return(
-    <React.Fragment>           
-      <input 
-        className="table-select__radio-btn" 
-        type="radio" 
-        name="table" 
-        value={name} 
+export const TableSelectOption = ({
+  name,
+  label,
+  selected,
+  handleTableChange,
+}) => {
+  return (
+    <React.Fragment>
+      <input
+        className="table-select__radio-btn"
+        type="radio"
+        name="table"
+        value={name}
         id={name}
+        checked={selected}
         onChange={handleTableChange}
-        defaultChecked={selected}
       />
       <label className="table-select__radio-label" htmlFor={name}>
         {label}
-      </label>                        
+      </label>
     </React.Fragment>
   );
 };
@@ -64,28 +64,27 @@ TableSelect.defaultProps = {
   tableOptions: [
     {
       name: 'collections',
-      label: 'Collections'
+      label: 'Collections',
     },
     {
       name: 'sources',
-      label: 'Sources'
+      label: 'Sources',
     },
     {
       name: 'entries',
-      label: 'Entries'
-    }
+      label: 'Entries',
+    },
   ],
-  selectedTable: 'sources'
-}
+  selectedTable: 'sources',
+  handleTableChange: () => {},
+};
 
 TableSelectOption.defaultProps = {
   name: 'name',
   label: 'label',
-  selected: 'false'
-}
-
-
-
+  selected: 'false',
+  handleTableChange: () => {},
+};
 
 // const mapStateToProps = state => {
 //   return { searchInput: state.searchInput };
@@ -96,6 +95,6 @@ TableSelectOption.defaultProps = {
 // });
 
 // export const ConnectedTableSelect = connect(
-//   mapStateToProps, 
+//   mapStateToProps,
 //   mapDispatchToProps
 //   )(TableSelect);

@@ -262,9 +262,9 @@ body {
   font-size: 1.4rem;
   font-family: inherit;
   color: inherit;
-  border-radius: .2rem;
+  border-radius: 0.2rem;
   background-color: rgba(255, 255, 255, 0.5);
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
   border-color: white; }
   .form__input:focus {
     outline: none;
@@ -297,17 +297,17 @@ body {
   font-size: 1.4rem;
   font-family: inherit;
   color: inherit;
-  border-radius: .2rem;
+  border-radius: 0.2rem;
   background-color: rgba(255, 255, 255, 0.5);
-  padding: .5rem .6rem; }
+  padding: 0.5rem 0.6rem; }
 
 .form__textarea {
   font-size: 1.4rem;
   font-family: inherit;
   color: inherit;
-  border-radius: .2rem;
+  border-radius: 0.2rem;
   background-color: rgba(255, 255, 255, 0.5);
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
   border-color: white;
   width: 72rem;
   height: 10rem;
@@ -315,12 +315,12 @@ body {
   font-size: 1.4rem;
   font-family: inherit;
   color: inherit;
-  border-radius: .2rem;
+  border-radius: 0.2rem;
   background-color: rgba(255, 255, 255, 0.5);
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
   border-color: white; }
   .form__textarea:not(:last-child) {
-    margin-bottom: .75rem; }
+    margin-bottom: 0.75rem; }
   @media only screen and (max-width: 56.25em) {
     .form__textarea {
       width: 56rem; } }
@@ -342,23 +342,9 @@ body {
     vertical-align: top;
     font-size: 1.25rem; }
 
-.form__checkbox-section {
-  display: inline-block;
-  width: 58rem; }
-  @media only screen and (max-width: 37.5em) {
-    .form__checkbox-section {
-      width: 90%; } }
-
-.form__checkbox-group {
-  display: inline-block; }
-
 @media only screen and (max-width: 37.5em) {
   .form__group--keyword {
     display: flex; } }
-
-.form__checkbox {
-  vertical-align: text-bottom;
-  width: 1.5rem; }
 
 .page-select__top {
   text-align: center;
@@ -413,7 +399,18 @@ body {
     width: 2rem; }
 
 .field-select {
-  width: 100%; }
+  display: flex; }
+  .field-select__checkboxes-label {
+    font-weight: 700; }
+  .field-select__checkbox-group {
+    display: inline-block;
+    flex: 1 1 0px; }
+  .field-select__checkbox {
+    margin-right: 0.3rem;
+    vertical-align: text-bottom;
+    width: 1.5rem; }
+  .field-select__label {
+    margin-right: 0.4rem; }
 
 .dropdown {
   position: absolute;
@@ -464,13 +461,13 @@ body {
 .table-select__radio-btn {
   vertical-align: text-bottom;
   width: 1.5rem;
-  margin-right: .3rem;
+  margin-right: 0.2rem;
   padding: 1rem; }
 
 .table-select__radio-label {
   font-weight: 700; }
   .table-select__radio-label:not(:last-child) {
-    margin-right: .3rem; }
+    margin-right: 0.4rem; }
 
 .row {
   max-width: 114rem;
@@ -637,7 +634,7 @@ body {
 
 .search-form {
   position: relative;
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
   display: block;
   margin: 2rem auto 1.5rem;
   padding: 2rem 6rem;
@@ -655,18 +652,14 @@ body {
     @media only screen and (max-width: 37.5em) {
       .search-form__basic-search-inputs {
         width: 100%; } }
-  @media only screen and (max-width: 37.5em) {
-    .search-form__keyword-container {
-      display: flex; } }
+  .search-form__keyword-container {
+    display: flex; }
   .search-form__keyword-input {
-    width: 50rem;
+    width: 25%;
+    flex: auto;
     margin-bottom: 0;
     vertical-align: middle;
-    margin-right: .5rem; }
-    @media only screen and (max-width: 37.5em) {
-      .search-form__keyword-input {
-        width: 25%;
-        flex-grow: 1; } }
+    margin-right: 0.5rem; }
 
 .advanced-search__row {
   width: 100%; }

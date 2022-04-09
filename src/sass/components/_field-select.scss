@@ -1,7 +1,22 @@
-.field-select { 
-    width: 100%;
+.field-select {
+  display: flex;
 
-    &__label {
+  &__checkboxes-label {
+    font-weight: 700;
+  }
 
-    }
+  &__checkbox-group {
+    display: inline-block;
+    flex: 1 1 0px;
+  }
+
+  &__checkbox {
+    margin-right: 0.3rem;
+    vertical-align: text-bottom;
+    width: 1.5rem;
+  }
+
+  &__label {
+    margin-right: 0.4rem;
+  }
 }

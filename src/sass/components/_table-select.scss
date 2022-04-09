@@ -1,17 +1,16 @@
-.table-select {  
-
+.table-select {
   &__radio-btn {
     vertical-align: text-bottom;
     width: 1.5rem;
-    margin-right: .3rem;
+    margin-right: 0.2rem;
     padding: 1rem;
   }
- 
+
   &__radio-label {
     font-weight: 700;
 
-    &:not(:last-child) {      
-      margin-right: .3rem;
+    &:not(:last-child) {
+      margin-right: 0.4rem;
     }
-  } 
-} 
+  }
+}
