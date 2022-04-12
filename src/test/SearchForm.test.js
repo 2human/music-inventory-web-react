@@ -128,11 +128,15 @@ describe.only('SearchForm', () => {
     expect(fetchURL).toContain(tableWithName(radioBtns[0].value));
   });
 
-  it('includes the keyword search text in the fetch request', () => {
+  it('includes the keyword search text in the fetch request', async () => {
+    const inputText = 'keywordtext123';
     render(<SearchForm />);
     change(
       element('#keywordInput'),
-      withEvent('keywordInput', 'keywordtext123')
+      withEvent('searchText', inputText)
     );
+    await submit(form('searchForm'));
+    const fetchURL = requestURLOf(window.fetch);
+    expect(fetchURL).toContain(searchParam('searchText', inputText));
   });
 });

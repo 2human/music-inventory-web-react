@@ -4,9 +4,11 @@ import { FieldSelect } from './FieldSelect';
 import { fieldOptions, tableOptions } from './formInputObjects';
 
 export const SearchForm = () => {
-  const [keywords, setKeywords] = useState('');
-  const [selectedTable, setSelectedTable] = useState('sources');
-  const [selectedFields, setSelectedFields] = useState([]);
+  const [formInputs, setFormInputs] = useState({
+    searchText: '',
+    table: 'sources',
+    selectedFields: [],
+  });
 
   useEffect(() => {});
 
@@ -23,39 +25,59 @@ export const SearchForm = () => {
 
   const getRequestURL = () => {
     const requestURL = new URL(
-      `http://localhost:8080/${selectedTable}`
+      `http://localhost:8080/${formInputs.table}`
     );
-    requestURL.searchParams.set('searchText', keywords);
-    requestURL.searchParams.set('table', selectedTable);
-    selectedFields.forEach((field) =>
+    requestURL.searchParams.set('searchText', formInputs.searchText);
+    requestURL.searchParams.set('table', formInputs.table);
+    formInputs.selectedFields.forEach((field) =>
       requestURL.searchParams.append('field', field)
     );
     return requestURL;
   };
 
   const handleKeywordInput = ({ target }) => {
-    setKeywords(target.value);
+    setFormInputs({
+      ...formInputs,
+      searchText: target.value,
+    });
   };
 
   const handleTableChange = ({ target }) => {
-    setSelectedTable(target.value);
+    setFormInputs({
+      ...formInputs,
+      table: target.value,
+    });
   };
 
   const handleFieldChange = ({ target }) => {
     const changedField = target.value;
     if (wasAlreadySelected(changedField)) {
-      setSelectedFields(
-        selectedFields.filter((field) => field !== changedField)
-      );
+      deselectField(changedField);
     } else {
-      setSelectedFields([...selectedFields, changedField]);
+      selectField(changedField);
     }
   };
 
   const wasAlreadySelected = (field) => {
-    return selectedFields.some(
+    return formInputs.selectedFields.some(
       (selectedField) => selectedField === field
     );
+  };
+
+  const deselectField = (changedField) => {
+    setFormInputs({
+      ...formInputs,
+      selectedFields: formInputs.selectedFields.filter(
+        (field) => field !== changedField
+      ),
+    });
+  };
+
+  const selectField = (changedField) => {
+    setFormInputs({
+      ...formInputs,
+      selectedFields: [...formInputs.selectedFields, changedField],
+    });
   };
 
   return (
@@ -66,21 +88,21 @@ export const SearchForm = () => {
       <KeywordInputAndSubmitContainer>
         <KeywordInput
           handleKeywordInput={handleKeywordInput}
-          value={keywords}
+          value={formInputs.searchText}
         />
         <SubmitSearchButton />
       </KeywordInputAndSubmitContainer>
 
       <TableSelect
         tableOptions={tableOptions}
-        selectedTable={selectedTable}
+        selectedTable={formInputs.table}
         handleTableChange={handleTableChange}
       />
 
       <FieldSelect
         handleFieldChange={handleFieldChange}
         fieldOptions={fieldOptions}
-        selectedFields={selectedFields}
+        selectedFields={formInputs.selectedFields}
       />
     </form>
   );
