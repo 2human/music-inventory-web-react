@@ -9,12 +9,12 @@ export const FieldSelect = ({
     <FieldSelectContainer>
       {fieldOptions.map((option) => (
         <FieldSelectOption
-          key={option.name}
-          name={option.name}
+          key={option.value}
+          value={option.value}
           label={option.label}
           handleFieldChange={handleFieldChange}
           isSelected={selectedFields.some(
-            (selectedField) => selectedField === option.name
+            (selectedField) => selectedField === option.value
           )}
         />
       ))}
@@ -34,7 +34,7 @@ const FieldSelectContainer = ({ children }) => (
 );
 
 export const FieldSelectOption = ({
-  name,
+  value,
   label,
   handleFieldChange,
   isSelected,
@@ -44,13 +44,13 @@ export const FieldSelectOption = ({
       <input
         type="checkbox"
         className="field-select__checkbox"
-        value={name}
-        name={name}
-        id={name}
+        value={value}
+        name={'field'}
+        id={value}
         checked={isSelected}
         onChange={handleFieldChange}
       />
-      <label htmlFor={name} className="field-select__label">
+      <label htmlFor={value} className="field-select__label">
         {label}
       </label>
     </div>
@@ -60,15 +60,15 @@ export const FieldSelectOption = ({
 FieldSelect.defaultProps = {
   fieldOptions: [
     {
-      name: 'option1',
+      value: 'option1',
       label: 'Option11',
     },
     {
-      name: 'option2',
+      value: 'option2',
       label: 'Option2',
     },
     {
-      name: 'option3',
+      value: 'option3',
       label: 'Option3',
     },
   ],
@@ -76,7 +76,7 @@ FieldSelect.defaultProps = {
 };
 
 FieldSelectOption.defaultProps = {
-  name: 'option1',
+  value: 'option1',
   label: 'Option11',
   isSelected: false,
   handleFieldChange: () => {},

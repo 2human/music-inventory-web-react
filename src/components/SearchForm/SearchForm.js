@@ -10,8 +10,27 @@ export const SearchForm = () => {
 
   useEffect(() => {});
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const requestURL = getRequestURL();
+
+    const result = await window.fetch(requestURL.href);
+    if (result.ok) {
+      const searchResults = await result.json();
+    }
+  };
+
+  const getRequestURL = () => {
+    const requestURL = new URL(
+      `http://localhost:8080/${selectedTable}`
+    );
+    requestURL.searchParams.set('searchText', keywords);
+    requestURL.searchParams.set('table', selectedTable);
+    selectedFields.forEach((field) =>
+      requestURL.searchParams.append('field', field)
+    );
+    return requestURL;
   };
 
   const handleKeywordInput = ({ target }) => {
@@ -23,16 +42,17 @@ export const SearchForm = () => {
   };
 
   const handleFieldChange = ({ target }) => {
-    if (fieldIsAlreadySelected(target.value)) {
+    const changedField = target.value;
+    if (wasAlreadySelected(changedField)) {
       setSelectedFields(
-        selectedFields.filter((field) => field !== target.value)
+        selectedFields.filter((field) => field !== changedField)
       );
     } else {
-      setSelectedFields([...selectedFields, target.value]);
+      setSelectedFields([...selectedFields, changedField]);
     }
   };
 
-  const fieldIsAlreadySelected = (field) => {
+  const wasAlreadySelected = (field) => {
     return selectedFields.some(
       (selectedField) => selectedField === field
     );

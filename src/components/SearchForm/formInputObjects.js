@@ -1,45 +1,45 @@
 export const fieldOptions = [
   {
-    name: 'collection',
+    value: 'collection',
     label: 'Collection',
   },
   {
-    name: 'sourceNumber',
+    value: 'sourceNumber',
     label: 'Source Number',
   },
   {
-    name: 'callNumber',
+    value: 'callNumber',
     label: 'Call Number',
   },
   {
-    name: 'author',
+    value: 'author',
     label: 'Author',
   },
   {
-    name: 'title',
+    value: 'title',
     label: 'Title',
   },
   {
-    name: 'inscription',
+    value: 'inscription',
     label: 'Inscriptions',
   },
   {
-    name: 'description',
+    value: 'description',
     label: 'Description',
   },
 ];
 
 export const tableOptions = [
   {
-    name: 'collections',
+    value: 'collections',
     label: 'Collections',
   },
   {
-    name: 'sources',
+    value: 'sources',
     label: 'Sources',
   },
   {
-    name: 'entries',
+    value: 'entries',
     label: 'Entries',
   },
 ];

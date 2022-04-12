@@ -6,20 +6,20 @@ import {
 } from '../components/SearchForm/FieldSelect';
 
 describe('FieldSelect', () => {
-  let render, element, elements, labelFor, change;
+  let render, element, elements, labelFor, inputsOfType, change;
 
   beforeEach(() => {
-    ({ render, element, elements, labelFor, change } =
+    ({ render, element, elements, labelFor, inputsOfType, change } =
       createContainer());
   });
 
   const fieldOptions = [
     {
-      name: 'option1',
+      value: 'option1',
       label: 'Option11',
     },
     {
-      name: 'option2',
+      value: 'option2',
       label: 'Option2',
     },
   ];
@@ -31,23 +31,23 @@ describe('FieldSelect', () => {
 
   it('renders a checkbox element for each field select option', () => {
     render(<FieldSelect fieldOptions={fieldOptions} />);
-    expect(elements('input[type="checkbox"]')).toHaveLength(
+    expect(inputsOfType('checkbox')).toHaveLength(
       fieldOptions.length
     );
   });
 
   it('renders each checkbox element with the right values', () => {
     render(<FieldSelect fieldOptions={fieldOptions} />);
-    const checkboxes = elements('input[type="checkbox"]');
-    expect(checkboxes[0].value).toEqual(fieldOptions[0].name);
-    expect(checkboxes[1].value).toEqual(fieldOptions[1].name);
+    const checkboxes = inputsOfType('checkbox');
+    expect(checkboxes[0].value).toEqual(fieldOptions[0].value);
+    expect(checkboxes[1].value).toEqual(fieldOptions[1].value);
   });
 
   it('renders each checkbox element with the right name', () => {
     render(<FieldSelect fieldOptions={fieldOptions} />);
-    const checkboxes = elements('input[type="checkbox"]');
-    expect(checkboxes[0].name).toEqual(fieldOptions[0].name);
-    expect(checkboxes[1].name).toEqual(fieldOptions[1].name);
+    const checkboxes = inputsOfType('checkbox');
+    expect(checkboxes[0].name).toEqual('field');
+    expect(checkboxes[1].name).toEqual('field');
   });
 
   it('renders a label element for each field select option', () => {
@@ -64,25 +64,25 @@ describe('FieldSelect', () => {
 
   it('renders the right label text', () => {
     render(<FieldSelect fieldOptions={fieldOptions} />);
-    expect(labelFor(fieldOptions[1].name)).not.toBeNull();
-    expect(labelFor(fieldOptions[1].name).textContent).toEqual(
+    expect(labelFor(fieldOptions[1].value)).not.toBeNull();
+    expect(labelFor(fieldOptions[1].value).textContent).toEqual(
       fieldOptions[1].label
     );
   });
 
   it('assigns an id to each checkbox that matches its label id', () => {
     render(<FieldSelect fieldOptions={fieldOptions} />);
-    const checkboxes = elements('input[type="checkbox"]');
-    expect(checkboxes[0].id).toEqual(fieldOptions[0].name);
-    expect(checkboxes[1].id).toEqual(fieldOptions[1].name);
+    const checkboxes = inputsOfType('checkbox');
+    expect(checkboxes[0].id).toEqual(fieldOptions[0].value);
+    expect(checkboxes[1].id).toEqual(fieldOptions[1].value);
   });
 
   it('displays the correct checkbox ids', () => {
     render(<FieldSelect fieldOptions={fieldOptions} />);
-    expect(labelFor(fieldOptions[0].name).textContent).toEqual(
+    expect(labelFor(fieldOptions[0].value).textContent).toEqual(
       fieldOptions[0].label
     );
-    expect(labelFor(fieldOptions[1].name).textContent).toEqual(
+    expect(labelFor(fieldOptions[1].value).textContent).toEqual(
       fieldOptions[1].label
     );
   });
@@ -97,12 +97,12 @@ describe('FieldSelect', () => {
         }
       />
     );
-    change(element(`input[id="${fieldOptions[0].name}"`));
-    expect(fieldChanged).toEqual(fieldOptions[0].name);
+    change(element(`input[id="${fieldOptions[0].value}"`));
+    expect(fieldChanged).toEqual(fieldOptions[0].value);
   });
 
   it('checks off checkboxes with names matching elements in selectedFields array', () => {
-    const selectedFields = [fieldOptions[0].name];
+    const selectedFields = [fieldOptions[0].value];
     render(
       <FieldSelect
         selectedFields={selectedFields}
@@ -110,12 +110,12 @@ describe('FieldSelect', () => {
       />
     );
     expect(
-      element(`input[id="${fieldOptions[0].name}"`).checked
+      element(`input[id="${fieldOptions[0].value}"`).checked
     ).toEqual(true);
   });
 
   it('does not check off checkboxes whose names do not appear in selectedFields array', () => {
-    const selectedFields = [fieldOptions[0].name];
+    const selectedFields = [fieldOptions[0].value];
     render(
       <FieldSelect
         selectedFields={selectedFields}
@@ -123,7 +123,7 @@ describe('FieldSelect', () => {
       />
     );
     expect(
-      element(`input[id="${fieldOptions[1].name}"`).checked
+      element(`input[id="${fieldOptions[1].value}"`).checked
     ).toEqual(false);
   });
 });
@@ -168,7 +168,7 @@ describe('FieldSelectOption', () => {
     let fieldChanged;
     render(
       <FieldSelectOption
-        name={field}
+        value={field}
         handleFieldChange={({ target }) =>
           (fieldChanged = target.value)
         }

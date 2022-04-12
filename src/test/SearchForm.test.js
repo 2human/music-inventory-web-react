@@ -1,15 +1,27 @@
 import React from 'react';
-import { createContainer } from './domManipulators';
+import 'whatwg-fetch';
+import { createContainer, withEvent } from './domManipulators';
 import { SearchForm } from '../components/SearchForm/SearchForm';
+import { fetchResponseOk, requestURLOf } from './spyHelpers';
 
-describe('SearchForm', () => {
-  let render, element, elements, submit, change;
+describe.only('SearchForm', () => {
+  let render, element, submit, inputsOfType, change;
 
   const form = (id) => element(`form[id="${id}"]`);
+  const searchParam = (name, value) => `${name}=${value}`;
+  const fieldWithName = (fieldName) =>
+    searchParam('field', fieldName);
+  const tableWithName = (tableName) =>
+    searchParam('table', tableName);
 
   beforeEach(() => {
-    ({ render, element, elements, submit, change } =
+    ({ render, element, submit, inputsOfType, change } =
       createContainer());
+    jest.spyOn(window, 'fetch').mockReturnValue(fetchResponseOk({}));
+  });
+
+  afterEach(() => {
+    window.fetch.mockRestore();
   });
 
   it('renders the #searchForm element', () => {
@@ -44,9 +56,7 @@ describe('SearchForm', () => {
     expect(keywordTextInput.getAttribute('placeholder')).toEqual(
       'Keyword(s)'
     );
-    expect(keywordTextInput.getAttribute('maxLength')).toEqual(
-      '200'
-    );
+    expect(keywordTextInput.getAttribute('maxLength')).toEqual('200');
     expect(keywordTextInput.getAttribute('size')).toEqual('60');
   });
 
@@ -75,17 +85,54 @@ describe('SearchForm', () => {
 
   it('checks off checkboxes when they are changed', () => {
     render(<SearchForm />);
-    const checkboxes = elements('input[type="checkbox"');
+    const checkboxes = inputsOfType('checkbox');
     change(checkboxes[0]);
     expect(checkboxes[0].checked).toEqual(true);
   });
 
   it('unchecks checkboxes when they are changed while checked', () => {
     render(<SearchForm />);
-    const checkboxes = elements('input[type="checkbox"');
+    const checkboxes = inputsOfType('checkbox');
     change(checkboxes[0]);
     expect(checkboxes[0].checked).toEqual(true);
     change(checkboxes[0]);
     expect(checkboxes[0].checked).toEqual(false);
+  });
+
+  it('includes a single field in the fetch request when field is checked', async () => {
+    render(<SearchForm />);
+    const checkboxes = inputsOfType('checkbox');
+    change(checkboxes[0]);
+    await submit(form('searchForm'));
+    const fetchURL = requestURLOf(window.fetch);
+    expect(fetchURL).toContain(fieldWithName(checkboxes[0].value));
+  });
+
+  it('includes a multiple fields in the fetch request when checked', async () => {
+    render(<SearchForm />);
+    const checkboxes = inputsOfType('checkbox');
+    change(checkboxes[0]);
+    change(checkboxes[1]);
+    await submit(form('searchForm'));
+    const fetchURL = requestURLOf(window.fetch);
+    expect(fetchURL).toContain(fieldWithName(checkboxes[0].value));
+    expect(fetchURL).toContain(fieldWithName(checkboxes[1].value));
+  });
+
+  it('includes the selected table in the fetch request', async () => {
+    render(<SearchForm />);
+    const radioBtns = inputsOfType('radio');
+    change(radioBtns[0]);
+    await submit(form('searchForm'));
+    const fetchURL = requestURLOf(window.fetch);
+    expect(fetchURL).toContain(tableWithName(radioBtns[0].value));
+  });
+
+  it('includes the keyword search text in the fetch request', () => {
+    render(<SearchForm />);
+    change(
+      element('#keywordInput'),
+      withEvent('keywordInput', 'keywordtext123')
+    );
   });
 });

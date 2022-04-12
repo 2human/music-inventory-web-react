@@ -4,6 +4,8 @@ import ReactTestUtils, { act } from 'react-dom/test-utils';
 export const createContainer = () => {
   const labelFor = (formElement) =>
     container.querySelector(`label[for="${formElement}"]`);
+  const inputsOfType = (inputType) =>
+    elements(`input[type="${inputType}"]`);
 
   const container = document.createElement('div');
   const element = (selector) => container.querySelector(selector);
@@ -23,6 +25,7 @@ export const createContainer = () => {
     render: (component) => ReactDOM.render(component, container),
     container,
     labelFor,
+    inputsOfType,
     element,
     elements,
     click: simulateEvent('click'),
@@ -30,3 +33,7 @@ export const createContainer = () => {
     submit: simulateEventAndWait('submit'),
   };
 };
+
+export const withEvent = (name, value) => ({
+  target: { name, value },
+});

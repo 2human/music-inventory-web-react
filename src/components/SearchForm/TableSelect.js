@@ -17,10 +17,10 @@ export const TableSelect = ({
     <TableSelectContainer>
       {tableOptions.map((option) => (
         <TableSelectOption
-          key={option.name}
-          name={option.name}
+          key={option.value}
+          value={option.value}
           label={option.label}
-          selected={option.name === selectedTable}
+          selected={option.value === selectedTable}
           handleTableChange={handleTableChange}
         />
       ))}
@@ -37,7 +37,7 @@ const TableSelectContainer = ({ children }) => {
 };
 
 export const TableSelectOption = ({
-  name,
+  value,
   label,
   selected,
   handleTableChange,
@@ -48,12 +48,12 @@ export const TableSelectOption = ({
         className="table-select__radio-btn"
         type="radio"
         name="table"
-        value={name}
-        id={name}
+        value={value}
+        id={value}
         checked={selected}
         onChange={handleTableChange}
       />
-      <label className="table-select__radio-label" htmlFor={name}>
+      <label className="table-select__radio-label" htmlFor={value}>
         {label}
       </label>
     </React.Fragment>
@@ -63,15 +63,15 @@ export const TableSelectOption = ({
 TableSelect.defaultProps = {
   tableOptions: [
     {
-      name: 'collections',
+      value: 'collections',
       label: 'Collections',
     },
     {
-      name: 'sources',
+      value: 'sources',
       label: 'Sources',
     },
     {
-      name: 'entries',
+      value: 'entries',
       label: 'Entries',
     },
   ],
@@ -80,7 +80,7 @@ TableSelect.defaultProps = {
 };
 
 TableSelectOption.defaultProps = {
-  name: 'name',
+  value: 'value',
   label: 'label',
   selected: 'false',
   handleTableChange: () => {},

@@ -6,20 +6,20 @@ import {
 } from '../components/SearchForm/TableSelect';
 
 describe('TableSelect', () => {
-  let render, element, elements, change, labelFor;
+  let render, element, elements, change, inputsOfType, labelFor;
 
   beforeEach(() => {
-    ({ render, element, elements, change, labelFor } =
+    ({ render, element, elements, change, inputsOfType, labelFor } =
       createContainer());
   });
 
   const tableOptions = [
     {
-      name: 'option1',
+      value: 'option1',
       label: 'Option1',
     },
     {
-      name: 'option2',
+      value: 'option2',
       label: 'Option2',
     },
   ];
@@ -31,16 +31,14 @@ describe('TableSelect', () => {
 
   it('renders a radio button for each option', () => {
     render(<TableSelect tableOptions={tableOptions} />);
-    const radioButtons = elements(
-      '#tableSelect input[type="radio"]'
-    );
+    const radioButtons = inputsOfType('radio');
     expect(radioButtons).toHaveLength(tableOptions.length);
   });
 
   it('renders the right label text', () => {
     render(<TableSelect tableOptions={tableOptions} />);
-    expect(labelFor(tableOptions[1].name)).not.toBeNull();
-    expect(labelFor(tableOptions[1].name).textContent).toEqual(
+    expect(labelFor(tableOptions[1].value)).not.toBeNull();
+    expect(labelFor(tableOptions[1].value).textContent).toEqual(
       tableOptions[1].label
     );
   });
@@ -48,8 +46,8 @@ describe('TableSelect', () => {
   it('assigns an id to each radio option that matches the label id', () => {
     render(<TableSelect tableOptions={tableOptions} />);
     const radioButtons = elements('#tableSelect input');
-    expect(radioButtons[0].id).toEqual(tableOptions[0].name);
-    expect(radioButtons[1].id).toEqual(tableOptions[1].name);
+    expect(radioButtons[0].id).toEqual(tableOptions[0].value);
+    expect(radioButtons[1].id).toEqual(tableOptions[1].value);
   });
 
   it('returns the name of the table when selection is changed', () => {
@@ -62,8 +60,8 @@ describe('TableSelect', () => {
         }
       />
     );
-    change(element(`input[id="${tableOptions[1].name}"]`));
-    expect(tableSelected).toEqual(tableOptions[1].name);
+    change(element(`input[id="${tableOptions[1].value}"]`));
+    expect(tableSelected).toEqual(tableOptions[1].value);
   });
 });
 
@@ -90,7 +88,7 @@ describe('TableSelectOption', () => {
     render(
       <TableSelectOption
         selected={false}
-        name={table}
+        value={table}
         handleTableChange={({ target }) =>
           (tableSelected = target.value)
         }
