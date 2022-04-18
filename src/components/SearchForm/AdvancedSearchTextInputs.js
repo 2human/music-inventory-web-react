@@ -3,20 +3,35 @@ import React from 'react';
 export const AdvancedSearchTextInputs = ({ fields }) => {
   return (
     <div id="advancedSearch" className="advanced-search">
-      {fields.rows.map((fieldRow) => {})}
-      {Object.keys(fields.data).map((fieldName) => (
-        <AdvancedSearchInputGroup
-          key={fieldName}
-          field={fields.data[fieldName]}
-        />
+      {fields.rows.map((row, i) => (
+        <AdvancedSearchInputGroupRow key={i}>
+          {rowFieldsData(row, fields.data).map((field) => (
+            <AdvancedSearchInputGroup
+              key={field.name}
+              field={field}
+            />
+          ))}
+        </AdvancedSearchInputGroupRow>
       ))}
     </div>
   );
 };
 
-export const rowFieldData = (fieldRow, fieldData) => {
-  fieldData.filter((field) => fieldRow.some(field.name));
+/**
+ *
+ * @param {*} fieldRow Array of field names corresponding to field names.
+ * @param {*} fieldData Array of field data objects.
+ * @returns Array of field data objects with names contained within fieldRow array.
+ */
+export const rowFieldsData = (fieldRow, fieldData) => {
+  return fieldData.filter((field) =>
+    fieldRow.some((row) => row === field.name)
+  );
 };
+
+const AdvancedSearchInputGroupRow = ({ children }) => (
+  <div className="advanced-search__row">{children}</div>
+);
 
 const AdvancedSearchInputGroup = ({ field }) => (
   <AdvancedSearchInputGroupContainer>
@@ -46,7 +61,7 @@ const AdvancedSearchInputLabel = ({ field }) => (
 
 AdvancedSearchTextInputs.defaultProps = {
   fields: {
-    data: {},
+    data: [],
     rows: [],
   },
 };

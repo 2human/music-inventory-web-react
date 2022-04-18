@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   AdvancedSearchTextInputs,
-  rowFieldData,
+  rowFieldsData,
 } from '../components/SearchForm/AdvancedSearchTextInputs';
 import { createContainer } from './domManipulators';
 
@@ -18,22 +18,42 @@ describe('AdvancedSearchTextInputs', () => {
   });
 
   const fields = {
-    data: {
-      field1name: { label: 'Field1label', size: 'short' },
-      field2name: { label: 'Field2label', size: 'long' },
-      field3name: { label: 'Field3label', size: 'long' },
-    },
+    data: [
+      { name: 'field1name', label: 'Field1label', size: 'short' },
+      { name: 'field2name', label: 'Field2label', size: 'long' },
+      { name: 'field3name', label: 'Field3label', size: 'long' },
+    ],
     rows: [['field1name', 'field2name'], ['field3name']],
   };
 
-  const fieldByName = (fieldName) => fields.data[fieldName];
-
-  const fieldByIndex = (index) => Object.keys(fields.data)[index];
-
-  it('renders an input group for each field', () => {
+  it('renders a field row div element for each row', () => {
     render(<AdvancedSearchTextInputs fields={fields} />);
-    const fieldGroups = elements('.advanced-search__group');
-    expect(fieldGroups).toHaveLength(fields.data.length);
+    const fieldRows = elements('.advanced-search__row');
+    expect(fieldRows).toHaveLength(fields.rows.length);
+  });
+
+  it('renders the right fields within each row', () => {
+    render(<AdvancedSearchTextInputs fields={fields} />);
+    const firstRowFields = elements(
+      '.advanced-search__row:nth-of-type(1) input'
+    );
+    expect(firstRowFields).not.toBeNull();
+    expect(firstRowFields).toHaveLength(fields.rows[0].length);
+    expect(firstRowFields[0].name).toEqual(fields.rows[0][0]);
+    expect(firstRowFields[1].name).toEqual(fields.rows[0][1]);
+    const secondRowFields = elements(
+      '.advanced-search__row:nth-of-type(2) input'
+    );
+    expect(secondRowFields).toHaveLength(fields.rows[1].length);
+    expect(secondRowFields[0].name).toEqual(fields.rows[1][0]);
+  });
+
+  it('renders an input group for each field in a row', () => {
+    render(<AdvancedSearchTextInputs fields={fields} />);
+    const fieldGroups = elements(
+      '.advanced-search__row:nth-of-type(1) .advanced-search__group'
+    );
+    expect(fieldGroups).toHaveLength(fields.rows[0].length);
   });
 
   it('renders a text input within each input group', () => {
@@ -89,6 +109,15 @@ describe('AdvancedSearchTextInputs', () => {
   describe('rowFieldData', () => {
     it('returns an array of field input data corresponding to the fields in row array', () => {
       const row = ['name1', 'name3'];
+      const fieldData = [
+        { name: 'name1' },
+        { name: 'name2' },
+        { name: 'name3' },
+      ];
+      expect(rowFieldsData(row, fieldData)).toEqual([
+        { name: 'name1' },
+        { name: 'name3' },
+      ]);
     });
   });
 });

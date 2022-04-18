@@ -46,15 +46,15 @@ export const tableOptions = [
 
 export const advancedSearchFields = {
   sources: {
-    data: {
-      sourceNumber: { label: 'Source Number', size: 'short' },
-      collection: { label: 'Collection', size: 'long' },
-      callNumber: { label: 'Call Number', size: 'long' },
-      author: { label: 'Author', size: 'long' },
-      title: { label: 'Title', size: 'long' },
-      inscription: { label: 'Inscription', size: 'long' },
-      description: { label: 'Description', size: 'long' },
-    },
+    data: [
+      { name: 'sourceNumber', label: 'Source Number', size: 'short' },
+      { name: 'collection', label: 'Collection', size: 'long' },
+      { name: 'callNumber', label: 'Call Number', size: 'long' },
+      { name: 'author', label: 'Author', size: 'long' },
+      { name: 'title', label: 'Title', size: 'long' },
+      { name: 'inscription', label: 'Inscription', size: 'long' },
+      { name: 'description', label: 'Description', size: 'long' },
+    ],
     rows: [
       ['sourceNumber'],
       ['collection', 'callNumber'],
