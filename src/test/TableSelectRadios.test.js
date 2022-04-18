@@ -1,11 +1,11 @@
 import React from 'react';
 import { createContainer } from './domManipulators';
 import {
-  TableSelect,
+  TableSelectRadios,
   TableSelectOption,
-} from '../components/SearchForm/TableSelect';
+} from '../components/SearchForm/TableSelectRadios';
 
-describe('TableSelect', () => {
+describe('TableSelectRadios', () => {
   let render, element, elements, change, inputsOfType, labelFor;
 
   beforeEach(() => {
@@ -24,19 +24,19 @@ describe('TableSelect', () => {
     },
   ];
 
-  it('renders the tableSelect container element', () => {
-    render(<TableSelect />);
-    expect(element('div#tableSelect')).not.toBeNull();
+  it('renders the TableSelectRadios container element', () => {
+    render(<TableSelectRadios />);
+    expect(element('div#TableSelectRadios')).not.toBeNull();
   });
 
   it('renders a radio button for each option', () => {
-    render(<TableSelect tableOptions={tableOptions} />);
+    render(<TableSelectRadios tableOptions={tableOptions} />);
     const radioButtons = inputsOfType('radio');
     expect(radioButtons).toHaveLength(tableOptions.length);
   });
 
   it('renders the right label text', () => {
-    render(<TableSelect tableOptions={tableOptions} />);
+    render(<TableSelectRadios tableOptions={tableOptions} />);
     expect(labelFor(tableOptions[1].value)).not.toBeNull();
     expect(labelFor(tableOptions[1].value).textContent).toEqual(
       tableOptions[1].label
@@ -44,24 +44,24 @@ describe('TableSelect', () => {
   });
 
   it('assigns an id to each radio option that matches the label id', () => {
-    render(<TableSelect tableOptions={tableOptions} />);
-    const radioButtons = elements('#tableSelect input');
+    render(<TableSelectRadios tableOptions={tableOptions} />);
+    const radioButtons = elements('#TableSelectRadios input');
     expect(radioButtons[0].id).toEqual(tableOptions[0].value);
     expect(radioButtons[1].id).toEqual(tableOptions[1].value);
   });
 
   it('returns the name of the table when selection is changed', () => {
-    let tableSelected;
+    let TableSelectRadiosed;
     render(
-      <TableSelect
+      <TableSelectRadios
         tableOptions={tableOptions}
         handleTableChange={({ target }) =>
-          (tableSelected = target.value)
+          (TableSelectRadiosed = target.value)
         }
       />
     );
     change(element(`input[id="${tableOptions[1].value}"]`));
-    expect(tableSelected).toEqual(tableOptions[1].value);
+    expect(TableSelectRadiosed).toEqual(tableOptions[1].value);
   });
 });
 
@@ -84,17 +84,17 @@ describe('TableSelectOption', () => {
 
   it('returns the name of the table when selection is changed', () => {
     const table = 'table1';
-    let tableSelected;
+    let TableSelectRadiosed;
     render(
       <TableSelectOption
         selected={false}
         value={table}
         handleTableChange={({ target }) =>
-          (tableSelected = target.value)
+          (TableSelectRadiosed = target.value)
         }
       />
     );
     change(element('input'));
-    expect(tableSelected).toEqual(table);
+    expect(TableSelectRadiosed).toEqual(table);
   });
 });

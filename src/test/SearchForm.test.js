@@ -45,7 +45,7 @@ describe.only('SearchForm', () => {
     expect(keywordTextInput).not.toBeNull();
   });
 
-  it('renders the keyword text input with the right attribures', () => {
+  it('renders the keyword text input with the right attributes', () => {
     render(<SearchForm />);
     const keywordTextInput = element(
       '.search-form__keyword-container > #keywordInput'
@@ -71,7 +71,9 @@ describe.only('SearchForm', () => {
 
   it('renders the table select container element', () => {
     render(<SearchForm />);
-    expect(element('#searchForm > #tableSelect')).not.toBeNull();
+    expect(
+      element('#searchForm > #TableSelectRadios')
+    ).not.toBeNull();
   });
 
   it('prevents default behavior on submission', async () => {
@@ -138,5 +140,10 @@ describe.only('SearchForm', () => {
     await submit(form('searchForm'));
     const fetchURL = requestURLOf(window.fetch);
     expect(fetchURL).toContain(searchParam('searchText', inputText));
+  });
+
+  it('renders the advanced search toggle element', () => {
+    render(<SearchForm />);
+    expect(element('#advancedSearchToggle')).not.toBeNull();
   });
 });

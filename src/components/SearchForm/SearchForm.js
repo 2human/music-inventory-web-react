@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { TableSelect } from './TableSelect';
-import { FieldSelect } from './FieldSelect';
-import { fieldOptions, tableOptions } from './formInputObjects';
+import { TableSelectRadios } from './TableSelectRadios';
+import { FieldSelectCheckboxes } from './FieldSelectCheckboxes';
+import { AdvancedSearchTextInputs } from './AdvancedSearchTextInputs';
 
-export const SearchForm = () => {
+export const SearchForm = ({
+  fieldOptions,
+  tableOptions,
+  advancedSearchFields,
+}) => {
   const [formInputs, setFormInputs] = useState({
     searchText: '',
     table: 'sources',
     selectedFields: [],
   });
-
   useEffect(() => {});
 
   const handleSubmit = async (event) => {
@@ -85,28 +88,45 @@ export const SearchForm = () => {
       id="searchForm"
       className="search-form"
       onSubmit={handleSubmit}>
-      <KeywordInputAndSubmitContainer>
-        <KeywordInput
-          handleKeywordInput={handleKeywordInput}
-          value={formInputs.searchText}
-        />
-        <SubmitSearchButton />
-      </KeywordInputAndSubmitContainer>
+      <KeywordInputAndSubmitBtn
+        handleKeywordInput={handleKeywordInput}
+        value={formInputs.searchText}
+      />
+      <span
+        id="advancedSearchToggle"
+        className="btn-text btn-text__advanced-search">
+        Open Advanced Search
+        <i className="down-arrow btn-text__down-arrow"></i>
+      </span>
 
-      <TableSelect
+      <TableSelectRadios
         tableOptions={tableOptions}
         selectedTable={formInputs.table}
         handleTableChange={handleTableChange}
       />
 
-      <FieldSelect
+      <FieldSelectCheckboxes
         handleFieldChange={handleFieldChange}
         fieldOptions={fieldOptions}
         selectedFields={formInputs.selectedFields}
       />
+
+      <AdvancedSearchTextInputs
+        fields={advancedSearchFields.sources}
+      />
     </form>
   );
 };
+
+const KeywordInputAndSubmitBtn = ({ handleKeywordInput, value }) => (
+  <KeywordInputAndSubmitContainer>
+    <KeywordInput
+      handleKeywordInput={handleKeywordInput}
+      value={value}
+    />
+    <SubmitSearchButton />
+  </KeywordInputAndSubmitContainer>
+);
 
 const KeywordInputAndSubmitContainer = ({ children }) => (
   <div className="search-form__keyword-container u-margin-bottom-small">
@@ -136,3 +156,12 @@ const SubmitSearchButton = () => (
     value="Search"
   />
 );
+
+SearchForm.defaultProps = {
+  advancedSearchFields: {
+    sources: {
+      data: [],
+      rows: [],
+    },
+  },
+};

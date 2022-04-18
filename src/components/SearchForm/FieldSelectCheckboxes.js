@@ -1,14 +1,14 @@
 import React from 'react';
 
-export const FieldSelect = ({
+export const FieldSelectCheckboxes = ({
   fieldOptions,
   handleFieldChange,
   selectedFields,
 }) => {
   return (
-    <FieldSelectContainer>
+    <FieldSelectCheckboxesContainer>
       {fieldOptions.map((option) => (
-        <FieldSelectOption
+        <FieldSelectCheckboxesOption
           key={option.value}
           value={option.value}
           label={option.label}
@@ -18,13 +18,13 @@ export const FieldSelect = ({
           )}
         />
       ))}
-    </FieldSelectContainer>
+    </FieldSelectCheckboxesContainer>
   );
 };
 
-const FieldSelectContainer = ({ children }) => (
+const FieldSelectCheckboxesContainer = ({ children }) => (
   <React.Fragment>
-    <div id="fieldSelect" className="field-select">
+    <div id="FieldSelectCheckboxes" className="field-select">
       <span className="field-select__checkboxes-label u-text-top">
         Field(s):&nbsp;
       </span>
@@ -33,7 +33,7 @@ const FieldSelectContainer = ({ children }) => (
   </React.Fragment>
 );
 
-export const FieldSelectOption = ({
+export const FieldSelectCheckboxesOption = ({
   value,
   label,
   handleFieldChange,
@@ -57,7 +57,7 @@ export const FieldSelectOption = ({
   );
 };
 
-FieldSelect.defaultProps = {
+FieldSelectCheckboxes.defaultProps = {
   fieldOptions: [
     {
       value: 'option1',
@@ -75,7 +75,7 @@ FieldSelect.defaultProps = {
   selectedFields: [],
 };
 
-FieldSelectOption.defaultProps = {
+FieldSelectCheckboxesOption.defaultProps = {
   value: 'option1',
   label: 'Option11',
   isSelected: false,

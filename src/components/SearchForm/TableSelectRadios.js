@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { selectTable } from '../../assets/data/actions';
 
-export const TableSelect = ({
+export const TableSelectRadios = ({
   tableOptions,
   handleTableChange,
   selectedTable,
@@ -30,7 +30,7 @@ export const TableSelect = ({
 
 const TableSelectContainer = ({ children }) => {
   return (
-    <div id="tableSelect" className="u-margin-bottom-tiny">
+    <div id="TableSelectRadios" className="u-margin-bottom-tiny">
       {children}
     </div>
   );
@@ -60,7 +60,7 @@ export const TableSelectOption = ({
   );
 };
 
-TableSelect.defaultProps = {
+TableSelectRadios.defaultProps = {
   tableOptions: [
     {
       value: 'collections',
@@ -94,7 +94,7 @@ TableSelectOption.defaultProps = {
 //   selectTable
 // });
 
-// export const ConnectedTableSelect = connect(
+// export const ConnectedTableSelectRadios = connect(
 //   mapStateToProps,
 //   mapDispatchToProps
-//   )(TableSelect);
+//   )(TableSelectRadios);

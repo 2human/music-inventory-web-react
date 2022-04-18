@@ -164,13 +164,13 @@ body {
 
 .btn {
   font-size: 1.4rem;
-  padding: .9rem 2.5rem;
+  padding: 0.9rem 2.5rem;
   color: #fff;
   background-color: #000;
   border: none;
   border-radius: 5rem;
   cursor: pointer;
-  transition: all .2s ease 0s;
+  transition: all 0.2s ease 0s;
   text-decoration: none;
   vertical-align: middle;
   /*page buttons that are selected and disabled */ }
@@ -193,12 +193,12 @@ body {
     vertical-align: middle; }
     .btn__page-btn:last-child, .btn__page-btn:first-child {
       width: auto;
-      padding: .9rem 2rem; }
+      padding: 0.9rem 2rem; }
     .btn__page-btn:not(:last-child) {
-      margin-right: .6rem; }
+      margin-right: 0.6rem; }
       @media only screen and (max-width: 28.125em) {
         .btn__page-btn:not(:last-child) {
-          margin-right: .4rem; } }
+          margin-right: 0.4rem; } }
     @media only screen and (max-width: 28.125em) {
       .btn__page-btn {
         width: 3.1rem;
@@ -213,19 +213,21 @@ body {
     color: #21a9ca; }
 
 .btn-text {
-  transition: all .3s ease 0s;
-  text-decoration: none; }
+  transition: all 0.3s ease 0s;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none; }
   .btn-text:link, .btn-text:visited {
     color: #000; }
   .btn-text:hover {
     color: #0088a9; }
   .btn-text__down-arrow {
-    transition: border-color .3s ease 0s;
+    transition: border-color 0.3s ease 0s;
     text-decoration: none;
     border: solid #000;
     border-width: 0 1.5px 1.5px 0; }
   .btn-text__up-arrow {
-    transition: border-color .3s ease 0s;
+    transition: border-color 0.3s ease 0s;
     text-decoration: none;
     border: solid black;
     border-width: 1.5px 0 0 1.5px; }
@@ -253,7 +255,8 @@ body {
   font-size: 1.75px;
   font-weight: bold; }
 
-.close:hover, .close:focus {
+.close:hover,
+.close:focus {
   color: black;
   text-decoration: none;
   cursor: pointer; }

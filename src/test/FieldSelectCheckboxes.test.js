@@ -1,11 +1,11 @@
 import React from 'react';
 import { createContainer } from './domManipulators';
 import {
-  FieldSelect,
-  FieldSelectOption,
-} from '../components/SearchForm/FieldSelect';
+  FieldSelectCheckboxes,
+  FieldSelectCheckboxesOption,
+} from '../components/SearchForm/FieldSelectCheckboxes';
 
-describe('FieldSelect', () => {
+describe('FieldSelectCheckboxes', () => {
   let render, element, elements, labelFor, inputsOfType, change;
 
   beforeEach(() => {
@@ -24,46 +24,46 @@ describe('FieldSelect', () => {
     },
   ];
 
-  it('renders the fieldSelect div element', () => {
-    render(<FieldSelect />);
-    expect(element('div#fieldSelect')).not.toBeNull();
+  it('renders the FieldSelectCheckboxes div element', () => {
+    render(<FieldSelectCheckboxes />);
+    expect(element('div#FieldSelectCheckboxes')).not.toBeNull();
   });
 
   it('renders a checkbox element for each field select option', () => {
-    render(<FieldSelect fieldOptions={fieldOptions} />);
+    render(<FieldSelectCheckboxes fieldOptions={fieldOptions} />);
     expect(inputsOfType('checkbox')).toHaveLength(
       fieldOptions.length
     );
   });
 
   it('renders each checkbox element with the right values', () => {
-    render(<FieldSelect fieldOptions={fieldOptions} />);
+    render(<FieldSelectCheckboxes fieldOptions={fieldOptions} />);
     const checkboxes = inputsOfType('checkbox');
     expect(checkboxes[0].value).toEqual(fieldOptions[0].value);
     expect(checkboxes[1].value).toEqual(fieldOptions[1].value);
   });
 
   it('renders each checkbox element with the right name', () => {
-    render(<FieldSelect fieldOptions={fieldOptions} />);
+    render(<FieldSelectCheckboxes fieldOptions={fieldOptions} />);
     const checkboxes = inputsOfType('checkbox');
     expect(checkboxes[0].name).toEqual('field');
     expect(checkboxes[1].name).toEqual('field');
   });
 
   it('renders a label element for each field select option', () => {
-    render(<FieldSelect fieldOptions={fieldOptions} />);
+    render(<FieldSelectCheckboxes fieldOptions={fieldOptions} />);
     expect(elements('label')).toHaveLength(fieldOptions.length);
   });
 
   it('renders each label element with the right text', () => {
-    render(<FieldSelect fieldOptions={fieldOptions} />);
+    render(<FieldSelectCheckboxes fieldOptions={fieldOptions} />);
     const labels = elements('label');
     expect(labels[0].textContent).toEqual(fieldOptions[0].label);
     expect(labels[1].textContent).toEqual(fieldOptions[1].label);
   });
 
   it('renders the right label text', () => {
-    render(<FieldSelect fieldOptions={fieldOptions} />);
+    render(<FieldSelectCheckboxes fieldOptions={fieldOptions} />);
     expect(labelFor(fieldOptions[1].value)).not.toBeNull();
     expect(labelFor(fieldOptions[1].value).textContent).toEqual(
       fieldOptions[1].label
@@ -71,14 +71,14 @@ describe('FieldSelect', () => {
   });
 
   it('assigns an id to each checkbox that matches its label id', () => {
-    render(<FieldSelect fieldOptions={fieldOptions} />);
+    render(<FieldSelectCheckboxes fieldOptions={fieldOptions} />);
     const checkboxes = inputsOfType('checkbox');
     expect(checkboxes[0].id).toEqual(fieldOptions[0].value);
     expect(checkboxes[1].id).toEqual(fieldOptions[1].value);
   });
 
   it('displays the correct checkbox ids', () => {
-    render(<FieldSelect fieldOptions={fieldOptions} />);
+    render(<FieldSelectCheckboxes fieldOptions={fieldOptions} />);
     expect(labelFor(fieldOptions[0].value).textContent).toEqual(
       fieldOptions[0].label
     );
@@ -90,7 +90,7 @@ describe('FieldSelect', () => {
   it('returns the right checkbox element when a checkbox is changed', () => {
     let fieldChanged;
     render(
-      <FieldSelect
+      <FieldSelectCheckboxes
         fieldOptions={fieldOptions}
         handleFieldChange={({ target }) =>
           (fieldChanged = target.value)
@@ -104,7 +104,7 @@ describe('FieldSelect', () => {
   it('checks off checkboxes with names matching elements in selectedFields array', () => {
     const selectedFields = [fieldOptions[0].value];
     render(
-      <FieldSelect
+      <FieldSelectCheckboxes
         selectedFields={selectedFields}
         fieldOptions={fieldOptions}
       />
@@ -117,7 +117,7 @@ describe('FieldSelect', () => {
   it('does not check off checkboxes whose names do not appear in selectedFields array', () => {
     const selectedFields = [fieldOptions[0].value];
     render(
-      <FieldSelect
+      <FieldSelectCheckboxes
         selectedFields={selectedFields}
         fieldOptions={fieldOptions}
       />
@@ -128,7 +128,7 @@ describe('FieldSelect', () => {
   });
 });
 
-describe('FieldSelectOption', () => {
+describe('FieldSelectCheckboxesOption', () => {
   let render, element, change;
 
   beforeEach(() => {
@@ -138,7 +138,7 @@ describe('FieldSelectOption', () => {
   it('sets the checked attribute to true if it isSelected is true', () => {
     const field = 'field1';
     render(
-      <FieldSelectOption
+      <FieldSelectCheckboxesOption
         name={field}
         isSelected={true}
         handleFieldChange={({ target }) =>
@@ -152,7 +152,7 @@ describe('FieldSelectOption', () => {
   it('sets the checked attribute to false if it isSelected is false', () => {
     const field = 'field1';
     render(
-      <FieldSelectOption
+      <FieldSelectCheckboxesOption
         name={field}
         isSelected={false}
         handleFieldChange={({ target }) =>
@@ -167,7 +167,7 @@ describe('FieldSelectOption', () => {
     const field = 'field1';
     let fieldChanged;
     render(
-      <FieldSelectOption
+      <FieldSelectCheckboxesOption
         value={field}
         handleFieldChange={({ target }) =>
           (fieldChanged = target.value)
