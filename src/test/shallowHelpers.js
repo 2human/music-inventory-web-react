@@ -1,19 +1,19 @@
 import ShallowRenderer from 'react-test-renderer/shallow';
 
-export const id = id => element =>
+export const id = (id) => (element) =>
   element.props && element.props.id === id;
-export const type = type => element => element.type === type;
-export const className = className => element =>
+export const type = (type) => (element) => element.type === type;
+export const className = (className) => (element) =>
   element.props.className === className;
 
-export const click = element => element.props.onClick();
+export const click = (element) => element.props.onClick();
 
-export const childrenOf = element => {
+export const childrenOf = (element) => {
   if (typeof element === 'string') {
     return [];
   }
   const {
-    props: { children }
+    props: { children },
   } = element;
   if (!children) {
     return [];
@@ -32,10 +32,7 @@ const elementsMatching = (element, matcherFn) => {
     return [element];
   }
   return childrenOf(element).reduce(
-    (acc, child) => [
-      ...acc,
-      ...elementsMatching(child, matcherFn)
-    ],
+    (acc, child) => [...acc, ...elementsMatching(child, matcherFn)],
     []
   );
 };
@@ -44,11 +41,11 @@ export const createShallowRenderer = () => {
   let renderer = new ShallowRenderer();
 
   return {
-    render: component => renderer.render(component),
-    elementMatching: matcherFn =>
+    shallowRender: (component) => renderer.render(component),
+    elementMatching: (matcherFn) =>
       elementsMatching(renderer.getRenderOutput(), matcherFn)[0],
-    elementsMatching: matcherFn =>
+    elementsMatching: (matcherFn) =>
       elementsMatching(renderer.getRenderOutput(), matcherFn),
-    child: n => childrenOf(renderer.getRenderOutput())[n]
+    child: (n) => childrenOf(renderer.getRenderOutput())[n],
   };
 };

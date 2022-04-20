@@ -5,7 +5,7 @@ import {
   fieldOptions,
   tableOptions,
   advancedSearchFields,
-} from '../assets/form-fields/formFieldData';
+} from '../assets/form-fields/fieldData';
 
 function App() {
   return (

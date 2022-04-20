@@ -2,7 +2,7 @@ import React from 'react';
 import {
   createShallowRenderer,
   childrenOf,
-  type
+  type,
 } from './shallowHelpers';
 
 describe('childrenOf', () => {
@@ -45,19 +45,19 @@ const TestComponent = ({ children }) => (
 );
 
 describe('child', () => {
-  let render, child;
+  let shallowRender, child;
 
   beforeEach(() => {
-    ({ render, child } = createShallowRenderer());
+    ({ shallowRender, child } = createShallowRenderer());
   });
 
   it('returns undefined if the child does not exist', () => {
-    render(<TestComponent />);
+    shallowRender(<TestComponent />);
     expect(child(0)).not.toBeDefined();
   });
 
   it('returns child of rendered element', () => {
-    render(
+    shallowRender(
       <TestComponent>
         <p>A</p>
         <p>B</p>
@@ -68,27 +68,24 @@ describe('child', () => {
 });
 
 describe('elementsMatching', () => {
-  let render, elementsMatching;
+  let shallowRender, elementsMatching;
 
   beforeEach(() => {
-    ({ render, elementsMatching } = createShallowRenderer());
+    ({ shallowRender, elementsMatching } = createShallowRenderer());
   });
 
   it('finds multiple direct children', () => {
-    render(
+    shallowRender(
       <TestComponent>
         <p>A</p>
         <p>B</p>
       </TestComponent>
     );
-    expect(elementsMatching(type('p'))).toEqual([
-      <p>A</p>,
-      <p>B</p>
-    ]);
+    expect(elementsMatching(type('p'))).toEqual([<p>A</p>, <p>B</p>]);
   });
 
   it('finds indirect children', () => {
-    render(
+    shallowRender(
       <TestComponent>
         <div>
           <p>A</p>
@@ -100,14 +97,14 @@ describe('elementsMatching', () => {
 });
 
 describe('elementMatching', () => {
-  let render, elementMatching;
+  let shallowRender, elementMatching;
 
   beforeEach(() => {
-    ({ render, elementMatching } = createShallowRenderer());
+    ({ shallowRender, elementMatching } = createShallowRenderer());
   });
 
   it('finds first direct child', () => {
-    render(
+    shallowRender(
       <TestComponent>
         <p>A</p>
         <p>B</p>

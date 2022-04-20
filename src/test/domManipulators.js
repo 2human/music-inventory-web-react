@@ -11,6 +11,8 @@ export const createContainer = () => {
   const element = (selector) => container.querySelector(selector);
   const elements = (selector) =>
     Array.from(container.querySelectorAll(selector));
+  const form = (id) => container.querySelector(`form[id="${id}"]`);
+  const field = (formId, name) => form(formId).elements[name];
 
   const simulateEvent = (eventName) => (element, eventData) =>
     ReactTestUtils.Simulate[eventName](element, eventData);
@@ -31,6 +33,7 @@ export const createContainer = () => {
     click: simulateEvent('click'),
     change: simulateEvent('change'),
     submit: simulateEventAndWait('submit'),
+    field,
   };
 };
 
