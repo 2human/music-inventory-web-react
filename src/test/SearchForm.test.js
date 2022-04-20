@@ -272,7 +272,7 @@ describe.only('SearchForm', () => {
     );
   });
 
-  it('includes input text in fetch requests when advanced search inputs are changed', async () => {
+  it('includes advanced search input text in fetch request', async () => {
     render(<SearchForm advancedSearchFields={advancedFields} />);
     click(element('#advancedSearchToggle'));
     const advancedInputs = elements(

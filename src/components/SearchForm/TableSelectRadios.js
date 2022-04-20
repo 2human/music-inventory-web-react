@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { selectTable } from '../../assets/data/actions';
 
 export const TableSelectRadios = ({
-  tableOptions,
+  tableSelectFields,
   handleTableChange,
   selectedTable,
 }) => {
@@ -15,7 +15,7 @@ export const TableSelectRadios = ({
 
   return (
     <TableSelectContainer>
-      {tableOptions.map((option) => (
+      {tableSelectFields.map((option) => (
         <TableSelectOption
           key={option.value}
           value={option.value}
@@ -61,7 +61,7 @@ export const TableSelectOption = ({
 };
 
 TableSelectRadios.defaultProps = {
-  tableOptions: [
+  tableSelectFields: [
     {
       value: 'collections',
       label: 'Collections',

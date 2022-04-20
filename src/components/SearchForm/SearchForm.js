@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { TableSelectRadios } from './TableSelectRadios';
 import { BasicSearchCheckboxes } from './BasicSearchCheckboxes';
 import { AdvancedSearchTextInputs } from './AdvancedSearchTextInputs';
-import { blankAdvancedInputs } from '../../assets/form-fields/fieldData';
+import { blankAdvancedInputs } from '../../assets/form-fields/search-form/advancedSearch';
 
 export const SearchForm = ({
-  fieldOptions,
-  tableOptions,
+  basicSearchFields,
+  tableSelectFields,
   advancedSearchFields,
 }) => {
   const [formInputs, setFormInputs] = useState({
@@ -126,7 +126,7 @@ export const SearchForm = ({
       />
 
       <TableSelectRadios
-        tableOptions={tableOptions}
+        tableSelectFields={tableSelectFields}
         selectedTable={formInputs.table}
         handleTableChange={handleTableChange}
       />
@@ -139,7 +139,7 @@ export const SearchForm = ({
       ) : (
         <BasicSearchCheckboxes
           handleFieldChange={handleFieldChange}
-          fieldOptions={fieldOptions}
+          basicSearchFields={basicSearchFields}
           selectedFields={formInputs.basicSearchSelection}
         />
       )}
@@ -210,7 +210,7 @@ AdvancedSearchToggle.defaultProps = {
 };
 
 SearchForm.defaultProps = {
-  fieldOptions: [
+  basicSearchFields: [
     {
       value: 'option1',
       label: 'Option11',

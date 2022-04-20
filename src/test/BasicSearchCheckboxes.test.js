@@ -13,7 +13,7 @@ describe('BasicSearchCheckboxes', () => {
       createContainer());
   });
 
-  const fieldOptions = [
+  const basicSearchFields = [
     {
       value: 'option1',
       label: 'Option11',
@@ -30,60 +30,76 @@ describe('BasicSearchCheckboxes', () => {
   });
 
   it('renders a checkbox element for each field select option', () => {
-    render(<BasicSearchCheckboxes fieldOptions={fieldOptions} />);
+    render(
+      <BasicSearchCheckboxes basicSearchFields={basicSearchFields} />
+    );
     expect(inputsOfType('checkbox')).toHaveLength(
-      fieldOptions.length
+      basicSearchFields.length
     );
   });
 
   it('renders each checkbox element with the right values', () => {
-    render(<BasicSearchCheckboxes fieldOptions={fieldOptions} />);
+    render(
+      <BasicSearchCheckboxes basicSearchFields={basicSearchFields} />
+    );
     const checkboxes = inputsOfType('checkbox');
-    expect(checkboxes[0].value).toEqual(fieldOptions[0].value);
-    expect(checkboxes[1].value).toEqual(fieldOptions[1].value);
+    expect(checkboxes[0].value).toEqual(basicSearchFields[0].value);
+    expect(checkboxes[1].value).toEqual(basicSearchFields[1].value);
   });
 
   it('renders each checkbox element with the right name', () => {
-    render(<BasicSearchCheckboxes fieldOptions={fieldOptions} />);
+    render(
+      <BasicSearchCheckboxes basicSearchFields={basicSearchFields} />
+    );
     const checkboxes = inputsOfType('checkbox');
     expect(checkboxes[0].name).toEqual('field');
     expect(checkboxes[1].name).toEqual('field');
   });
 
   it('renders a label element for each field select option', () => {
-    render(<BasicSearchCheckboxes fieldOptions={fieldOptions} />);
-    expect(elements('label')).toHaveLength(fieldOptions.length);
+    render(
+      <BasicSearchCheckboxes basicSearchFields={basicSearchFields} />
+    );
+    expect(elements('label')).toHaveLength(basicSearchFields.length);
   });
 
   it('renders each label element with the right text', () => {
-    render(<BasicSearchCheckboxes fieldOptions={fieldOptions} />);
+    render(
+      <BasicSearchCheckboxes basicSearchFields={basicSearchFields} />
+    );
     const labels = elements('label');
-    expect(labels[0].textContent).toEqual(fieldOptions[0].label);
-    expect(labels[1].textContent).toEqual(fieldOptions[1].label);
+    expect(labels[0].textContent).toEqual(basicSearchFields[0].label);
+    expect(labels[1].textContent).toEqual(basicSearchFields[1].label);
   });
 
   it('renders the right label text', () => {
-    render(<BasicSearchCheckboxes fieldOptions={fieldOptions} />);
-    expect(labelFor(fieldOptions[1].value)).not.toBeNull();
-    expect(labelFor(fieldOptions[1].value).textContent).toEqual(
-      fieldOptions[1].label
+    render(
+      <BasicSearchCheckboxes basicSearchFields={basicSearchFields} />
+    );
+    expect(labelFor(basicSearchFields[1].value)).not.toBeNull();
+    expect(labelFor(basicSearchFields[1].value).textContent).toEqual(
+      basicSearchFields[1].label
     );
   });
 
   it('assigns an id to each checkbox that matches its label id', () => {
-    render(<BasicSearchCheckboxes fieldOptions={fieldOptions} />);
+    render(
+      <BasicSearchCheckboxes basicSearchFields={basicSearchFields} />
+    );
     const checkboxes = inputsOfType('checkbox');
-    expect(checkboxes[0].id).toEqual(fieldOptions[0].value);
-    expect(checkboxes[1].id).toEqual(fieldOptions[1].value);
+    expect(checkboxes[0].id).toEqual(basicSearchFields[0].value);
+    expect(checkboxes[1].id).toEqual(basicSearchFields[1].value);
   });
 
   it('displays the correct checkbox ids', () => {
-    render(<BasicSearchCheckboxes fieldOptions={fieldOptions} />);
-    expect(labelFor(fieldOptions[0].value).textContent).toEqual(
-      fieldOptions[0].label
+    render(
+      <BasicSearchCheckboxes basicSearchFields={basicSearchFields} />
     );
-    expect(labelFor(fieldOptions[1].value).textContent).toEqual(
-      fieldOptions[1].label
+    expect(labelFor(basicSearchFields[0].value).textContent).toEqual(
+      basicSearchFields[0].label
+    );
+    expect(labelFor(basicSearchFields[1].value).textContent).toEqual(
+      basicSearchFields[1].label
     );
   });
 
@@ -91,39 +107,39 @@ describe('BasicSearchCheckboxes', () => {
     let fieldChanged;
     render(
       <BasicSearchCheckboxes
-        fieldOptions={fieldOptions}
+        basicSearchFields={basicSearchFields}
         handleFieldChange={({ target }) =>
           (fieldChanged = target.value)
         }
       />
     );
-    change(element(`input[id="${fieldOptions[0].value}"`));
-    expect(fieldChanged).toEqual(fieldOptions[0].value);
+    change(element(`input[id="${basicSearchFields[0].value}"`));
+    expect(fieldChanged).toEqual(basicSearchFields[0].value);
   });
 
   it('checks off checkboxes with names matching elements in selectedFields array', () => {
-    const selectedFields = [fieldOptions[0].value];
+    const selectedFields = [basicSearchFields[0].value];
     render(
       <BasicSearchCheckboxes
         selectedFields={selectedFields}
-        fieldOptions={fieldOptions}
+        basicSearchFields={basicSearchFields}
       />
     );
     expect(
-      element(`input[id="${fieldOptions[0].value}"`).checked
+      element(`input[id="${basicSearchFields[0].value}"`).checked
     ).toEqual(true);
   });
 
   it('does not check off checkboxes whose names do not appear in selectedFields array', () => {
-    const selectedFields = [fieldOptions[0].value];
+    const selectedFields = [basicSearchFields[0].value];
     render(
       <BasicSearchCheckboxes
         selectedFields={selectedFields}
-        fieldOptions={fieldOptions}
+        basicSearchFields={basicSearchFields}
       />
     );
     expect(
-      element(`input[id="${fieldOptions[1].value}"`).checked
+      element(`input[id="${basicSearchFields[1].value}"`).checked
     ).toEqual(false);
   });
 });

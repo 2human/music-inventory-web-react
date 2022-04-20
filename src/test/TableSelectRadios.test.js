@@ -13,7 +13,7 @@ describe('TableSelectRadios', () => {
       createContainer());
   });
 
-  const tableOptions = [
+  const tableSelectFields = [
     {
       value: 'option1',
       label: 'Option1',
@@ -30,38 +30,44 @@ describe('TableSelectRadios', () => {
   });
 
   it('renders a radio button for each option', () => {
-    render(<TableSelectRadios tableOptions={tableOptions} />);
+    render(
+      <TableSelectRadios tableSelectFields={tableSelectFields} />
+    );
     const radioButtons = inputsOfType('radio');
-    expect(radioButtons).toHaveLength(tableOptions.length);
+    expect(radioButtons).toHaveLength(tableSelectFields.length);
   });
 
   it('renders the right label text', () => {
-    render(<TableSelectRadios tableOptions={tableOptions} />);
-    expect(labelFor(tableOptions[1].value)).not.toBeNull();
-    expect(labelFor(tableOptions[1].value).textContent).toEqual(
-      tableOptions[1].label
+    render(
+      <TableSelectRadios tableSelectFields={tableSelectFields} />
+    );
+    expect(labelFor(tableSelectFields[1].value)).not.toBeNull();
+    expect(labelFor(tableSelectFields[1].value).textContent).toEqual(
+      tableSelectFields[1].label
     );
   });
 
   it('assigns an id to each radio option that matches the label id', () => {
-    render(<TableSelectRadios tableOptions={tableOptions} />);
+    render(
+      <TableSelectRadios tableSelectFields={tableSelectFields} />
+    );
     const radioButtons = elements('#TableSelectRadios input');
-    expect(radioButtons[0].id).toEqual(tableOptions[0].value);
-    expect(radioButtons[1].id).toEqual(tableOptions[1].value);
+    expect(radioButtons[0].id).toEqual(tableSelectFields[0].value);
+    expect(radioButtons[1].id).toEqual(tableSelectFields[1].value);
   });
 
   it('returns the name of the table when selection is changed', () => {
     let TableSelectRadiosed;
     render(
       <TableSelectRadios
-        tableOptions={tableOptions}
+        tableSelectFields={tableSelectFields}
         handleTableChange={({ target }) =>
           (TableSelectRadiosed = target.value)
         }
       />
     );
-    change(element(`input[id="${tableOptions[1].value}"]`));
-    expect(TableSelectRadiosed).toEqual(tableOptions[1].value);
+    change(element(`input[id="${tableSelectFields[1].value}"]`));
+    expect(TableSelectRadiosed).toEqual(tableSelectFields[1].value);
   });
 });
 

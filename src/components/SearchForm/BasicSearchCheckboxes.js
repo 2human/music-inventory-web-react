@@ -1,13 +1,13 @@
 import React from 'react';
 
 export const BasicSearchCheckboxes = ({
-  fieldOptions,
+  basicSearchFields,
   handleFieldChange,
   selectedFields,
 }) => {
   return (
     <BasicSearchCheckboxesContainer>
-      {fieldOptions.map((option) => (
+      {basicSearchFields.map((option) => (
         <BasicSearchCheckboxOption
           key={option.value}
           value={option.value}
@@ -56,7 +56,7 @@ export const BasicSearchCheckboxOption = ({
 };
 
 BasicSearchCheckboxes.defaultProps = {
-  fieldOptions: [],
+  basicSearchFields: [],
   selectedFields: [],
 };
 
