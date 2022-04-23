@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { selectTable } from '../../assets/data/actions';
+import { selectTable } from '../../../assets/data/actions';
 
 export const TableSelectRadios = ({
-  tableSelectFields,
+  fieldData,
   handleTableChange,
   selectedTable,
 }) => {
@@ -15,14 +15,18 @@ export const TableSelectRadios = ({
 
   return (
     <TableSelectContainer>
-      {tableSelectFields.map((option) => (
-        <TableSelectOption
-          key={option.value}
-          value={option.value}
-          label={option.label}
-          selected={option.value === selectedTable}
-          handleTableChange={handleTableChange}
-        />
+      {fieldData.map((option) => (
+        <React.Fragment key={option.value}>
+          <TableSelectRadio
+            value={option.value}
+            selected={option.value === selectedTable}
+            handleTableChange={handleTableChange}
+          />
+          <TableSelectRadioLabel
+            label={option.label}
+            value={option.value}
+          />
+        </React.Fragment>
       ))}
     </TableSelectContainer>
   );
@@ -30,38 +34,37 @@ export const TableSelectRadios = ({
 
 const TableSelectContainer = ({ children }) => {
   return (
-    <div id="TableSelectRadios" className="u-margin-bottom-tiny">
+    <div id="tableSelectRadios" className="u-margin-bottom-tiny">
       {children}
     </div>
   );
 };
 
-export const TableSelectOption = ({
+export const TableSelectRadio = ({
   value,
   label,
   selected,
   handleTableChange,
-}) => {
-  return (
-    <React.Fragment>
-      <input
-        className="table-select__radio-btn"
-        type="radio"
-        name="table"
-        value={value}
-        id={value}
-        checked={selected}
-        onChange={handleTableChange}
-      />
-      <label className="table-select__radio-label" htmlFor={value}>
-        {label}
-      </label>
-    </React.Fragment>
-  );
-};
+}) => (
+  <input
+    className="table-select__radio-btn"
+    type="radio"
+    name="table"
+    value={value}
+    id={value}
+    checked={selected}
+    onChange={handleTableChange}
+  />
+);
+
+const TableSelectRadioLabel = ({ value, label }) => (
+  <label className="table-select__radio-label" htmlFor={value}>
+    {label}
+  </label>
+);
 
 TableSelectRadios.defaultProps = {
-  tableSelectFields: [
+  fieldData: [
     {
       value: 'collections',
       label: 'Collections',
@@ -79,7 +82,7 @@ TableSelectRadios.defaultProps = {
   handleTableChange: () => {},
 };
 
-TableSelectOption.defaultProps = {
+TableSelectRadio.defaultProps = {
   value: 'value',
   label: 'label',
   selected: 'false',

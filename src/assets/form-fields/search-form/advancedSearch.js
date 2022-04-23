@@ -23,24 +23,3 @@ export const advancedSearchFields = {
     ],
   },
 };
-
-export const blankAdvancedInputs = (fieldRows) => {
-  const obj = {};
-  fieldsArrayFromRows(fieldRows).forEach(
-    (field) => (obj[field.name] = '')
-  );
-  return obj;
-};
-
-//iterates over field rows to accumulate array of field objects
-export const advancedFieldNameArray = (fieldRows) => {
-  let fieldObjects = [];
-  fieldRows.forEach(
-    (row) => (fieldObjects = [...fieldObjects, ...row])
-  );
-  return fieldObjects.map((field) => field.name);
-};
-
-export const fieldsArrayFromRows = (fieldRows) => {
-  return fieldRows.reduce((acc, row) => [...acc, ...row], []);
-};

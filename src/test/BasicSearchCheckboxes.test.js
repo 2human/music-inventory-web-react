@@ -2,8 +2,8 @@ import React from 'react';
 import { createContainer } from './domManipulators';
 import {
   BasicSearchCheckboxes,
-  BasicSearchCheckboxOption,
-} from '../components/SearchForm/BasicSearchCheckboxes';
+  BasicSearchCheckbox,
+} from '../components/SearchForm/BasicSearchCheckboxes/BasicSearchCheckboxes';
 
 describe('BasicSearchCheckboxes', () => {
   let render, element, elements, labelFor, inputsOfType, change;
@@ -30,52 +30,40 @@ describe('BasicSearchCheckboxes', () => {
   });
 
   it('renders a checkbox element for each field select option', () => {
-    render(
-      <BasicSearchCheckboxes basicSearchFields={basicSearchFields} />
-    );
+    render(<BasicSearchCheckboxes fieldData={basicSearchFields} />);
     expect(inputsOfType('checkbox')).toHaveLength(
       basicSearchFields.length
     );
   });
 
   it('renders each checkbox element with the right values', () => {
-    render(
-      <BasicSearchCheckboxes basicSearchFields={basicSearchFields} />
-    );
+    render(<BasicSearchCheckboxes fieldData={basicSearchFields} />);
     const checkboxes = inputsOfType('checkbox');
     expect(checkboxes[0].value).toEqual(basicSearchFields[0].value);
     expect(checkboxes[1].value).toEqual(basicSearchFields[1].value);
   });
 
   it('renders each checkbox element with the right name', () => {
-    render(
-      <BasicSearchCheckboxes basicSearchFields={basicSearchFields} />
-    );
+    render(<BasicSearchCheckboxes fieldData={basicSearchFields} />);
     const checkboxes = inputsOfType('checkbox');
     expect(checkboxes[0].name).toEqual('field');
     expect(checkboxes[1].name).toEqual('field');
   });
 
   it('renders a label element for each field select option', () => {
-    render(
-      <BasicSearchCheckboxes basicSearchFields={basicSearchFields} />
-    );
+    render(<BasicSearchCheckboxes fieldData={basicSearchFields} />);
     expect(elements('label')).toHaveLength(basicSearchFields.length);
   });
 
   it('renders each label element with the right text', () => {
-    render(
-      <BasicSearchCheckboxes basicSearchFields={basicSearchFields} />
-    );
+    render(<BasicSearchCheckboxes fieldData={basicSearchFields} />);
     const labels = elements('label');
     expect(labels[0].textContent).toEqual(basicSearchFields[0].label);
     expect(labels[1].textContent).toEqual(basicSearchFields[1].label);
   });
 
   it('renders the right label text', () => {
-    render(
-      <BasicSearchCheckboxes basicSearchFields={basicSearchFields} />
-    );
+    render(<BasicSearchCheckboxes fieldData={basicSearchFields} />);
     expect(labelFor(basicSearchFields[1].value)).not.toBeNull();
     expect(labelFor(basicSearchFields[1].value).textContent).toEqual(
       basicSearchFields[1].label
@@ -83,18 +71,14 @@ describe('BasicSearchCheckboxes', () => {
   });
 
   it('assigns an id to each checkbox that matches its label id', () => {
-    render(
-      <BasicSearchCheckboxes basicSearchFields={basicSearchFields} />
-    );
+    render(<BasicSearchCheckboxes fieldData={basicSearchFields} />);
     const checkboxes = inputsOfType('checkbox');
     expect(checkboxes[0].id).toEqual(basicSearchFields[0].value);
     expect(checkboxes[1].id).toEqual(basicSearchFields[1].value);
   });
 
   it('displays the correct checkbox ids', () => {
-    render(
-      <BasicSearchCheckboxes basicSearchFields={basicSearchFields} />
-    );
+    render(<BasicSearchCheckboxes fieldData={basicSearchFields} />);
     expect(labelFor(basicSearchFields[0].value).textContent).toEqual(
       basicSearchFields[0].label
     );
@@ -107,7 +91,7 @@ describe('BasicSearchCheckboxes', () => {
     let fieldChanged;
     render(
       <BasicSearchCheckboxes
-        basicSearchFields={basicSearchFields}
+        fieldData={basicSearchFields}
         handleFieldChange={({ target }) =>
           (fieldChanged = target.value)
         }
@@ -122,7 +106,7 @@ describe('BasicSearchCheckboxes', () => {
     render(
       <BasicSearchCheckboxes
         selectedFields={selectedFields}
-        basicSearchFields={basicSearchFields}
+        fieldData={basicSearchFields}
       />
     );
     expect(
@@ -135,7 +119,7 @@ describe('BasicSearchCheckboxes', () => {
     render(
       <BasicSearchCheckboxes
         selectedFields={selectedFields}
-        basicSearchFields={basicSearchFields}
+        fieldData={basicSearchFields}
       />
     );
     expect(
@@ -144,7 +128,7 @@ describe('BasicSearchCheckboxes', () => {
   });
 });
 
-describe('BasicSearchCheckboxOption', () => {
+describe('BasicSearchCheckbox', () => {
   let render, element, change;
 
   beforeEach(() => {
@@ -154,7 +138,7 @@ describe('BasicSearchCheckboxOption', () => {
   it('sets the checked attribute to true if it isSelected is true', () => {
     const field = 'field1';
     render(
-      <BasicSearchCheckboxOption
+      <BasicSearchCheckbox
         name={field}
         isSelected={true}
         handleFieldChange={({ target }) =>
@@ -168,7 +152,7 @@ describe('BasicSearchCheckboxOption', () => {
   it('sets the checked attribute to false if it isSelected is false', () => {
     const field = 'field1';
     render(
-      <BasicSearchCheckboxOption
+      <BasicSearchCheckbox
         name={field}
         isSelected={false}
         handleFieldChange={({ target }) =>
@@ -183,7 +167,7 @@ describe('BasicSearchCheckboxOption', () => {
     const field = 'field1';
     let fieldChanged;
     render(
-      <BasicSearchCheckboxOption
+      <BasicSearchCheckbox
         value={field}
         handleFieldChange={({ target }) =>
           (fieldChanged = target.value)

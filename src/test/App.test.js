@@ -1,18 +1,21 @@
 import React from 'react';
-import { createContainer } from "./domManipulators";
+import { createShallowRenderer, type } from './shallowHelpers';
 import App from '../components/App';
+import { NavLinkList } from '../components/Navigation/NavLinkList';
 
 describe('App', () => {
-
-  let render, element;  
+  let shallowRender, elementMatching;
 
   beforeEach(() => {
-    ({ render, element } = createContainer());
+    ({ shallowRender, elementMatching } = createShallowRenderer());
   });
 
-  it('renders the Navigation component', () => {
-    render(<App />);
-    const navComponent = element('.App > .navigation');
-    expect(navComponent).not.toBeNull();
-  });
+  const itDisplaysComponent = (component) => {
+    it(`displays the ${component} component`, () => {
+      shallowRender(<App />);
+      expect(elementMatching(type(component))).not.toBeNull();
+    });
+  };
+
+  itDisplaysComponent(NavLinkList);
 });

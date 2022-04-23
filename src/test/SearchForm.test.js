@@ -2,17 +2,14 @@ import React from 'react';
 import 'whatwg-fetch';
 import { createContainer, withEvent } from './domManipulators';
 import { createShallowRenderer, type } from './shallowHelpers';
-import {
-  AdvancedSearchToggle,
-  SearchForm,
-} from '../components/SearchForm/SearchForm';
+import { SearchForm } from '../components/SearchForm/SearchForm';
 import { fetchResponseOk, requestURLOf } from './spyHelpers';
-import { TableSelectRadios } from '../components/SearchForm/TableSelectRadios';
-import { BasicSearchCheckboxes } from '../components/SearchForm/BasicSearchCheckboxes';
-import { AdvancedSearchTextInputs } from '../components/SearchForm/AdvancedSearchTextInputs';
+import { TableSelectRadios } from '../components/SearchForm/TableSelectRadios/TableSelectRadios';
+import { BasicSearchCheckboxes } from '../components/SearchForm/BasicSearchCheckboxes/BasicSearchCheckboxes';
+import { AdvancedSearchTextInputs } from '../components/SearchForm/AdvancedSearchTextInputs/AdvancedSearchTextInputs';
 
 describe.only('SearchForm', () => {
-  //full render functions
+  //full render variables
   let render,
     element,
     elements,
@@ -22,7 +19,7 @@ describe.only('SearchForm', () => {
     click,
     field;
 
-  //shallow render functions
+  //shallow render variables
   let shallowRender, elementMatching;
 
   const form = (id) => element(`form[id="${id}"]`);
@@ -43,6 +40,17 @@ describe.only('SearchForm', () => {
       ],
     },
   };
+
+  const tableSelectFields = [
+    {
+      value: 'option1',
+      label: 'Option1',
+    },
+    {
+      value: 'option2',
+      label: 'Option2',
+    },
+  ];
 
   beforeEach(() => {
     ({
@@ -293,6 +301,15 @@ describe.only('SearchForm', () => {
     );
     expect(fetchURL).toContain(
       searchParam(advancedInputs[1].name, 'inputvalue2')
+    );
+  });
+
+  it('initially selects the radio button corresponding to initialTable prop', () => {
+    render(
+      <SearchForm
+        tableSelectFields={tableSelectFields}
+        initialTable={tableSelectFields[1]}
+      />
     );
   });
 });

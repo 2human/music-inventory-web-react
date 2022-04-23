@@ -13,6 +13,7 @@ function App() {
         basicSearchFields={basicSearchFields}
         tableSelectFields={tableSelectFields}
         advancedSearchFields={advancedSearchFields}
+        initialTable={'sources'}
       />
     </div>
   );

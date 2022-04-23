@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { TableSelectRadios } from './TableSelectRadios';
-import { BasicSearchCheckboxes } from './BasicSearchCheckboxes';
-import { AdvancedSearchTextInputs } from './AdvancedSearchTextInputs';
-import { blankAdvancedInputs } from '../../assets/form-fields/search-form/advancedSearch';
+import { TableSelectRadios } from './TableSelectRadios/TableSelectRadios';
+import { BasicSearchCheckboxes } from './BasicSearchCheckboxes/BasicSearchCheckboxes';
+import { AdvancedSearchTextInputs } from './AdvancedSearchTextInputs/AdvancedSearchTextInputs';
+import { requestURLObject, wasAlreadySelected } from '.';
+import { blankAdvancedInputs } from '.';
 
 export const SearchForm = ({
   basicSearchFields,
   tableSelectFields,
   advancedSearchFields,
+  initialTable,
 }) => {
   const [formInputs, setFormInputs] = useState({
     searchText: '',
-    table: 'sources',
+    table: initialTable,
     basicSearchSelection: [],
     advancedSearchInputs: {
       ...blankAdvancedInputs(advancedSearchFields['sources'].rows),
@@ -25,29 +27,12 @@ export const SearchForm = ({
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const result = await window.fetch(requestURLObject().href);
+    const result = await window.fetch(
+      requestURLObject(formInputs, advancedSearchOn).href
+    );
     if (result.ok) {
       const searchResults = await result.json();
     }
-  };
-
-  const requestURLObject = () => {
-    const requestURL = new URL(
-      `http://localhost:8080/${formInputs.table}`
-    );
-    requestURL.searchParams.set('searchText', formInputs.searchText);
-    requestURL.searchParams.set('table', formInputs.table);
-    if (advancedSearchOn) {
-      const advancedInputs = formInputs.advancedSearchInputs;
-      Object.keys(advancedInputs).forEach((field) =>
-        requestURL.searchParams.append(field, advancedInputs[field])
-      );
-    } else {
-      formInputs.basicSearchSelection.forEach((field) =>
-        requestURL.searchParams.append('field', field)
-      );
-    }
-    return requestURL;
   };
 
   const handleKeywordInput = ({ target }) => {
@@ -64,34 +49,30 @@ export const SearchForm = ({
     });
   };
 
-  const handleFieldChange = ({ target }) => {
-    const changedField = target.value;
-    if (wasAlreadySelected(changedField)) {
-      deselectField(changedField);
+  const handleCheckboxChange = ({ target }) => {
+    const changedCheckbox = target.value;
+    if (wasAlreadySelected(changedCheckbox, formInputs)) {
+      deselectCheckbox(changedCheckbox);
     } else {
-      selectField(changedField);
+      selectCheckbox(changedCheckbox);
     }
   };
 
-  const wasAlreadySelected = (field) => {
-    return formInputs.basicSearchSelection.includes(field);
-  };
-
-  const deselectField = (changedField) => {
+  const deselectCheckbox = (changedCheckbox) => {
     setFormInputs({
       ...formInputs,
       basicSearchSelection: formInputs.basicSearchSelection.filter(
-        (field) => field !== changedField
+        (field) => field !== changedCheckbox
       ),
     });
   };
 
-  const selectField = (changedField) => {
+  const selectCheckbox = (changedCheckbox) => {
     setFormInputs({
       ...formInputs,
       basicSearchSelection: [
         ...formInputs.basicSearchSelection,
-        changedField,
+        changedCheckbox,
       ],
     });
   };
@@ -100,7 +81,7 @@ export const SearchForm = ({
     setAdvancedSearchOn(!advancedSearchOn);
   };
 
-  const handleAdvancedInput = ({ target }) => {
+  const handleAdvancedSearchInput = ({ target }) => {
     setFormInputs({
       ...formInputs,
       advancedSearchInputs: {
@@ -111,13 +92,10 @@ export const SearchForm = ({
   };
 
   return (
-    <form
-      id="searchForm"
-      className="search-form"
-      onSubmit={handleSubmit}>
+    <SearchFormContainer handleSubmit={handleSubmit}>
       <KeywordInputAndSubmitBtn
         handleKeywordInput={handleKeywordInput}
-        value={formInputs.searchText}
+        inputValue={formInputs.searchText}
       />
 
       <AdvancedSearchToggle
@@ -126,32 +104,45 @@ export const SearchForm = ({
       />
 
       <TableSelectRadios
-        tableSelectFields={tableSelectFields}
+        fieldData={tableSelectFields}
         selectedTable={formInputs.table}
         handleTableChange={handleTableChange}
       />
 
       {advancedSearchOn ? (
         <AdvancedSearchTextInputs
-          fields={advancedSearchFields.sources}
-          handleTextInput={handleAdvancedInput}
+          fieldData={advancedSearchFields.sources}
+          handleTextInput={handleAdvancedSearchInput}
+          inputValues={formInputs.advancedSearchInputs}
         />
       ) : (
         <BasicSearchCheckboxes
-          handleFieldChange={handleFieldChange}
-          basicSearchFields={basicSearchFields}
+          handleFieldChange={handleCheckboxChange}
+          fieldData={basicSearchFields}
           selectedFields={formInputs.basicSearchSelection}
         />
       )}
-    </form>
+    </SearchFormContainer>
   );
 };
 
-const KeywordInputAndSubmitBtn = ({ handleKeywordInput, value }) => (
+const SearchFormContainer = ({ children, handleSubmit }) => (
+  <form
+    id="searchForm"
+    className="search-form"
+    onSubmit={handleSubmit}>
+    {children}
+  </form>
+);
+
+const KeywordInputAndSubmitBtn = ({
+  handleKeywordInput,
+  inputValue,
+}) => (
   <KeywordInputAndSubmitContainer>
     <KeywordInput
       handleKeywordInput={handleKeywordInput}
-      value={value}
+      value={inputValue}
     />
     <SubmitSearchButton />
   </KeywordInputAndSubmitContainer>
@@ -210,6 +201,10 @@ AdvancedSearchToggle.defaultProps = {
 };
 
 SearchForm.defaultProps = {
+  tableSelectFields: [
+    { value: 'table1', label: 'label1' },
+    { value: 'table2', label: 'label2' },
+  ],
   basicSearchFields: [
     {
       value: 'option1',
@@ -235,4 +230,5 @@ SearchForm.defaultProps = {
       ],
     },
   },
+  initialTable: 'sources',
 };
