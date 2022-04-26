@@ -1,9 +1,9 @@
 import React from 'react';
-import { createContainer } from './domManipulators';
+import { createContainer } from '../domManipulators';
 import {
   BasicSearchCheckboxes,
   BasicSearchCheckbox,
-} from '../components/SearchForm/BasicSearchCheckboxes/BasicSearchCheckboxes';
+} from '../../components/SearchForm/BasicSearchCheckboxes/BasicSearchCheckboxes';
 
 describe('BasicSearchCheckboxes', () => {
   let render, element, elements, labelFor, inputsOfType, change;

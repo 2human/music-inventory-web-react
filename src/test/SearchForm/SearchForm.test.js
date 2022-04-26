@@ -1,12 +1,20 @@
 import React from 'react';
 import 'whatwg-fetch';
-import { createContainer, withEvent } from './domManipulators';
-import { createShallowRenderer, type } from './shallowHelpers';
-import { SearchForm } from '../components/SearchForm/SearchForm';
-import { fetchResponseOk, requestURLOf } from './spyHelpers';
-import { TableSelectRadios } from '../components/SearchForm/TableSelectRadios/TableSelectRadios';
-import { BasicSearchCheckboxes } from '../components/SearchForm/BasicSearchCheckboxes/BasicSearchCheckboxes';
-import { AdvancedSearchTextInputs } from '../components/SearchForm/AdvancedSearchTextInputs/AdvancedSearchTextInputs';
+import { createContainer, withEvent } from '../domManipulators';
+import { createShallowRenderer, type } from '../shallowHelpers';
+import {
+  AdvancedSearchToggle,
+  SearchForm,
+} from '../../components/SearchForm/SearchForm';
+import { fetchResponseOk, requestURLOf } from '../spyHelpers';
+import { TableSelectRadios } from '../../components/SearchForm/TableSelectRadios/TableSelectRadios';
+import { BasicSearchCheckboxes } from '../../components/SearchForm/BasicSearchCheckboxes/BasicSearchCheckboxes';
+import { AdvancedSearchTextInputs } from '../../components/SearchForm/AdvancedSearchTextInputs/AdvancedSearchTextInputs';
+import {
+  advancedFields,
+  basicFields,
+  tableSelectFields,
+} from './testFieldData';
 
 describe.only('SearchForm', () => {
   //full render variables
@@ -29,28 +37,21 @@ describe.only('SearchForm', () => {
   const tableWithName = (tableName) =>
     searchParam('table', tableName);
 
-  const advancedFields = {
-    sources: {
-      rows: [
-        [
-          { name: 'field1name', label: 'Field1label', size: 'short' },
-          { name: 'field3name', label: 'Field3label', size: 'long' },
-        ],
-        [{ name: 'field2name', label: 'Field2label', size: 'long' }],
-      ],
-    },
+  const selectTable = (table) => {
+    const event = {
+      target: {
+        value: table,
+      },
+    };
+    elementMatching(type(TableSelectRadios)).props.handleTableChange(
+      event
+    );
   };
 
-  const tableSelectFields = [
-    {
-      value: 'option1',
-      label: 'Option1',
-    },
-    {
-      value: 'option2',
-      label: 'Option2',
-    },
-  ];
+  const toggleAdvancedSearch = () =>
+    elementMatching(
+      type(AdvancedSearchToggle)
+    ).props.handleAdvancedSearchToggle();
 
   beforeEach(() => {
     ({
@@ -118,6 +119,21 @@ describe.only('SearchForm', () => {
       preventDefault: preventDefaultSpy,
     });
     expect(preventDefaultSpy).toHaveBeenCalled();
+  });
+
+  it('it passes the right checkboxes to BasicSearchCheckboxes when the table is changed', () => {
+    shallowRender(
+      <SearchForm
+        advancedSearchFields={advancedFields}
+        tableSelectFields={tableSelectFields}
+        basicSearchFields={basicFields}
+        initialTable={tableSelectFields[0].value}
+      />
+    );
+
+    expect(
+      elementMatching(type(BasicSearchCheckboxes)).props.fieldData
+    ).toBe(basicFields[tableSelectFields[0].value]);
   });
 
   it('checks off checkboxes when they are changed', () => {
@@ -281,7 +297,12 @@ describe.only('SearchForm', () => {
   });
 
   it('includes advanced search input text in fetch request', async () => {
-    render(<SearchForm advancedSearchFields={advancedFields} />);
+    render(
+      <SearchForm
+        advancedSearchFields={advancedFields}
+        initialTable={tableSelectFields[0].value}
+      />
+    );
     click(element('#advancedSearchToggle'));
     const advancedInputs = elements(
       '#advancedSearchTextInputs input'
@@ -304,12 +325,52 @@ describe.only('SearchForm', () => {
     );
   });
 
-  it('initially selects the radio button corresponding to initialTable prop', () => {
-    render(
+  //CHANGING TABLES
+
+  it('it passes the inital table prop to the table select component', () => {
+    shallowRender(
       <SearchForm
+        advancedSearchFields={advancedFields}
         tableSelectFields={tableSelectFields}
-        initialTable={tableSelectFields[1]}
+        initialTable={tableSelectFields[0].value}
       />
     );
+    expect(elementMatching(type(TableSelectRadios))).toBeDefined();
+    expect(
+      elementMatching(type(TableSelectRadios)).props.selectedTable
+    ).toBe(tableSelectFields[0].value);
+  });
+
+  it('passes the right props to the BasicSearchCheckox component when the table is changed', () => {
+    shallowRender(
+      <SearchForm
+        basicSearchFields={basicFields}
+        advancedSearchFields={advancedFields}
+        tableSelectFields={tableSelectFields}
+        initialTable={tableSelectFields[0].value}
+      />
+    );
+    const otherTableName = tableSelectFields[1].value;
+    selectTable(otherTableName);
+    expect(
+      elementMatching(type(BasicSearchCheckboxes)).props.fieldData
+    ).toBe(basicFields[otherTableName]);
+  });
+
+  it('passes the right props to AdvancedSearchInput when table is changed', () => {
+    shallowRender(
+      <SearchForm
+        basicSearchFields={basicFields}
+        advancedSearchFields={advancedFields}
+        tableSelectFields={tableSelectFields}
+        initialTable={tableSelectFields[0].value}
+      />
+    );
+    const otherTableName = tableSelectFields[1].value;
+    toggleAdvancedSearch();
+    selectTable(otherTableName);
+    expect(
+      elementMatching(type(AdvancedSearchTextInputs)).props.fieldData
+    ).toBe(advancedFields[otherTableName]);
   });
 });

@@ -1,9 +1,9 @@
 import React from 'react';
-import { createContainer } from './domManipulators';
+import { createContainer } from '../domManipulators';
 import {
   TableSelectRadios,
   TableSelectRadio,
-} from '../components/SearchForm/TableSelectRadios/TableSelectRadios';
+} from '../../components/SearchForm/TableSelectRadios/TableSelectRadios';
 
 describe('TableSelectRadios', () => {
   let render, element, elements, change, inputsOfType, labelFor;

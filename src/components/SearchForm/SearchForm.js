@@ -16,7 +16,7 @@ export const SearchForm = ({
     table: initialTable,
     basicSearchSelection: [],
     advancedSearchInputs: {
-      ...blankAdvancedInputs(advancedSearchFields['sources'].rows),
+      ...blankAdvancedInputs(advancedSearchFields[initialTable].rows),
     },
   });
 
@@ -43,9 +43,15 @@ export const SearchForm = ({
   };
 
   const handleTableChange = ({ target }) => {
+    const tableSelection = target.value;
     setFormInputs({
       ...formInputs,
-      table: target.value,
+      table: tableSelection,
+      advancedSearchInputs: {
+        ...blankAdvancedInputs(
+          advancedSearchFields[tableSelection].rows
+        ),
+      },
     });
   };
 
@@ -111,14 +117,14 @@ export const SearchForm = ({
 
       {advancedSearchOn ? (
         <AdvancedSearchTextInputs
-          fieldData={advancedSearchFields.sources}
+          fieldData={advancedSearchFields[formInputs.table]}
           handleTextInput={handleAdvancedSearchInput}
           inputValues={formInputs.advancedSearchInputs}
         />
       ) : (
         <BasicSearchCheckboxes
           handleFieldChange={handleCheckboxChange}
-          fieldData={basicSearchFields}
+          fieldData={basicSearchFields[formInputs.table]}
           selectedFields={formInputs.basicSearchSelection}
         />
       )}
@@ -202,25 +208,27 @@ AdvancedSearchToggle.defaultProps = {
 
 SearchForm.defaultProps = {
   tableSelectFields: [
-    { value: 'table1', label: 'label1' },
-    { value: 'table2', label: 'label2' },
+    { value: 'table1default', label: 'label1default' },
+    { value: 'table2default', label: 'label2default' },
   ],
-  basicSearchFields: [
-    {
-      value: 'option1',
-      label: 'Option11',
-    },
-    {
-      value: 'option2',
-      label: 'Option2',
-    },
-    {
-      value: 'option3',
-      label: 'Option3',
-    },
-  ],
+  basicSearchFields: {
+    table1default: [
+      {
+        value: 'option1',
+        label: 'Option11',
+      },
+      {
+        value: 'option2',
+        label: 'Option2',
+      },
+      {
+        value: 'option3',
+        label: 'Option3',
+      },
+    ],
+  },
   advancedSearchFields: {
-    sources: {
+    table1default: {
       rows: [
         [
           { name: 'name1', label: 'label1', size: 'short' },
@@ -230,5 +238,5 @@ SearchForm.defaultProps = {
       ],
     },
   },
-  initialTable: 'sources',
+  initialTable: 'table1default',
 };

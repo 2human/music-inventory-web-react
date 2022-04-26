@@ -7,8 +7,6 @@ export const TableSelectRadios = ({
   handleTableChange,
   selectedTable,
 }) => {
-  // console.log(props.searchInput);
-
   useEffect(() => {
     selectTable(selectedTable);
   }, []);

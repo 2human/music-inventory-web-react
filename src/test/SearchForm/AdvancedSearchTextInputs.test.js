@@ -1,6 +1,6 @@
 import React from 'react';
-import { AdvancedSearchTextInputs } from '../components/SearchForm/AdvancedSearchTextInputs/AdvancedSearchTextInputs';
-import { createContainer } from './domManipulators';
+import { AdvancedSearchTextInputs } from '../../components/SearchForm/AdvancedSearchTextInputs/AdvancedSearchTextInputs';
+import { createContainer } from '../domManipulators';
 
 describe('AdvancedSearchTextInputs', () => {
   let render, element, elements;
