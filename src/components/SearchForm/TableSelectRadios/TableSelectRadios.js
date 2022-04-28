@@ -1,16 +1,10 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { selectTable } from '../../../assets/data/actions';
 
 export const TableSelectRadios = ({
   fieldData,
   handleTableChange,
   selectedTable,
 }) => {
-  useEffect(() => {
-    selectTable(selectedTable);
-  }, []);
-
   return (
     <TableSelectContainer>
       {fieldData.map((option) => (

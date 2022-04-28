@@ -5,6 +5,7 @@ const sources = {
       label: 'Source Number',
       size: 'short',
     },
+    { name: 'id', label: 'Id', size: 'short' },
     { name: 'collection', label: 'Collection', size: 'long' },
     { name: 'callNumber', label: 'Call Number', size: 'long' },
     { name: 'author', label: 'Author', size: 'long' },
@@ -13,7 +14,7 @@ const sources = {
     { name: 'description', label: 'Description', size: 'long' },
   ],
   rows: [
-    ['sourceNumber'],
+    ['id', 'sourceNumber'],
     ['collection', 'callNumber'],
     ['author', 'title'],
     ['inscription', 'description'],
@@ -22,6 +23,7 @@ const sources = {
 
 const entries = {
   data: [
+    { name: 'id', label: 'Id', size: 'short' },
     {
       name: 'collection',
       label: 'Collection',
@@ -79,7 +81,7 @@ const entries = {
     },
   ],
   rows: [
-    ['sourceNumber', 'location', 'isSecular'],
+    ['id', 'sourceNumber', 'location', 'isSecular'],
     ['collection', 'title'],
     ['composer', 'vocalPart'],
     ['key', 'melodicIncipit'],
@@ -87,13 +89,22 @@ const entries = {
   ],
 };
 
-const rowFields = [
-  ['sourceNumber', 'location', 'secular'],
-  ['collection', 'title'],
-  ['composer', 'vocalPart'],
-  ['key', 'melodicIncipit'],
-  ['textIncipit', 'notes'],
-];
+const collections = {
+  data: [
+    { name: 'id', label: 'Id', size: 'short' },
+    {
+      name: 'collection',
+      label: 'Collection',
+      size: 'long',
+    },
+    {
+      name: 'description',
+      label: 'Description',
+      size: 'long',
+    },
+  ],
+  rows: [['id'], ['collection'], ['description']],
+};
 
 const dataToRows = (fieldData, rowFields) =>
   rowFields.map((row) => [
@@ -110,5 +121,9 @@ export const advancedSearchFields = {
   entries: {
     data: [...entries.data],
     rows: dataToRows(entries.data, entries.rows),
+  },
+  collections: {
+    data: [...collections.data],
+    rows: dataToRows(collections.data, collections.rows),
   },
 };

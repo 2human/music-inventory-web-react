@@ -1,9 +1,9 @@
 import React from 'react';
 import { Navigation } from './Navigation/Navigation';
 import { SearchForm } from './SearchForm/SearchForm';
-import { advancedSearchFields } from '../assets/form-fields/search-form/advancedSearch';
-import { tableSelectFields } from '../assets/form-fields/search-form/tableSelect';
-import { basicSearchFields } from '../assets/form-fields/search-form/basicSearch';
+import { advancedSearchFields } from './SearchForm/form-fields/advancedSearch';
+import { tableSelectFields } from './SearchForm/form-fields/tableSelect';
+import { basicSearchFields } from './SearchForm/form-fields/basicSearch';
 
 function App() {
   return (

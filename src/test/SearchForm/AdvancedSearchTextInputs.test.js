@@ -1,8 +1,8 @@
 import React from 'react';
-import { AdvancedSearchTextInputs } from '../../components/SearchForm/AdvancedSearchTextInputs/AdvancedSearchTextInputs';
+import { AdvancedSearchInputs } from '../../components/SearchForm/AdvancedSearchInputs/AdvancedSearchInputs';
 import { createContainer } from '../domManipulators';
 
-describe('AdvancedSearchTextInputs', () => {
+describe('AdvancedSearchInputs', () => {
   let render, element, elements;
 
   beforeEach(() => {
@@ -10,7 +10,7 @@ describe('AdvancedSearchTextInputs', () => {
   });
 
   it('renders the advancedSearch div', () => {
-    render(<AdvancedSearchTextInputs />);
+    render(<AdvancedSearchInputs />);
     expect(element('#advancedSearchTextInputs')).not.toBeNull();
   });
 
@@ -34,13 +34,13 @@ describe('AdvancedSearchTextInputs', () => {
   };
 
   it('renders a field row div element for each row', () => {
-    render(<AdvancedSearchTextInputs fieldData={fields} />);
+    render(<AdvancedSearchInputs fieldData={fields} />);
     const fieldRows = elements('.advanced-inputs__row');
     expect(fieldRows).toHaveLength(fields.rows.length);
   });
 
   it('renders the right fields within each row', () => {
-    render(<AdvancedSearchTextInputs fieldData={fields} />);
+    render(<AdvancedSearchInputs fieldData={fields} />);
     const firstRowFields = elements(
       '.advanced-inputs__row:nth-of-type(1) input'
     );
@@ -57,7 +57,7 @@ describe('AdvancedSearchTextInputs', () => {
   });
 
   it('renders an input group for each field in a row', () => {
-    render(<AdvancedSearchTextInputs fieldData={fields} />);
+    render(<AdvancedSearchInputs fieldData={fields} />);
     const fieldGroups = elements(
       '.advanced-inputs__row:nth-of-type(1) .advanced-inputs__group'
     );
@@ -65,13 +65,13 @@ describe('AdvancedSearchTextInputs', () => {
   });
 
   it('renders a text input within each input group', () => {
-    render(<AdvancedSearchTextInputs fieldData={fields} />);
+    render(<AdvancedSearchInputs fieldData={fields} />);
     const inputs = elements('.advanced-inputs__group input');
     expect(inputs).toHaveLength(fieldObjectArr().length);
   });
 
   it('assigns the name and id attribute corresponding to the field name', () => {
-    render(<AdvancedSearchTextInputs fieldData={fields} />);
+    render(<AdvancedSearchInputs fieldData={fields} />);
     const inputs = elements('.advanced-inputs__group input');
     expect(inputs[0].name).toEqual(fieldObjectArr()[0].name);
     expect(inputs[0].id).toEqual(fieldObjectArr()[0].name);
@@ -80,37 +80,79 @@ describe('AdvancedSearchTextInputs', () => {
   });
 
   it('assigns a placeholder to each attribute corresponding to the label text', () => {
-    render(<AdvancedSearchTextInputs fieldData={fields} />);
+    render(<AdvancedSearchInputs fieldData={fields} />);
     const inputs = elements('.advanced-inputs__group input');
     expect(inputs[0].placeholder).toEqual(fieldObjectArr()[0].label);
     expect(inputs[1].placeholder).toEqual(fieldObjectArr()[1].label);
   });
 
   it('creates a label for each field', () => {
-    render(<AdvancedSearchTextInputs fieldData={fields} />);
+    render(<AdvancedSearchInputs fieldData={fields} />);
     const labels = elements('label');
     expect(labels).toHaveLength(fieldObjectArr().length);
   });
 
   it('displays the label text matching the field label', () => {
-    render(<AdvancedSearchTextInputs fieldData={fields} />);
+    render(<AdvancedSearchInputs fieldData={fields} />);
     const labels = elements('label');
     expect(labels[0].textContent).toEqual(fieldObjectArr()[0].label);
     expect(labels[1].textContent).toEqual(fieldObjectArr()[1].label);
   });
 
   it('assigns the right for attribute to each label', () => {
-    render(<AdvancedSearchTextInputs fieldData={fields} />);
+    render(<AdvancedSearchInputs fieldData={fields} />);
     const labels = elements('label');
     expect(labels[0].htmlFor).toEqual(fieldObjectArr()[0].name);
     expect(labels[1].htmlFor).toEqual(fieldObjectArr()[1].name);
   });
 
   it('includes the physical size of the field in the class name', () => {
-    render(<AdvancedSearchTextInputs fieldData={fields} />);
+    render(<AdvancedSearchInputs fieldData={fields} />);
     const inputs = elements('input');
     expect(inputs[0].classList).toContain(
       `form__input--${fieldObjectArr()[0].size}`
     );
+  });
+
+  it('includes the physical size of the field in the class name', () => {
+    render(<AdvancedSearchInputs fieldData={fields} />);
+    const inputs = elements('input');
+    expect(inputs[0].classList).toContain(
+      `form__input--${fieldObjectArr()[0].size}`
+    );
+  });
+
+  it('adds the pitches only checkbox group when the form contains melodicIncipit', () => {
+    const fieldsWithIncipit = {
+      rows: [
+        [
+          {
+            name: 'melodicIncipit',
+            label: 'MelodicIncipit',
+            size: 'short',
+          },
+        ],
+      ],
+    };
+    render(<AdvancedSearchInputs fieldData={fieldsWithIncipit} />);
+    expect(
+      element('input[name="pitchesOnly"][type="checkbox"]')
+    ).not.toBeNull();
+  });
+
+  it('displays the isSecular field as a select element', () => {
+    const fieldsWithIsSecular = {
+      rows: [
+        [
+          {
+            name: 'isSecular',
+            label: 'Secular',
+            size: 'short',
+          },
+        ],
+      ],
+    };
+    render(<AdvancedSearchInputs fieldData={fieldsWithIsSecular} />);
+    expect(element('select[name="isSecular"]')).not.toBeNull();
   });
 });

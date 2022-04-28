@@ -9,7 +9,7 @@ import {
 import { fetchResponseOk, requestURLOf } from '../spyHelpers';
 import { TableSelectRadios } from '../../components/SearchForm/TableSelectRadios/TableSelectRadios';
 import { BasicSearchCheckboxes } from '../../components/SearchForm/BasicSearchCheckboxes/BasicSearchCheckboxes';
-import { AdvancedSearchTextInputs } from '../../components/SearchForm/AdvancedSearchTextInputs/AdvancedSearchTextInputs';
+import { AdvancedSearchInputs } from '../../components/SearchForm/AdvancedSearchInputs/AdvancedSearchInputs';
 import {
   advancedFields,
   basicFields,
@@ -235,14 +235,14 @@ describe.only('SearchForm', () => {
     });
   });
 
-  it('does not initially display the AdvancedSearchTextInputs component', () => {
+  it('does not initially display the AdvancedSearchInputs component', () => {
     shallowRender(<SearchForm />);
     expect(
-      elementMatching(type(AdvancedSearchTextInputs))
+      elementMatching(type(AdvancedSearchInputs))
     ).not.toBeDefined();
   });
 
-  it('displays the AdvancedSearchTextInputs when advanced search is toggled on', () => {
+  it('displays the AdvancedSearchInputs when advanced search is toggled on', () => {
     render(<SearchForm />);
     click(element('#advancedSearchToggle'));
     expect(element('#advancedSearchTextInputs')).not.toBeNull();
@@ -254,7 +254,7 @@ describe.only('SearchForm', () => {
     expect(element('#basicSearchCheckboxes')).toBeNull();
   });
 
-  it('hides the AdvancedSearchTextInputs when advanced search is toggled back off', () => {
+  it('hides the AdvancedSearchInputs when advanced search is toggled back off', () => {
     render(<SearchForm />);
     click(element('#advancedSearchToggle'));
     click(element('#advancedSearchToggle'));
@@ -370,7 +370,7 @@ describe.only('SearchForm', () => {
     toggleAdvancedSearch();
     selectTable(otherTableName);
     expect(
-      elementMatching(type(AdvancedSearchTextInputs)).props.fieldData
+      elementMatching(type(AdvancedSearchInputs)).props.fieldData
     ).toBe(advancedFields[otherTableName]);
   });
 });

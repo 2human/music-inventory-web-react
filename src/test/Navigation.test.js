@@ -1,12 +1,10 @@
 import React from 'react';
-import { createContainer } from "./domManipulators";
+import { createContainer } from './domManipulators';
 import { Navigation } from '../components/Navigation/Navigation';
-import { NavLinkList } from '../components/Navigation/NavLinkList';
-
 
 //TODO add test for verifying logo source
 describe('Navigation', () => {
-  let render, element; 
+  let render, element;
 
   beforeEach(() => {
     ({ render, element } = createContainer());
@@ -38,11 +36,9 @@ describe('Navigation', () => {
     const logoElement = element('img.navigation__logo');
     expect(logoElement).not.toBeNull();
   });
-  
+
   it('renders the donate button', () => {
     render(<Navigation />);
     expect(element('a#donateBtn.btn.btn--big')).not.toBeNull();
   });
-  
 });
-

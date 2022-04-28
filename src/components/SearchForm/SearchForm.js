@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { TableSelectRadios } from './TableSelectRadios/TableSelectRadios';
 import { BasicSearchCheckboxes } from './BasicSearchCheckboxes/BasicSearchCheckboxes';
-import { AdvancedSearchTextInputs } from './AdvancedSearchTextInputs/AdvancedSearchTextInputs';
-import { requestURLObject, wasAlreadySelected } from '.';
-import { blankAdvancedInputs } from '.';
+import { AdvancedSearchInputs } from './AdvancedSearchInputs/AdvancedSearchInputs';
+import {
+  requestURLObject,
+  wasAlreadySelected,
+} from './searchFormHelpers';
+import { blankAdvancedInputs } from './searchFormHelpers';
 
 export const SearchForm = ({
   basicSearchFields,
@@ -18,9 +21,8 @@ export const SearchForm = ({
     advancedSearchInputs: {
       ...blankAdvancedInputs(advancedSearchFields[initialTable].rows),
     },
+    advancedSearchOn: false,
   });
-
-  const [advancedSearchOn, setAdvancedSearchOn] = useState(false);
 
   useEffect(() => {});
 
@@ -28,7 +30,7 @@ export const SearchForm = ({
     event.preventDefault();
 
     const result = await window.fetch(
-      requestURLObject(formInputs, advancedSearchOn).href
+      requestURLObject(formInputs).href
     );
     if (result.ok) {
       const searchResults = await result.json();
@@ -84,15 +86,34 @@ export const SearchForm = ({
   };
 
   const handleAdvancedSearchToggle = () => {
-    setAdvancedSearchOn(!advancedSearchOn);
+    setFormInputs({
+      ...formInputs,
+      advancedSearchOn: !formInputs.advancedSearchOn,
+    });
   };
 
-  const handleAdvancedSearchInput = ({ target }) => {
+  const handleAdvancedInput = ({ target }) => {
+    switch (target.name) {
+      case 'pitchesOnly':
+        togglePitchesOnly();
+        break;
+      default:
+        setFormInputs({
+          ...formInputs,
+          advancedSearchInputs: {
+            ...formInputs.advancedSearchInputs,
+            [target.name]: target.value,
+          },
+        });
+    }
+  };
+
+  const togglePitchesOnly = () => {
     setFormInputs({
       ...formInputs,
       advancedSearchInputs: {
         ...formInputs.advancedSearchInputs,
-        [target.name]: target.value,
+        pitchesOnly: !formInputs.advancedSearchInputs.pitchesOnly,
       },
     });
   };
@@ -105,7 +126,7 @@ export const SearchForm = ({
       />
 
       <AdvancedSearchToggle
-        advancedSearchOn={advancedSearchOn}
+        advancedSearchOn={formInputs.advancedSearchOn}
         handleAdvancedSearchToggle={handleAdvancedSearchToggle}
       />
 
@@ -115,10 +136,10 @@ export const SearchForm = ({
         handleTableChange={handleTableChange}
       />
 
-      {advancedSearchOn ? (
-        <AdvancedSearchTextInputs
+      {formInputs.advancedSearchOn ? (
+        <AdvancedSearchInputs
           fieldData={advancedSearchFields[formInputs.table]}
-          handleTextInput={handleAdvancedSearchInput}
+          handleInput={handleAdvancedInput}
           inputValues={formInputs.advancedSearchInputs}
         />
       ) : (

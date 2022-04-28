@@ -1,5 +1,8 @@
 import ReactDOM from 'react-dom';
 import ReactTestUtils, { act } from 'react-dom/test-utils';
+import { Provider } from 'react-redux';
+import { storeSpy } from 'expect-redux';
+import { configureStore } from '../store';
 
 export const createContainer = () => {
   const labelFor = (formElement) =>
@@ -40,3 +43,20 @@ export const createContainer = () => {
 export const withEvent = (name, value) => ({
   target: { name, value },
 });
+
+export const createContainerWithStore = () => {
+  const store = configureStore([storeSpy]);
+  const container = createContainer();
+  return {
+    ...container,
+    store,
+    renderWithStore: (component) => {
+      act(() => {
+        ReactDOM.render(
+          <Provider store={store}>{component}</Provider>,
+          container.container
+        );
+      });
+    },
+  };
+};

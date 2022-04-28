@@ -1,1 +1,0 @@
-export const SELECT_TABLE = "SELECT_TABLE";
