@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom';
+import React from 'react';
 import ReactTestUtils, { act } from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
 import { storeSpy } from 'expect-redux';
@@ -37,15 +38,13 @@ export const createContainer = () => {
     change: simulateEvent('change'),
     submit: simulateEventAndWait('submit'),
     field,
+    form,
   };
 };
 
-export const withEvent = (name, value) => ({
-  target: { name, value },
-});
-
 export const createContainerWithStore = () => {
   const store = configureStore([storeSpy]);
+
   const container = createContainer();
   return {
     ...container,
@@ -60,3 +59,7 @@ export const createContainerWithStore = () => {
     },
   };
 };
+
+export const withEvent = (name, value) => ({
+  target: { name, value },
+});

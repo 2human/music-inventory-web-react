@@ -32,10 +32,9 @@ const searchResults = {
 };
 
 describe('search', () => {
-  let store, fetchSpy;
+  let store;
 
   beforeEach(() => {
-    fetchSpy = jest.fn();
     jest
       .spyOn(window, 'fetch')
       .mockReturnValue(fetchResponseOk(searchResults));
@@ -64,7 +63,7 @@ describe('search', () => {
 
   it('dispatches SEARCH_SUCCESSFUL on success', () => {
     dispatchRequest(formInputs);
-    expectRedux(store)
+    return expectRedux(store)
       .toDispatchAnAction()
       .matching({ type: SEARCH_SUCCESSFUL, searchResults });
   });

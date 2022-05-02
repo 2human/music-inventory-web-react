@@ -4,12 +4,13 @@ import { SearchForm } from './SearchForm/SearchForm';
 import { advancedSearchFields } from './SearchForm/form-fields/advancedSearch';
 import { tableSelectFields } from './SearchForm/form-fields/tableSelect';
 import { basicSearchFields } from './SearchForm/form-fields/basicSearch';
+import { ConnectedSearchForm } from './SearchForm/ConnectedSearchForm';
 
 function App() {
   return (
     <div className="App">
       <Navigation />
-      <SearchForm
+      <ConnectedSearchForm
         basicSearchFields={basicSearchFields}
         tableSelectFields={tableSelectFields}
         advancedSearchFields={advancedSearchFields}

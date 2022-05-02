@@ -1,3 +1,8 @@
+import React from 'react';
+import { Provider } from 'react-redux';
+import { storeSpy } from 'expect-redux';
+import { configureStore } from '../store';
+import { act } from 'react-dom/test-utils';
 import ShallowRenderer from 'react-test-renderer/shallow';
 
 export const id = (id) => (element) =>
@@ -47,5 +52,25 @@ export const createShallowRenderer = () => {
     elementsMatching: (matcherFn) =>
       elementsMatching(renderer.getRenderOutput(), matcherFn),
     child: (n) => childrenOf(renderer.getRenderOutput())[n],
+  };
+};
+
+export const createShallowRendererWithStore = () => {
+  const store = configureStore([storeSpy]);
+  let renderer = new ShallowRenderer();
+  return {
+    elementWithStoreMatching: (matcherFn) =>
+      elementsMatching(renderer.getRenderOutput(), matcherFn)[0],
+    elementsWithStoreMatching: (matcherFn) =>
+      elementsMatching(renderer.getRenderOutput(), matcherFn),
+    child: (n) => childrenOf(renderer.getRenderOutput())[n],
+    store,
+    shallowRenderWithStore: (component) => {
+      act(() => {
+        renderer.render(
+          <Provider store={store}>{component}</Provider>
+        );
+      });
+    },
   };
 };

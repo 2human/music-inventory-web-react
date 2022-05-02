@@ -16,7 +16,7 @@ import {
   tableSelectFields,
 } from './testFieldData';
 
-describe.only('SearchForm', () => {
+describe('SearchForm', () => {
   //full render variables
   let render,
     element,
@@ -25,12 +25,11 @@ describe.only('SearchForm', () => {
     inputsOfType,
     change,
     click,
-    field;
+    field,
+    form;
 
   //shallow render variables
   let shallowRender, elementMatching;
-
-  const form = (id) => element(`form[id="${id}"]`);
   const searchParam = (name, value) => `${name}=${value}`;
   const fieldWithName = (fieldName) =>
     searchParam('field', fieldName);
@@ -63,6 +62,7 @@ describe.only('SearchForm', () => {
       change,
       click,
       field,
+      form,
     } = createContainer());
     ({ shallowRender, elementMatching } = createShallowRenderer());
     jest.spyOn(window, 'fetch').mockReturnValue(fetchResponseOk({}));
