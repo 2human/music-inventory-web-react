@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import { TableSelectRadios } from './TableSelectRadios/TableSelectRadios';
 import { BasicSearchCheckboxes } from './BasicSearchCheckboxes/BasicSearchCheckboxes';
 import { AdvancedSearchInputs } from './AdvancedSearchInputs/AdvancedSearchInputs';
@@ -8,7 +7,7 @@ import {
   wasAlreadySelected,
 } from './searchFormHelpers';
 import { blankAdvancedInputs } from './searchFormHelpers';
-import { SEARCH_REQUEST } from '../../store/actions/actionTypes';
+import { requestURLObjectFrom } from '../../store/sagas/searchHelpers';
 
 export const SearchForm = ({
   basicSearchFields,
@@ -31,23 +30,7 @@ export const SearchForm = ({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    searchRequest({
-      searchText: '',
-      table: 'table',
-      basicSearchSelection: ['basicSearch'],
-      advancedSearchInputs: {
-        field1: 'field1text',
-        field2: 'field2text',
-      },
-      advancedSearchOn: false,
-    });
-    const result = await window.fetch(
-      requestURLObject(formInputs).href
-    );
-    if (result.ok) {
-      const searchResults = await result.json();
-    }
-    console.log('submitted');
+    searchRequest(formInputs);
   };
 
   const handleKeywordInput = ({ target }) => {
@@ -273,7 +256,5 @@ SearchForm.defaultProps = {
     },
   },
   initialTable: 'table1default',
-  searchRequest: () => {
-    console.log('not passed');
-  },
+  searchRequest: () => {},
 };

@@ -3,27 +3,32 @@ import React from 'react';
 import 'whatwg-fetch';
 import { ConnectedSearchForm } from '../../components/SearchForm/ConnectedSearchForm';
 import { SEARCH_REQUEST } from '../../store/actions/actionTypes';
-import { createContainerWithStore } from '../domManipulators';
-import { fetchResponseOk } from '../spyHelpers';
+import {
+  createContainerWithStore,
+  withEvent,
+} from '../domManipulators';
+import {
+  fetchResponseOk,
+  requestURLOf,
+  urlSearchParam,
+} from '../spyHelpers';
 import {
   advancedFields,
   basicFields,
+  replicateFormInputs,
   tableSelectFields,
 } from './testFieldData';
 
 describe('ConnectedSearchForm', () => {
-  let renderWithStore, submit, form, store;
-
-  const formInputs = {
-    searchText: '',
-    table: 'table',
-    basicSearchSelection: ['basicSearch'],
-    advancedSearchInputs: {
-      field1: 'field1text',
-      field2: 'field2text',
-    },
-    advancedSearchOn: false,
-  };
+  let renderWithStore,
+    submit,
+    form,
+    store,
+    click,
+    element,
+    elements,
+    change,
+    field;
 
   const searchResults = {
     field1: 'field1value',
@@ -31,8 +36,19 @@ describe('ConnectedSearchForm', () => {
   };
 
   beforeEach(() => {
-    ({ renderWithStore, submit, form, store } =
-      createContainerWithStore());
+    ({
+      renderWithStore,
+      submit,
+      form,
+      store,
+      click,
+      element,
+      elements,
+      submit,
+      form,
+      change,
+      field,
+    } = createContainerWithStore());
     jest
       .spyOn(window, 'fetch')
       .mockReturnValue(fetchResponseOk({ searchResults }));
@@ -48,12 +64,21 @@ describe('ConnectedSearchForm', () => {
   });
 
   it('dispatches SEARCH_REQUEST when submitting search', async () => {
-    renderWithStore(<ConnectedSearchForm />);
-    console.log('submitting');
+    const initialTable = tableSelectFields[0].value;
+    renderWithStore(
+      <ConnectedSearchForm
+        basicSearchFields={basicFields}
+        advancedSearchFields={advancedFields}
+        tableSelectFields={tableSelectFields}
+        initialTable={initialTable}
+      />
+    );
     await submit(form('searchForm'));
-    return expectRedux(store).toDispatchAnAction().matching({
-      type: SEARCH_REQUEST,
-      formInputs: formInputs,
-    });
+    return expectRedux(store)
+      .toDispatchAnAction()
+      .matching({
+        type: SEARCH_REQUEST,
+        formInputs: replicateFormInputs(initialTable, advancedFields),
+      });
   });
 });

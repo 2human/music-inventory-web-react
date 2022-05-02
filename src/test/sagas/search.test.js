@@ -11,7 +11,7 @@ import {
   SEARCH_SUBMITTING,
   SEARCH_SUCCESSFUL,
 } from '../../store/actions/actionTypes';
-import { reducer, search } from '../../store/sagas/search';
+import { reducer } from '../../store/sagas/search';
 import { requestURLObjectFrom } from '../../store/sagas/searchHelpers';
 import { fetchResponseError, fetchResponseOk } from '../spyHelpers';
 

@@ -6,7 +6,7 @@ import {
   AdvancedSearchToggle,
   SearchForm,
 } from '../../components/SearchForm/SearchForm';
-import { fetchResponseOk, requestURLOf } from '../spyHelpers';
+import { fetchResponseOk } from '../spyHelpers';
 import { TableSelectRadios } from '../../components/SearchForm/TableSelectRadios/TableSelectRadios';
 import { BasicSearchCheckboxes } from '../../components/SearchForm/BasicSearchCheckboxes/BasicSearchCheckboxes';
 import { AdvancedSearchInputs } from '../../components/SearchForm/AdvancedSearchInputs/AdvancedSearchInputs';
@@ -28,13 +28,13 @@ describe('SearchForm', () => {
     field,
     form;
 
+  let searchSpy;
+
   //shallow render variables
   let shallowRender, elementMatching;
-  const searchParam = (name, value) => `${name}=${value}`;
-  const fieldWithName = (fieldName) =>
-    searchParam('field', fieldName);
-  const tableWithName = (tableName) =>
-    searchParam('table', tableName);
+
+  const searchRequestParam = (searchSpy) =>
+    searchSpy.mock.calls[0][0];
 
   const selectTable = (table) => {
     const event = {
@@ -65,11 +65,7 @@ describe('SearchForm', () => {
       form,
     } = createContainer());
     ({ shallowRender, elementMatching } = createShallowRenderer());
-    jest.spyOn(window, 'fetch').mockReturnValue(fetchResponseOk({}));
-  });
-
-  afterEach(() => {
-    window.fetch.mockRestore();
+    searchSpy = jest.fn();
   });
 
   it('renders the #searchForm div', () => {
@@ -152,47 +148,6 @@ describe('SearchForm', () => {
     expect(checkboxes[0].checked).toEqual(false);
   });
 
-  it('includes a single field in the fetch request when field a single is checked', async () => {
-    render(<SearchForm />);
-    const checkboxes = inputsOfType('checkbox');
-    change(checkboxes[0]);
-    await submit(form('searchForm'));
-    const fetchURL = requestURLOf(window.fetch);
-    expect(fetchURL).toContain(fieldWithName(checkboxes[0].value));
-  });
-
-  it('includes a multiple fields in the fetch request when checked', async () => {
-    render(<SearchForm />);
-    const checkboxes = inputsOfType('checkbox');
-    change(checkboxes[0]);
-    change(checkboxes[1]);
-    await submit(form('searchForm'));
-    const fetchURL = requestURLOf(window.fetch);
-    expect(fetchURL).toContain(fieldWithName(checkboxes[0].value));
-    expect(fetchURL).toContain(fieldWithName(checkboxes[1].value));
-  });
-
-  it('includes the selected table in the fetch request', async () => {
-    render(<SearchForm />);
-    const radioBtns = inputsOfType('radio');
-    change(radioBtns[0]);
-    await submit(form('searchForm'));
-    const fetchURL = requestURLOf(window.fetch);
-    expect(fetchURL).toContain(tableWithName(radioBtns[0].value));
-  });
-
-  it('includes the keyword search text in the fetch request', async () => {
-    const inputText = 'keywordtext123';
-    render(<SearchForm />);
-    change(
-      element('#keywordInput'),
-      withEvent('searchText', inputText)
-    );
-    await submit(form('searchForm'));
-    const fetchURL = requestURLOf(window.fetch);
-    expect(fetchURL).toContain(searchParam('searchText', inputText));
-  });
-
   it('renders the advanced search toggle element', () => {
     render(<SearchForm />);
     expect(element('#advancedSearchToggle')).not.toBeNull();
@@ -268,61 +223,135 @@ describe('SearchForm', () => {
     expect(element('#basicSearchCheckboxes')).not.toBeNull();
   });
 
-  it('does not include basic search params in fetch request when advanced search is on', async () => {
-    render(<SearchForm />);
-    const checkboxes = inputsOfType('checkbox');
-    change(checkboxes[0]);
-    click(element('#advancedSearchToggle'));
-    await submit(form('searchForm'));
-    const fetchURL = requestURLOf(window.fetch);
-    expect(fetchURL).not.toContain(
-      fieldWithName(checkboxes[0].value)
-    );
-  });
+  describe('searchParams', () => {
+    it('is passed a single checkbox field when it is checked', async () => {
+      render(
+        <SearchForm
+          basicSearchFields={basicFields}
+          advancedSearchFields={advancedFields}
+          tableSelectFields={tableSelectFields}
+          initialTable={tableSelectFields[0].value}
+          searchRequest={searchSpy}
+        />
+      );
+      const checkboxes = inputsOfType('checkbox');
+      change(checkboxes[0]);
+      await submit(form('searchForm'));
+      expect(
+        searchRequestParam(searchSpy).basicSearchSelection
+      ).toEqual([checkboxes[0].value]);
+    });
 
-  it('includes the advanced search field params in fetch request when advanced search is on', async () => {
-    render(<SearchForm />);
-    click(element('#advancedSearchToggle'));
-    const advancedInputs = elements(
-      '#advancedSearchTextInputs input'
-    );
-    await submit(form('searchForm'));
-    const fetchURL = requestURLOf(window.fetch);
-    expect(fetchURL).toContain(
-      searchParam(advancedInputs[0].name, '')
-    );
-    expect(fetchURL).toContain(
-      searchParam(advancedInputs[1].name, '')
-    );
-  });
+    it('is passed multiple fields when multiple fields are checked', async () => {
+      render(
+        <SearchForm
+          basicSearchFields={basicFields}
+          advancedSearchFields={advancedFields}
+          tableSelectFields={tableSelectFields}
+          initialTable={tableSelectFields[0].value}
+          searchRequest={searchSpy}
+        />
+      );
+      const checkboxes = inputsOfType('checkbox');
+      change(checkboxes[0]);
+      change(checkboxes[1]);
+      await submit(form('searchForm'));
+      expect(
+        searchRequestParam(searchSpy).basicSearchSelection
+      ).toEqual([checkboxes[0].value, checkboxes[1].value]);
+    });
 
-  it('includes advanced search input text in fetch request', async () => {
-    render(
-      <SearchForm
-        advancedSearchFields={advancedFields}
-        initialTable={tableSelectFields[0].value}
-      />
-    );
-    click(element('#advancedSearchToggle'));
-    const advancedInputs = elements(
-      '#advancedSearchTextInputs input'
-    );
-    change(
-      field('searchForm', advancedInputs[0].name),
-      withEvent(advancedInputs[0].name, 'inputvalue1')
-    );
-    change(
-      field('searchForm', advancedInputs[1].name),
-      withEvent(advancedInputs[1].name, 'inputvalue2')
-    );
-    await submit(form('searchForm'));
-    const fetchURL = requestURLOf(window.fetch);
-    expect(fetchURL).toContain(
-      searchParam(advancedInputs[0].name, 'inputvalue1')
-    );
-    expect(fetchURL).toContain(
-      searchParam(advancedInputs[1].name, 'inputvalue2')
-    );
+    it('is passed the selected table', async () => {
+      render(
+        <SearchForm
+          basicSearchFields={basicFields}
+          advancedSearchFields={advancedFields}
+          tableSelectFields={tableSelectFields}
+          initialTable={tableSelectFields[0].value}
+          searchRequest={searchSpy}
+        />
+      );
+      const radioBtns = inputsOfType('radio');
+      change(radioBtns[0]);
+      await submit(form('searchForm'));
+      expect(searchRequestParam(searchSpy).table).toEqual(
+        radioBtns[0].value
+      );
+    });
+
+    it('is passed keyword input search text', async () => {
+      const searchText = 'keywordtext123';
+      render(
+        <SearchForm
+          basicSearchFields={basicFields}
+          advancedSearchFields={advancedFields}
+          tableSelectFields={tableSelectFields}
+          initialTable={tableSelectFields[0].value}
+          searchRequest={searchSpy}
+        />
+      );
+      change(
+        element('#keywordInput'),
+        withEvent('searchText', searchText)
+      );
+      await submit(form('searchForm'));
+      expect(searchRequestParam(searchSpy).searchText).toEqual(
+        searchText
+      );
+    });
+
+    it('is passed advancedSearchOn: true when advanced search is toggled on', async () => {
+      render(<SearchForm searchRequest={searchSpy} />);
+      const checkboxes = inputsOfType('checkbox');
+      change(checkboxes[0]);
+      click(element('#advancedSearchToggle'));
+      await submit(form('searchForm'));
+      expect(searchRequestParam(searchSpy).advancedSearchOn).toEqual(
+        true
+      );
+    });
+
+    // it('includes the advanced search field params in fetch request when advanced search is on', async () => {
+    //   render(<SearchForm />);
+    //   click(element('#advancedSearchToggle'));
+    //   const advancedInputs = elements(
+    //     '#advancedSearchTextInputs input'
+    //   );
+    //   await submit(form('searchForm'));
+    //   const fetchURL = requestURLOf(window.fetch);
+    //   expect(fetchURL).toContain(
+    //     urlSearchParam(advancedInputs[0].name, '')
+    //   );
+    //   expect(fetchURL).toContain(
+    //     urlSearchParam(advancedInputs[1].name, '')
+    //   );
+    // });
+
+    it('is passed advanced search input text', async () => {
+      render(
+        <SearchForm
+          advancedSearchFields={advancedFields}
+          initialTable={tableSelectFields[0].value}
+          searchRequest={searchSpy}
+        />
+      );
+      click(element('#advancedSearchToggle'));
+      const advancedInputs = elements(
+        '#advancedSearchTextInputs input'
+      );
+      const fieldChanged = advancedInputs[0].name;
+      const inputValue = 'inputvalue';
+      change(
+        field('searchForm', fieldChanged),
+        withEvent(fieldChanged, inputValue)
+      );
+      await submit(form('searchForm'));
+      expect(
+        searchRequestParam(searchSpy).advancedSearchInputs[
+          fieldChanged
+        ]
+      ).toEqual(inputValue);
+    });
   });
 
   //CHANGING TABLES

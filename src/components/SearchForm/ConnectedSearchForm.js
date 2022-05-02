@@ -6,13 +6,10 @@ const mapStateToProps = (_, ownProps) => ({
   ...ownProps,
 });
 const mapDispatchToProps = {
-  searchRequest: (formInputs) => {
-    console.log(formInputs);
-    return {
-      type: SEARCH_REQUEST,
-      formInputs,
-    };
-  },
+  searchRequest: (formInputs) => ({
+    type: SEARCH_REQUEST,
+    formInputs,
+  }),
 };
 
 export const ConnectedSearchForm = connect(

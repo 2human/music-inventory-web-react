@@ -1,3 +1,5 @@
+import { blankAdvancedInputs } from '../../components/SearchForm/searchFormHelpers';
+
 export const advancedFields = {
   table1: {
     rows: [
@@ -80,3 +82,15 @@ export const basicFields = {
     },
   ],
 };
+
+//creates object with same format as formInputs
+//  state object in SearchForm component from field objects
+export const replicateFormInputs = (table, advancedFields) => ({
+  searchText: '',
+  table: table,
+  basicSearchSelection: [],
+  advancedSearchInputs: {
+    ...blankAdvancedInputs(advancedFields[table].rows),
+  },
+  advancedSearchOn: false,
+});
