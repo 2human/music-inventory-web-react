@@ -6,7 +6,6 @@ import {
   AdvancedSearchToggle,
   SearchForm,
 } from '../../components/SearchForm/SearchForm';
-import { fetchResponseOk } from '../spyHelpers';
 import { TableSelectRadios } from '../../components/SearchForm/TableSelectRadios/TableSelectRadios';
 import { BasicSearchCheckboxes } from '../../components/SearchForm/BasicSearchCheckboxes/BasicSearchCheckboxes';
 import { AdvancedSearchInputs } from '../../components/SearchForm/AdvancedSearchInputs/AdvancedSearchInputs';
@@ -32,6 +31,13 @@ describe('SearchForm', () => {
 
   //shallow render variables
   let shallowRender, elementMatching;
+
+  const dataProps = {
+    basicSearchFields: basicFields,
+    advancedSearchFields: advancedFields,
+    tableSelectFields: tableSelectFields,
+    initialTable: tableSelectFields[0].value,
+  };
 
   const searchRequestParam = (searchSpy) =>
     searchSpy.mock.calls[0][0];
@@ -310,22 +316,6 @@ describe('SearchForm', () => {
         true
       );
     });
-
-    // it('includes the advanced search field params in fetch request when advanced search is on', async () => {
-    //   render(<SearchForm />);
-    //   click(element('#advancedSearchToggle'));
-    //   const advancedInputs = elements(
-    //     '#advancedSearchTextInputs input'
-    //   );
-    //   await submit(form('searchForm'));
-    //   const fetchURL = requestURLOf(window.fetch);
-    //   expect(fetchURL).toContain(
-    //     urlSearchParam(advancedInputs[0].name, '')
-    //   );
-    //   expect(fetchURL).toContain(
-    //     urlSearchParam(advancedInputs[1].name, '')
-    //   );
-    // });
 
     it('is passed advanced search input text', async () => {
       render(

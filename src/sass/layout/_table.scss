@@ -1,129 +1,129 @@
 .table {
-	font-size: 1.1rem;
-	white-space: pre-line; 
-	width: 100%;
-    min-width: 150rem;
-	border-collapse: collapse;
-	border-top: .1px solid black;
-	word-break: break-word;    
-	border-bottom: .5px solid rgb(219, 219, 219);
+  font-size: 1.1rem;
+  white-space: pre-line;
+  width: 100%;
+  min-width: 150rem;
+  border-collapse: collapse;
+  border-top: 0.1px solid black;
+  word-break: break-word;
+  border-bottom: 0.5px solid rgb(219, 219, 219);
 
-    &--single-view {
-        min-width: 0;
-        width: 100%;
-        border-top: 1px solid #dbdbdb;
-    }
+  &--single-view {
+    min-width: 0;
+    width: 100%;
+    border-top: 1px solid #dbdbdb;
+  }
 
-    &__header {
-        text-align: left;	
-        border-bottom: .1px solid black;
-        height:2em;
-    }
+  &__header {
+    text-align: left;
+    border-bottom: 0.1px solid black;
+    height: 2em;
+  }
 
-    &__data {
-        position: relative;
-        vertical-align: top;
-        padding: .25em;
-        border-left: 1px solid rgb(219, 219, 219);
-        &:nth-child(1){	
-            border-left: none;
-        }
+  &__data {
+    position: relative;
+    vertical-align: top;
+    padding: 0.25em;
+    border-left: 1px solid rgb(219, 219, 219);
+    &:nth-child(1) {
+      border-left: none;
     }
+  }
 
-    &__row:nth-child(even) {
-        background-color: #EBEBEB;  //make every other row white
-    }
+  &__row:nth-child(even) {
+    background-color: #ebebeb; //make every other row white
+  }
 
-    &__entry-cell--is-secular {        
-        text-align: center;
-        vertical-align: middle;
-    }
+  &__entry-cell--is-secular {
+    text-align: center;
+    vertical-align: middle;
+  }
 
-    //Entry columns
+  //Entry columns
 
-    &__entry-column--expand{
-        width:1.5%;
-    }
-    &__entry-column--collection {
-        width:10%;        
-    }
-    &__entry-column--source-number {
-        width:4%;
-    }    
-    &__entry-column--location {
-        width:8%;
-    }
-    &entry-column--title {
-        width:8%;
-    }
-    &__entry-column--composer{
-        width:8%;
-    }
-    &__entry-column--vocal-part{
-        width: 9%;
-    }
-    &__entry-column--key{
-        width:6%;	
-    }
-    &__entry-column--melodic-incipit{
-        width:14.75%;	
-    }
-    &__entry-column--text-incipit{
-        width:14.75%;	        
-    }
-    &__entry-column--is-secular{
-        width:5%;	
-    }
-    &__entry-column--notes{
-        width:11%;
-    }
+  &__entries-column--expand {
+    width: 1.5%;
+  }
+  &__entries-column--collection {
+    width: 10%;
+  }
+  &__entries-column--source-number {
+    width: 4%;
+  }
+  &__entries-column--location {
+    width: 8%;
+  }
+  &entries-column--title {
+    width: 8%;
+  }
+  &__entries-column--composer {
+    width: 8%;
+  }
+  &__entries-column--vocal-part {
+    width: 9%;
+  }
+  &__entries-column--key {
+    width: 6%;
+  }
+  &__entries-column--melodic-incipit {
+    width: 14.75%;
+  }
+  &__entries-column--text-incipit {
+    width: 14.75%;
+  }
+  &__entries-column--is-secular {
+    width: 5%;
+  }
+  &__entries-column--notes {
+    width: 11%;
+  }
 
-    //Source Columns
+  //Source Columns
 
-    &__source-column--expand{
-        width:1.5%;
-    }
-    &__source-column--collection{
-        width:9%;
-    }
-    &__source-column--source-number{
-        width:4%; 
-    }
-    &__source-column--call-number{
-        width:8.5%;
-    }
-    &__source-column--author{
-        width:8.5%;
-    }
-    &__source-column--title{
-        width:9%;
-    }
-    &__source-column--inscriptions{
-        width:29.5%;
-    }
-    &__source-column--description{
-        width:30%;	
-    }
+  &__sources-column--expand {
+    width: 1.5%;
+  }
+  &__sources-column--collection {
+    width: 9%;
+  }
+  &__sources-column--source-number {
+    width: 4%;
+  }
+  &__sources-column--call-number {
+    width: 8.5%;
+  }
+  &__sources-column--author {
+    width: 8.5%;
+  }
+  &__sources-column--title {
+    width: 9%;
+  }
+  &__sources-column--inscriptions {
+    width: 29.5%;
+  }
+  &__sources-column--description {
+    width: 30%;
+  }
 
-    //Collection Columns
+  //Collection Columns
 
-    &__collection-column--expand {
-        width:1.5%;
-    }
-    &__collection-column--collection {
-        width:10%;
-    }
-    &__collection-column--description {
-        width:88.5%;
-    }
+  &__collections-column--expand {
+    width: 1.5%;
+  }
+  &__collections-column--collection {
+    width: 10%;
+  }
+  &__collections-column--description {
+    width: 88.5%;
+  }
 
-    //Single-View Columns
+  //Single-View Columns
 
-    &__single-view-column--label {
-        width: 12%;
-    }
+  &__single-view-column--label {
+    width: 12%;
+  }
 
-    &__single-view-column--data {
-        width: 88%;
-    }
+  &__single-view-column--data {
+    width: 88%;
+  }
 }

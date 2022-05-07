@@ -85,12 +85,14 @@ export const basicFields = {
 
 //creates object with same format as formInputs
 //  state object in SearchForm component from field objects
-export const replicateFormInputs = (table, advancedFields) => ({
+export const replicateFormInputs = (dataProps) => ({
   searchText: '',
-  table: table,
+  table: dataProps.initialTable,
   basicSearchSelection: [],
   advancedSearchInputs: {
-    ...blankAdvancedInputs(advancedFields[table].rows),
+    ...blankAdvancedInputs(
+      dataProps.advancedSearchFields[dataProps.initialTable].rows
+    ),
   },
   advancedSearchOn: false,
 });

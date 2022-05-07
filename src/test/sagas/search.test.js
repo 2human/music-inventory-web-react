@@ -1,9 +1,5 @@
 import { storeSpy, expectRedux } from 'expect-redux';
 import { configureStore } from '../../store';
-import {
-  itMaintainsExistingState,
-  itSetsStatus,
-} from '../reducerGenerators';
 import 'whatwg-fetch';
 import {
   SEARCH_FAILED,
@@ -11,7 +7,6 @@ import {
   SEARCH_SUBMITTING,
   SEARCH_SUCCESSFUL,
 } from '../../store/actions/actionTypes';
-import { reducer } from '../../store/sagas/search';
 import { requestURLObjectFrom } from '../../store/sagas/searchHelpers';
 import { fetchResponseError, fetchResponseOk } from '../spyHelpers';
 
@@ -74,38 +69,5 @@ describe('search', () => {
     return expectRedux(store)
       .toDispatchAnAction()
       .matching({ type: SEARCH_FAILED });
-  });
-});
-
-describe('reducer', () => {
-  it('returns a default state for an undefined existing state', () => {
-    expect(reducer(undefined, {})).toEqual({
-      formInputs: {},
-      status: undefined,
-      error: false,
-    });
-  });
-
-  describe('SEARCH_SUBMITTING action', () => {
-    const action = { type: SEARCH_SUBMITTING };
-
-    itSetsStatus(reducer, action, 'SUBMITTING');
-    itMaintainsExistingState(reducer, action);
-  });
-
-  describe('SEARCH_SUCCESSFUL action', () => {
-    const action = {
-      type: SEARCH_SUCCESSFUL,
-      searchResults,
-    };
-
-    itSetsStatus(reducer, action, 'SUCCESSFUL');
-    itMaintainsExistingState(reducer, action);
-
-    it('sets searchResults to search results received', () => {
-      expect(reducer(undefined, action)).toMatchObject({
-        searchResults,
-      });
-    });
   });
 });

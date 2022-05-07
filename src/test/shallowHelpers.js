@@ -42,6 +42,9 @@ const elementsMatching = (element, matcherFn) => {
   );
 };
 
+const connectedChildOf = (connector) =>
+  connector.props.children.type.WrappedComponent;
+
 export const createShallowRenderer = () => {
   let renderer = new ShallowRenderer();
 
@@ -55,17 +58,14 @@ export const createShallowRenderer = () => {
   };
 };
 
-export const createShallowRendererWithStore = () => {
+export const createConnectorShallowRenderer = () => {
   const store = configureStore([storeSpy]);
   let renderer = new ShallowRenderer();
   return {
-    elementWithStoreMatching: (matcherFn) =>
-      elementsMatching(renderer.getRenderOutput(), matcherFn)[0],
-    elementsWithStoreMatching: (matcherFn) =>
-      elementsMatching(renderer.getRenderOutput(), matcherFn),
-    child: (n) => childrenOf(renderer.getRenderOutput())[n],
-    store,
-    shallowRenderWithStore: (component) => {
+    connectorComponent: () => renderer.getRenderOutput(),
+    connectedChild: () =>
+      connectedChildOf(renderer.getRenderOutput()),
+    shallowRenderConnector: (component) => {
       act(() => {
         renderer.render(
           <Provider store={store}>{component}</Provider>

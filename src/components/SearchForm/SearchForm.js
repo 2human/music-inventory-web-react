@@ -2,12 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { TableSelectRadios } from './TableSelectRadios/TableSelectRadios';
 import { BasicSearchCheckboxes } from './BasicSearchCheckboxes/BasicSearchCheckboxes';
 import { AdvancedSearchInputs } from './AdvancedSearchInputs/AdvancedSearchInputs';
-import {
-  requestURLObject,
-  wasAlreadySelected,
-} from './searchFormHelpers';
+import { wasAlreadySelected } from './searchFormHelpers';
 import { blankAdvancedInputs } from './searchFormHelpers';
-import { requestURLObjectFrom } from '../../store/sagas/searchHelpers';
 
 export const SearchForm = ({
   basicSearchFields,

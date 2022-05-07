@@ -7,7 +7,8 @@ import {
 import createSagaMiddleware from 'redux-saga';
 import { takeLatest } from 'redux-saga/effects';
 import { SEARCH_REQUEST } from './actions/actionTypes';
-import { search, reducer as searchReducer } from './sagas/search';
+import { searchReducer } from './reducers/searchReducer';
+import { search } from './sagas/search';
 
 function* rootSaga() {
   yield takeLatest(SEARCH_REQUEST, search);

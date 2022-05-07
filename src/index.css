@@ -285,11 +285,11 @@ body {
     position: absolute;
     transform: translateY(-1.8rem); }
 
-.btn-magnify {
+.btn-expand {
   height: 2rem;
   width: 2rem;
   cursor: pointer;
-  margin-top: -1rem; }
+  margin-top: 0.4rem; }
 
 /* The Close Button */
 .close {
@@ -547,7 +547,7 @@ body {
   width: 100%;
   min-width: 150rem;
   border-collapse: collapse;
-  border-top: .1px solid black;
+  border-top: 0.1px solid black;
   word-break: break-word;
   border-bottom: 0.5px solid #dbdbdb; }
   .table--single-view {
@@ -556,65 +556,65 @@ body {
     border-top: 1px solid #dbdbdb; }
   .table__header {
     text-align: left;
-    border-bottom: .1px solid black;
+    border-bottom: 0.1px solid black;
     height: 2em; }
   .table__data {
     position: relative;
     vertical-align: top;
-    padding: .25em;
+    padding: 0.25em;
     border-left: 1px solid #dbdbdb; }
     .table__data:nth-child(1) {
       border-left: none; }
   .table__row:nth-child(even) {
-    background-color: #EBEBEB; }
+    background-color: #ebebeb; }
   .table__entry-cell--is-secular {
     text-align: center;
     vertical-align: middle; }
-  .table__entry-column--expand {
+  .table__entries-column--expand {
     width: 1.5%; }
-  .table__entry-column--collection {
+  .table__entries-column--collection {
     width: 10%; }
-  .table__entry-column--source-number {
+  .table__entries-column--source-number {
     width: 4%; }
-  .table__entry-column--location {
+  .table__entries-column--location {
     width: 8%; }
-  .tableentry-column--title {
+  .tableentries-column--title {
     width: 8%; }
-  .table__entry-column--composer {
+  .table__entries-column--composer {
     width: 8%; }
-  .table__entry-column--vocal-part {
+  .table__entries-column--vocal-part {
     width: 9%; }
-  .table__entry-column--key {
+  .table__entries-column--key {
     width: 6%; }
-  .table__entry-column--melodic-incipit {
+  .table__entries-column--melodic-incipit {
     width: 14.75%; }
-  .table__entry-column--text-incipit {
+  .table__entries-column--text-incipit {
     width: 14.75%; }
-  .table__entry-column--is-secular {
+  .table__entries-column--is-secular {
     width: 5%; }
-  .table__entry-column--notes {
+  .table__entries-column--notes {
     width: 11%; }
-  .table__source-column--expand {
+  .table__sources-column--expand {
     width: 1.5%; }
-  .table__source-column--collection {
+  .table__sources-column--collection {
     width: 9%; }
-  .table__source-column--source-number {
+  .table__sources-column--source-number {
     width: 4%; }
-  .table__source-column--call-number {
+  .table__sources-column--call-number {
     width: 8.5%; }
-  .table__source-column--author {
+  .table__sources-column--author {
     width: 8.5%; }
-  .table__source-column--title {
+  .table__sources-column--title {
     width: 9%; }
-  .table__source-column--inscriptions {
+  .table__sources-column--inscriptions {
     width: 29.5%; }
-  .table__source-column--description {
+  .table__sources-column--description {
     width: 30%; }
-  .table__collection-column--expand {
+  .table__collections-column--expand {
     width: 1.5%; }
-  .table__collection-column--collection {
+  .table__collections-column--collection {
     width: 10%; }
-  .table__collection-column--description {
+  .table__collections-column--description {
     width: 88.5%; }
   .table__single-view-column--label {
     width: 12%; }
@@ -715,6 +715,9 @@ body {
   @media only screen and (max-width: 28.125em) {
     .search-properties {
       padding: 0 .5%; } }
+
+.search-results {
+  overflow-x: auto; }
 
 .edit-form__btn-group {
   margin: 1rem 0;

@@ -35,6 +35,7 @@ export const createContainer = () => {
     element,
     elements,
     click: simulateEvent('click'),
+    dblClick: simulateEvent('doubleClick'),
     change: simulateEvent('change'),
     submit: simulateEventAndWait('submit'),
     field,
