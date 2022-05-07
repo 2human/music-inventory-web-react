@@ -1,7 +1,7 @@
 import {
   itMaintainsExistingState,
   itSetsStatus,
-} from '../reducerGenerators';
+} from '../reducerHelpers';
 import {
   SEARCH_SUBMITTING,
   SEARCH_SUCCESSFUL,
@@ -25,8 +25,8 @@ describe('searchReducer', () => {
   describe('SEARCH_SUBMITTING action', () => {
     const action = { type: SEARCH_SUBMITTING };
 
-    itSetsStatus(searchReducer, action, 'SUBMITTING');
     itMaintainsExistingState(searchReducer, action);
+    itSetsStatus(searchReducer, action, 'SUBMITTING');
   });
 
   describe('SEARCH_SUCCESSFUL action', () => {
@@ -35,8 +35,8 @@ describe('searchReducer', () => {
       searchResults,
     };
 
-    itSetsStatus(searchReducer, action, 'SUCCESSFUL');
     itMaintainsExistingState(searchReducer, action);
+    itSetsStatus(searchReducer, action, 'SUCCESSFUL');
 
     it('sets searchResults to search results received', () => {
       expect(searchReducer(undefined, action)).toMatchObject({
