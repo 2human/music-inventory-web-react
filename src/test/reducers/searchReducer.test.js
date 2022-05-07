@@ -3,8 +3,6 @@ import {
   itSetsStatus,
 } from '../reducerGenerators';
 import {
-  SEARCH_FAILED,
-  SEARCH_REQUEST,
   SEARCH_SUBMITTING,
   SEARCH_SUCCESSFUL,
 } from '../../store/actions/actionTypes';
