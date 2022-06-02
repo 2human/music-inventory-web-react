@@ -1,6 +1,6 @@
 import React from 'react';
 import { ResultTable } from '../../components/SearchResults/ResultTable/ResultTable';
-import { SearchResults } from '../../components/SearchResults/SearchResults';
+import { resultSegment } from '../../components/SearchResults/ResultTable/resultTableHelpers';
 import { createContainer } from '../domManipulators';
 
 describe('ResultTable', () => {
@@ -128,9 +128,7 @@ describe('ResultTable', () => {
       const headerTextLinks = elements('thead tr#tableHeaders th a');
       click(headerTextLinks[0]);
 
-      expect(headerClickSpy).toHaveBeenCalledWith(
-        columnData[columnNames[0]].label
-      );
+      expect(headerClickSpy).toHaveBeenCalledWith(columnNames[0]);
     });
 
     it('adds a downward arrow next to the header text when sorting by that column in ascending order', () => {
@@ -362,6 +360,56 @@ describe('ResultTable', () => {
       dblClick(rowCells[0]);
 
       expect(dblClickSpy).toHaveBeenCalledWith(999, 'col1');
+    });
+  });
+});
+
+describe('resultTableHelpers', () => {
+  const resultsPerPage = 5;
+
+  //create 5 pages worth of results, where the last page is not full
+  const pages = 5;
+  const resultQuantity = resultsPerPage * pages - 3;
+  const results = new Array(resultQuantity);
+  results.fill(0);
+  results.forEach((_, index) => (results[index] = index));
+
+  const lastResult = (segment) => segment[segment.length - 1];
+
+  describe('resultSegment', () => {
+    it('returns the right results when viewing first page of multiple pages', () => {
+      const pageNumber = 1;
+      let segment = resultSegment(
+        results,
+        resultsPerPage,
+        pageNumber
+      );
+
+      expect(segment[0]).toEqual(0);
+      expect(lastResult(segment)).toEqual(resultsPerPage - 1);
+    });
+
+    it('returns the right results when viewing an inner page', () => {
+      const pageNumber = 3;
+      let segment = resultSegment(
+        results,
+        resultsPerPage,
+        pageNumber
+      );
+
+      expect(segment[0]).toEqual(10);
+      expect(lastResult(segment)).toEqual(14);
+    });
+
+    it('returns the right results when viewing the last page', () => {
+      const pageNumber = 5;
+      let segment = resultSegment(
+        results,
+        resultsPerPage,
+        pageNumber
+      );
+      expect(segment[0]).toEqual(20);
+      expect(lastResult(segment)).toEqual(21);
     });
   });
 });

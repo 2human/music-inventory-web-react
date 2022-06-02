@@ -406,6 +406,25 @@ body {
   @media only screen and (max-width: 28.125em) {
     .results-per-page {
       font-size: 1.35rem; } }
+  .results-per-page__option {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: Arial, Helvetica, Verdana, 'Bitstream Vera Sans';
+    /*input has OS specific font-family*/
+    color: #069;
+    text-decoration: underline;
+    cursor: pointer; }
+    .results-per-page__option:not(:last-child) {
+      margin-right: 0.4rem; }
+    .results-per-page__option--disabled {
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: Arial, Helvetica, Verdana, 'Bitstream Vera Sans';
+      color: black; }
+      .results-per-page__option--disabled:not(:last-child) {
+        margin-right: 0.4rem; }
 
 .results-message {
   font-weight: 700; }
@@ -708,16 +727,18 @@ body {
     margin-right: 0.5rem; }
 
 .search-properties {
+  display: flex;
   width: 100%;
   padding: 0 1%;
   justify-content: space-between;
   align-items: end; }
   @media only screen and (max-width: 28.125em) {
     .search-properties {
-      padding: 0 .5%; } }
+      padding: 0 0.5%; } }
 
 .search-results {
-  overflow-x: auto; }
+  overflow-x: auto;
+  margin-bottom: 2rem; }
 
 .edit-form__btn-group {
   margin: 1rem 0;
@@ -743,13 +764,13 @@ body {
   margin: 2rem 0 0; }
 
 .section-search-form {
-  margin: 2rem 0  1.5rem; }
+  margin: 2rem 0 1.5rem; }
 
 .section-search-results {
   position: relative;
   margin-top: 3rem;
   margin-bottom: 1rem;
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
   border-radius: 1rem;
   box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.2); }
 

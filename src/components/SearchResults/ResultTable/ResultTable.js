@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export const ResultTable = ({
   results,
@@ -8,35 +8,39 @@ export const ResultTable = ({
   handleHeaderClick,
   handleExpandIconClick,
   handleCellDoubleClick,
-}) => (
-  <ResultTableContainer>
-    <table id="resultTable" className="table">
-      <ResultTableColGroup
-        columnData={columnData}
-        dataType={dataType}
-      />
-      <ResultTableHeader
-        columnData={columnData}
-        handleHeaderClick={handleHeaderClick}
-        sortBy={sortBy}
-      />
-      <ResultTableBody>
-        {results.map((rowData, i) => (
-          <ResultTableDataRow
-            expandColumnExists={columnData.expand !== undefined}
-            rowData={rowData}
-            handleExpandIconClick={handleExpandIconClick}
-            handleCellDoubleClick={handleCellDoubleClick}
-            key={i}
-          />
-        ))}
-      </ResultTableBody>
-    </table>
-  </ResultTableContainer>
-);
+}) => {
+  return (
+    <ResultTableContainer>
+      <table id="resultTable" className="table">
+        <ResultTableColGroup
+          columnData={columnData}
+          dataType={dataType}
+        />
+        <ResultTableHeader
+          columnData={columnData}
+          handleHeaderClick={handleHeaderClick}
+          sortBy={sortBy}
+        />
+        <ResultTableBody>
+          {results.map((rowData, i) => (
+            <ResultTableDataRow
+              expandColumnExists={columnData.expand !== undefined}
+              rowData={rowData}
+              handleExpandIconClick={handleExpandIconClick}
+              handleCellDoubleClick={handleCellDoubleClick}
+              key={i}
+            />
+          ))}
+        </ResultTableBody>
+      </table>
+    </ResultTableContainer>
+  );
+};
 
 const ResultTableContainer = ({ children }) => (
-  <div className="search-results">{children}</div>
+  <div id="resultTable" className="search-results">
+    {children}
+  </div>
 );
 
 const ResultTableColGroup = ({ columnData, dataType }) => (
@@ -104,7 +108,7 @@ const ResultTableHeaderCellContent = ({
   <a
     href="#"
     className="table__header-text btn-text"
-    onClick={() => handleHeaderClick(column.label)}>
+    onClick={() => handleHeaderClick(column.name)}>
     {column.label}
     {column.name === sortBy.column && (
       <SortArrow

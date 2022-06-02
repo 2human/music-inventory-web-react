@@ -42,9 +42,6 @@ const elementsMatching = (element, matcherFn) => {
   );
 };
 
-const connectedChildOf = (connector) =>
-  connector.props.children.type.WrappedComponent;
-
 export const createShallowRenderer = () => {
   let renderer = new ShallowRenderer();
 
@@ -57,6 +54,9 @@ export const createShallowRenderer = () => {
     child: (n) => childrenOf(renderer.getRenderOutput())[n],
   };
 };
+
+const connectedChildOf = (connector) =>
+  connector.props.children.type.WrappedComponent;
 
 export const createConnectorShallowRenderer = () => {
   const store = configureStore([storeSpy]);

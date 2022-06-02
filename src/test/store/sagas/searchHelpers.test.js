@@ -1,4 +1,4 @@
-import { requestURLObjectFrom } from '../../store/sagas/searchHelpers';
+import { requestURLObjectFrom } from '../../../store/sagas/searchHelpers';
 
 describe('requestURLObjectFrom', () => {
   const formInputs = {

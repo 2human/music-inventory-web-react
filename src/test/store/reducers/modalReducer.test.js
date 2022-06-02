@@ -1,15 +1,16 @@
+import { columnData } from '../../../components/SearchResults/ResultTable/columnData';
 import {
   openCreateRow,
   openEditRow,
   openViewRow,
-} from '../../store/actions';
-import { modalReducer } from '../../store/reducers/modalReducer';
+} from '../../../store/actions';
+import { modalReducer } from '../../../store/reducers/modalReducer';
 import {
   itMaintainsExistingState,
   itSetsModalOpenToTrue,
   itSetsModalTypeTo,
   itSetsTheRowIdToGivenValue,
-} from '../reducerHelpers';
+} from '../../reducerHelpers';
 
 describe('modalReducer', () => {
   const rowId = 999;

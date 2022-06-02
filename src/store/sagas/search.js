@@ -1,47 +1,34 @@
 import { put, call } from 'redux-saga/effects';
 import {
-  SEARCH_FAILED,
-  SEARCH_SUBMITTING,
-  SEARCH_SUCCESSFUL,
-} from '../actions/actionTypes';
+  searchFailed,
+  searchResetSort,
+  searchSelectPage,
+  searchSort,
+  searchSubmitting,
+  searchSuccessful,
+} from '../actions';
 import { requestURLObjectFrom } from './searchHelpers';
 
-export function* search({ formInputs }) {
-  yield put({ type: 'SEARCH_SUBMITTING' });
-  const result = yield call(
-    window.fetch,
-    requestURLObjectFrom(formInputs)
-  );
-  if (result.ok) {
-    const searchResults = yield call([result, 'json']);
-    yield put({
-      type: SEARCH_SUCCESSFUL,
-      searchResults,
-    });
-  } else {
-    yield put({ type: SEARCH_FAILED });
+export function* search({ payload }) {
+  const formInputs = payload;
+  yield put(searchSubmitting());
+  let result;
+  try {
+    result = yield call(
+      window.fetch,
+      requestURLObjectFrom(formInputs)
+    );
+    if (result.ok) {
+      const results = yield call([result, 'json']);
+      yield put(searchSuccessful(results, formInputs.table));
+      yield put(searchResetSort());
+      yield put(searchSort());
+      yield put(searchSelectPage(1));
+    }
+  } catch (error) {
+    result = { ok: false };
+  }
+  if (!result.ok) {
+    yield put(searchFailed());
   }
 }
-
-const defaultState = {
-  formInputs: {},
-  status: undefined,
-  error: false,
-};
-
-export const reducer = (state = defaultState, action) => {
-  switch (action.type) {
-    case SEARCH_SUBMITTING:
-      return { ...state, status: 'SUBMITTING' };
-    case SEARCH_FAILED:
-      return { ...state, status: 'FAILED', error: true };
-    case SEARCH_SUCCESSFUL:
-      return {
-        ...state,
-        status: 'SUCCESSFUL',
-        searchResults: action.searchResults,
-      };
-    default:
-      return state;
-  }
-};

@@ -1,13 +1,16 @@
-import { expectRedux, storeSpy } from 'expect-redux';
+import { expectRedux } from 'expect-redux';
 import React from 'react';
 import 'whatwg-fetch';
 import {
   createConnectorShallowRenderer,
   type,
 } from '../shallowHelpers';
-import { ConnectedSearchForm } from '../../components/SearchForm/ConnectedSearchForm';
+import {
+  ConnectedSearchForm,
+  mapDispatchToProps,
+  mapStateToProps,
+} from '../../components/SearchForm/ConnectedSearchForm';
 import { SearchForm } from '../../components/SearchForm/SearchForm';
-import { SEARCH_REQUEST } from '../../store/actions/actionTypes';
 import { createContainerWithStore } from '../domManipulators';
 import { fetchResponseOk } from '../spyHelpers';
 import {
@@ -16,6 +19,8 @@ import {
   replicateFormInputs,
   tableSelectFields,
 } from './testFieldData';
+import { searchRequest } from '../../store/actions';
+import { itMapsStateToPropsWhenNoOwnProps } from '../connectorHelpers';
 
 describe('ConnectedSearchForm', () => {
   //full rendering
@@ -23,10 +28,12 @@ describe('ConnectedSearchForm', () => {
 
   let shallowRenderConnector, connectedChild;
 
-  const searchResults = {
-    field1: 'field1value',
-    field2: 'field2value',
-  };
+  const searchResults = [
+    {
+      field1: 'field1value',
+    },
+    { field2: 'field2value' },
+  ];
 
   const dataProps = {
     basicSearchFields: basicFields,
@@ -40,9 +47,7 @@ describe('ConnectedSearchForm', () => {
       createContainerWithStore());
     ({ shallowRenderConnector, connectedChild } =
       createConnectorShallowRenderer());
-    jest
-      .spyOn(window, 'fetch')
-      .mockReturnValue(fetchResponseOk({ searchResults }));
+    jest.spyOn(window, 'fetch').mockReturnValue(fetchResponseOk({}));
   });
 
   afterEach(() => {
@@ -54,14 +59,64 @@ describe('ConnectedSearchForm', () => {
     expect(connectedChild()).toEqual(SearchForm);
   });
 
-  it('dispatches SEARCH_REQUEST when submitting search', async () => {
+  it('dispatches searchRequest when submitting search', async () => {
     renderWithStore(<ConnectedSearchForm {...dataProps} />);
     await submit(form('searchForm'));
     return expectRedux(store)
       .toDispatchAnAction()
-      .matching({
-        type: SEARCH_REQUEST,
-        formInputs: replicateFormInputs(dataProps),
+      .matching(searchRequest(replicateFormInputs(dataProps)));
+  });
+
+  describe('mapStateToProps', () => {
+    const state = {
+      search: {
+        basicSearchFields: 'basicfields',
+        tableSelectFields: 'tablefields',
+        advancedSearchFields: 'advancedfields',
+      },
+    };
+
+    itMapsStateToPropsWhenNoOwnProps(
+      mapStateToProps(state, {}),
+      'basicSearchFields',
+      state.search.basicSearchFields
+    );
+
+    itMapsStateToPropsWhenNoOwnProps(
+      mapStateToProps(state, {}),
+      'advancedSearchFields',
+      state.search.advancedSearchFields
+    );
+
+    itMapsStateToPropsWhenNoOwnProps(
+      mapStateToProps(state, {}),
+      'tableSelectFields',
+      state.search.tableSelectFields
+    );
+
+    itMapsStateToPropsWhenNoOwnProps(
+      mapStateToProps(state, {}),
+      'initialTable',
+      state.search.initialTable
+    );
+
+    const ownProps = {
+      basicSearchFields: 'fields',
+      tableSelectFields: 'tables',
+      advancedSearchFields: 'advancedfields',
+      initialTable: 'inittable',
+    };
+
+    it('maps ownProps to props when ownProps are defined', () => {
+      expect(mapStateToProps({}, ownProps)).toMatchObject({
+        ...ownProps,
       });
+    });
+
+    it('maps the searchRequest action to the searchRequest prop', () => {
+      expect(mapDispatchToProps).toMatchObject({
+        searchRequest,
+      });
+    });
   });
 });

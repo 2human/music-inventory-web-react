@@ -23,6 +23,13 @@ export const wasAlreadySelected = (field, formInputs) => {
   return formInputs.basicSearchSelection.includes(field);
 };
 
+//determines if gap after first page button
+export const isFirstPageGap = (innerValues) => innerValues[0] > 2;
+
+//determines if gap before last page button
+export const isLastPageGap = (innerValues, totalPages) =>
+  innerValues[innerValues.length - 1] < totalPages - 1;
+
 export const blankAdvancedInputs = (fieldRows) => {
   const blankInputs = {};
   fieldsArrayFromRows(fieldRows).forEach((field) => {
