@@ -675,7 +675,7 @@ body {
   background-color: rgba(0, 0, 0, 0.4);
   /* Black w/ opacity */ }
   .modal__content {
-    background-color: #F8F8F8;
+    background-color: #f8f8f8;
     border-radius: 1rem;
     margin: 3% auto;
     padding: 1.25em;
@@ -692,10 +692,14 @@ body {
       .modal__content {
         width: 95%;
         margin: 10% auto; } }
-  .modal__input:not(:last-child) {
-    margin-bottom: .75rem; }
-  .modal__input:disabled, .modal__input[disabled] {
-    background-color: grey; }
+  .modal__input-group {
+    display: flex;
+    align-items: center;
+    height: 3rem; }
+    .modal__input-group:not(:last-child) {
+      margin-bottom: 0.75rem; }
+    .modal__input-group:disabled, .modal__input-group[disabled] {
+      background-color: grey; }
 
 .search-form {
   position: relative;
@@ -740,12 +744,29 @@ body {
   overflow-x: auto;
   margin-bottom: 2rem; }
 
-.edit-form__btn-group {
-  margin: 1rem 0;
-  text-align: center; }
-
-.edit-form__btn:not(:last-child) {
-  margin-right: 2rem; }
+.single-row-form {
+  background-color: #f8f8f8;
+  border-radius: 1rem;
+  margin: 3% auto;
+  padding: 1.25em;
+  width: 86rem; }
+  .single-row-form__btn-group {
+    margin: 1rem 0;
+    text-align: center; }
+  .single-row-form__btn:not(:last-child) {
+    margin-right: 2rem; }
+  @media only screen and (max-width: 56.25em) {
+    .single-row-form {
+      width: 70rem;
+      margin: 5% auto; } }
+  @media only screen and (max-width: 37.5em) {
+    .single-row-form {
+      width: 95%;
+      margin: 7% auto; } }
+  @media only screen and (max-width: 28.125em) {
+    .single-row-form {
+      width: 95%;
+      margin: 10% auto; } }
 
 .login-form {
   position: relative;

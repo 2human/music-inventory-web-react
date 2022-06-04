@@ -1,0 +1,33 @@
+.single-row-form {
+  &__btn-group {
+    margin: 1rem 0;
+    text-align: center;
+  }
+
+  &__btn {
+    &:not(:last-child) {
+      margin-right: 2rem;
+    }
+  }
+
+  background-color: #f8f8f8;
+  border-radius: 1rem;
+  margin: 3% auto;
+  padding: 1.25em;
+  width: 86rem;
+
+  @include respond(tab-port) {
+    width: 70rem;
+    margin: 5% auto;
+  }
+
+  @include respond(phone-land) {
+    width: 95%;
+    margin: 7% auto;
+  }
+
+  @include respond(phone-port) {
+    width: 95%;
+    margin: 10% auto;
+  }
+}

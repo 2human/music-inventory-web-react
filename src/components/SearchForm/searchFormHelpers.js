@@ -19,8 +19,9 @@ export const requestURLObject = (formInputs) => {
   return requestURL;
 };
 
-export const wasAlreadySelected = (field, formInputs) => {
-  return formInputs.basicSearchSelection.includes(field);
+//determine if changed field was already selected
+export const wasAlreadySelected = (changedField, formInputs) => {
+  return formInputs.basicSearchSelection.includes(changedField);
 };
 
 //determines if gap after first page button
