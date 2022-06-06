@@ -4,6 +4,7 @@ import {
 } from '../../reducerHelpers';
 import { searchReducer } from '../../../store/reducers/searchReducer';
 import {
+  modalRequestSubmitting,
   searchFailed,
   searchResetSort,
   searchSelectPage,
@@ -141,6 +142,8 @@ describe('searchReducer', () => {
   });
 
   describe('searchResetSort', () => {
+    itMaintainsExistingState(searchReducer, searchResetSort());
+
     it('sets the currentPage to the page number provided', () => {
       expect(
         searchReducer({ currentPage: 1 }, searchSelectPage(5))
@@ -164,6 +167,8 @@ describe('searchReducer', () => {
   });
 
   describe('searchSetResultsPerPage', () => {
+    itMaintainsExistingState(searchReducer, searchResetSort());
+
     it('sets resultsPerPage to the value provided', () => {
       expect(
         searchReducer(

@@ -1,7 +1,7 @@
 import { storeSpy, expectRedux } from 'expect-redux';
 import { configureStore } from '../../../store';
 import 'whatwg-fetch';
-import { requestURLObjectFrom } from '../../../store/sagas/searchHelpers';
+import { requestURLObjectFrom } from '../../../store/sagas/sagaHelpers';
 import {
   fetchResponseError,
   fetchResponseOk,
@@ -40,6 +40,10 @@ describe('search', () => {
       .spyOn(window, 'fetch')
       .mockReturnValue(fetchResponseOk(searchResults));
     store = configureStore([storeSpy]);
+  });
+
+  afterEach(() => {
+    window.fetch.mockRestore();
   });
 
   const dispatchSearchRequest = (formInputs) =>

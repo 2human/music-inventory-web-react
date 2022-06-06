@@ -45,7 +45,6 @@ export const SingleRowForm = ({
 
   const renderButtons = (data) => {
     if (formMode(data) === 'edit') {
-      console.log('rendering');
       if (deleting) {
         return (
           <SingleRowFormConfirmDeletePrompt

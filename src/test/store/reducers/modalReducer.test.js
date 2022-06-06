@@ -1,5 +1,8 @@
-import { columnData } from '../../../components/SearchResults/ResultTable/columnData';
 import {
+  closeModal,
+  modalRequestFailed,
+  modalRequestSubmitting,
+  modalRequestSuccessful,
   openCreateRow,
   openEditRow,
   openViewRow,
@@ -9,6 +12,7 @@ import {
   itMaintainsExistingState,
   itSetsModalOpenToTrue,
   itSetsModalTypeTo,
+  itSetsStatus,
   itSetsTheRowIdToGivenValue,
 } from '../../reducerHelpers';
 
@@ -22,6 +26,7 @@ describe('modalReducer', () => {
       dataType: undefined,
       rowId: undefined,
       columnName: undefined,
+      status: undefined,
     });
   });
 
@@ -70,5 +75,43 @@ describe('modalReducer', () => {
       openViewRow(rowId),
       rowId
     );
+  });
+
+  describe('modalRequestSubmitting', () => {
+    itMaintainsExistingState(modalReducer, modalRequestSubmitting());
+
+    itSetsStatus(
+      modalReducer,
+      modalRequestSubmitting(),
+      'SUBMITTING'
+    );
+  });
+
+  describe('modalRequestFailed', () => {
+    itMaintainsExistingState(modalReducer, modalRequestFailed());
+
+    itSetsStatus(modalReducer, modalRequestFailed(), 'FAILED');
+  });
+
+  describe('modalRequestSuccessful', () => {
+    itMaintainsExistingState(modalReducer, modalRequestSuccessful());
+
+    itSetsStatus(
+      modalReducer,
+      modalRequestSuccessful(),
+      'SUCCESSFUL'
+    );
+  });
+
+  describe('closeModal', () => {
+    itMaintainsExistingState(modalReducer, modalRequestSuccessful());
+
+    it('sets modalOpen to false', () => {
+      expect(
+        modalReducer({ modalOpen: 'true' }, closeModal())
+      ).toMatchObject({
+        modalOpen: false,
+      });
+    });
   });
 });

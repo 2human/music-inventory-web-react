@@ -1,7 +1,12 @@
 import {
-  MODAL_CREATE_ROW,
-  MODAL_EDIT_ROW,
-  MODAL_VIEW_ROW,
+  MODAL_CLOSE,
+  MODAL_OPEN_CREATE_ROW_FORM,
+  MODAL_OPEN_EDIT_ROW_FORM,
+  MODAL_OPEN_VIEW_ROW,
+  MODAL_REQUEST_FAILED,
+  MODAL_REQUEST_SUCCESSFUL,
+  MODAL_SUBMITTING_REQUEST,
+  MODAL_SUBMIT_UPDATE,
   SEARCH_FAILED,
   SEARCH_REQUEST,
   SEARCH_RESET_SORT,
@@ -14,26 +19,61 @@ import {
   SEARCH_SUCCESSFUL,
 } from './actionTypes';
 
+//MODAL
+
 export const openEditRow = (rowId, column) => {
   return {
-    type: MODAL_EDIT_ROW,
+    type: MODAL_OPEN_EDIT_ROW_FORM,
     payload: { id: rowId, column },
   };
 };
 
 export const openCreateRow = (dataType) => {
   return {
-    type: MODAL_CREATE_ROW,
+    type: MODAL_OPEN_CREATE_ROW_FORM,
     payload: dataType,
   };
 };
 
 export const openViewRow = (rowId) => {
   return {
-    type: MODAL_VIEW_ROW,
+    type: MODAL_OPEN_VIEW_ROW,
     payload: rowId,
   };
 };
+
+export const closeModal = () => {
+  return {
+    type: MODAL_CLOSE,
+  };
+};
+
+export const submitUpdate = (data) => {
+  return {
+    type: MODAL_SUBMIT_UPDATE,
+    payload: data,
+  };
+};
+
+export const modalRequestSubmitting = () => {
+  return {
+    type: MODAL_SUBMITTING_REQUEST,
+  };
+};
+
+export const modalRequestFailed = () => {
+  return {
+    type: MODAL_REQUEST_FAILED,
+  };
+};
+
+export const modalRequestSuccessful = () => {
+  return {
+    type: MODAL_REQUEST_SUCCESSFUL,
+  };
+};
+
+//SEARCH
 
 export const searchSubmitting = () => {
   return {

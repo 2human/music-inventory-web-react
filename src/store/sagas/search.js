@@ -7,7 +7,7 @@ import {
   searchSubmitting,
   searchSuccessful,
 } from '../actions';
-import { requestURLObjectFrom } from './searchHelpers';
+import { requestURLObjectFrom } from './sagaHelpers';
 
 export function* search({ payload }) {
   const formInputs = payload;

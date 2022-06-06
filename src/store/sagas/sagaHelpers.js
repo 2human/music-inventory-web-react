@@ -18,3 +18,19 @@ export const requestURLObjectFrom = (formInputs) => {
   }
   return requestURL;
 };
+
+export const dataType = (data) => {
+  if (data.callNumber !== undefined) {
+    return 'sources';
+  } else if (data.melodicIncipit !== undefined) {
+    return 'entries';
+  } else if (data.description !== undefined) {
+    return 'collections';
+  } else return '';
+};
+
+export const updateRequestURLObjectFrom = (data) => {
+  const requestURL = new URL(
+    `http://localhost:8080/${dataType(data)}`
+  );
+};

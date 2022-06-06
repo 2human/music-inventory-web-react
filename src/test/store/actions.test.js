@@ -1,4 +1,8 @@
 import {
+  closeModal,
+  modalRequestFailed,
+  modalRequestSubmitting,
+  modalRequestSuccessful,
   openCreateRow,
   openEditRow,
   openViewRow,
@@ -12,11 +16,17 @@ import {
   searchSort,
   searchSubmitting,
   searchSuccessful,
+  submitUpdate,
 } from '../../store/actions';
 import {
-  MODAL_CREATE_ROW,
-  MODAL_EDIT_ROW,
-  MODAL_VIEW_ROW,
+  MODAL_CLOSE,
+  MODAL_OPEN_CREATE_ROW_FORM,
+  MODAL_OPEN_EDIT_ROW_FORM,
+  MODAL_OPEN_VIEW_ROW,
+  MODAL_REQUEST_FAILED,
+  MODAL_REQUEST_SUCCESSFUL,
+  MODAL_SUBMITTING_REQUEST,
+  MODAL_SUBMIT_UPDATE,
   SEARCH_FAILED,
   SEARCH_REQUEST,
   SEARCH_RESET_SORT,
@@ -32,104 +42,141 @@ import {
 describe('actions', () => {
   const dataType = 'dataType';
   const id = 999;
+  const data = { field1: 'f1data' };
 
-  it('openEditRow returns the right action type and payload', () => {
-    const column = 'col';
-    expect(openEditRow(id, column)).toMatchObject({
-      type: MODAL_EDIT_ROW,
-      payload: { id, column },
+  describe('modal', () => {
+    it('openEditRow returns the right action type and payload', () => {
+      const column = 'col';
+      expect(openEditRow(id, column)).toMatchObject({
+        type: MODAL_OPEN_EDIT_ROW_FORM,
+        payload: { id, column },
+      });
+    });
+
+    it('openCreateRow returns the right action type and payload', () => {
+      expect(openCreateRow(dataType)).toMatchObject({
+        type: MODAL_OPEN_CREATE_ROW_FORM,
+        payload: dataType,
+      });
+    });
+
+    it('openViewRow returns the right action type and payload', () => {
+      expect(openViewRow(id)).toMatchObject({
+        type: MODAL_OPEN_VIEW_ROW,
+        payload: id,
+      });
+    });
+
+    it('submitUpdateRequest returns the right action type and payload', () => {
+      expect(submitUpdate(data)).toMatchObject({
+        type: MODAL_SUBMIT_UPDATE,
+        payload: data,
+      });
+    });
+
+    it('modalRequestSubmitting returns the right action type and payload', () => {
+      expect(modalRequestSubmitting()).toMatchObject({
+        type: MODAL_SUBMITTING_REQUEST,
+      });
+    });
+
+    it('modalRequestFailed returns the right action type and payload', () => {
+      expect(modalRequestFailed()).toMatchObject({
+        type: MODAL_REQUEST_FAILED,
+      });
+    });
+
+    it('modalRequestFailed returns the right action type and payload', () => {
+      expect(modalRequestSuccessful()).toMatchObject({
+        type: MODAL_REQUEST_SUCCESSFUL,
+      });
+    });
+
+    it('closeModal returns the right action type and payload', () => {
+      expect(closeModal()).toMatchObject({
+        type: MODAL_CLOSE,
+      });
     });
   });
 
-  it('openCreateRow returns the right action type and payload', () => {
-    expect(openCreateRow(dataType)).toMatchObject({
-      type: MODAL_CREATE_ROW,
-      payload: dataType,
+  describe('search', () => {
+    it('searchSubmitting returns the right action type', () => {
+      expect(searchSubmitting()).toMatchObject({
+        type: SEARCH_SUBMITTING,
+      });
     });
-  });
 
-  it('openEditRow returns the right action type and payload', () => {
-    expect(openViewRow(id)).toMatchObject({
-      type: MODAL_VIEW_ROW,
-      payload: id,
+    it('searchSuccessful returns the right action type', () => {
+      const results = ['results'];
+      expect(searchSuccessful(results, dataType)).toMatchObject({
+        type: SEARCH_SUCCESSFUL,
+        payload: { results, dataType },
+      });
     });
-  });
 
-  it('openViewRow returns the right action type and payload', () => {
-    expect(openViewRow(id)).toMatchObject({
-      type: MODAL_VIEW_ROW,
-      payload: id,
+    it('searchFailed returns the right action type', () => {
+      expect(searchFailed()).toMatchObject({
+        type: SEARCH_FAILED,
+      });
     });
-  });
 
-  it('searchSubmitting returns the right action type', () => {
-    expect(searchSubmitting()).toMatchObject({
-      type: SEARCH_SUBMITTING,
+    it('searchRequest returns the right action type and payload', () => {
+      const formInputs = { formInputs: 'inputs' };
+      expect(searchRequest(formInputs)).toMatchObject({
+        type: SEARCH_REQUEST,
+        payload: formInputs,
+      });
     });
-  });
 
-  it('searchSuccessful returns the right action type', () => {
-    const results = ['results'];
-    expect(searchSuccessful(results, dataType)).toMatchObject({
-      type: SEARCH_SUCCESSFUL,
-      payload: { results, dataType },
+    it('searchSetSortOrder returns the right action type and payload', () => {
+      const column = 'columnName';
+      expect(searchSetSortOrder(column)).toMatchObject({
+        type: SEARCH_SET_SORT,
+        payload: column,
+      });
     });
-  });
 
-  it('searchFailed returns the right action type', () => {
-    expect(searchFailed()).toMatchObject({
-      type: SEARCH_FAILED,
+    it('searchSort returns the right action type and payload', () => {
+      expect(searchSort()).toMatchObject({
+        type: SEARCH_SORT,
+      });
     });
-  });
 
-  it('searchRequest returns the right action type and payload', () => {
-    const formInputs = { formInputs: 'inputs' };
-    expect(searchRequest(formInputs)).toMatchObject({
-      type: SEARCH_REQUEST,
-      payload: formInputs,
+    it('searchResetSort returns the right action type and payload', () => {
+      expect(searchResetSort()).toMatchObject({
+        type: SEARCH_RESET_SORT,
+      });
     });
-  });
 
-  it('searchSetSortOrder returns the right action type and payload', () => {
-    const column = 'columnName';
-    expect(searchSetSortOrder(column)).toMatchObject({
-      type: SEARCH_SET_SORT,
-      payload: column,
+    it('searchResetSort returns the right action type and payload', () => {
+      expect(searchSelectPage(5)).toMatchObject({
+        type: SEARCH_SELECT_PAGE,
+        payload: 5,
+      });
     });
-  });
 
-  it('searchSort returns the right action type and payload', () => {
-    expect(searchSort()).toMatchObject({
-      type: SEARCH_SORT,
+    it('searchSetSortAndSort returns the right action type and payload', () => {
+      const column = 'columnName';
+      expect(searchSetSortOrderAndSort(column)).toMatchObject({
+        type: SEARCH_SET_SORT_AND_SORT,
+        payload: column,
+      });
     });
-  });
 
-  it('searchResetSort returns the right action type and payload', () => {
-    expect(searchResetSort()).toMatchObject({
-      type: SEARCH_RESET_SORT,
+    it('searchSetSortAndSort returns the right action type and payload', () => {
+      const resultsPerPage = '999';
+      expect(searchSetResultsPerPage(resultsPerPage)).toMatchObject({
+        type: SEARCH_SET_RESULTS_PER_PAGE,
+        payload: resultsPerPage,
+      });
     });
-  });
 
-  it('searchResetSort returns the right action type and payload', () => {
-    expect(searchSelectPage(5)).toMatchObject({
-      type: SEARCH_SELECT_PAGE,
-      payload: 5,
-    });
-  });
-
-  it('searchSetSortAndSort returns the right action type and payload', () => {
-    const column = 'columnName';
-    expect(searchSetSortOrderAndSort(column)).toMatchObject({
-      type: SEARCH_SET_SORT_AND_SORT,
-      payload: column,
-    });
-  });
-
-  it('searchSetSortAndSort returns the right action type and payload', () => {
-    const resultsPerPage = '999';
-    expect(searchSetResultsPerPage(resultsPerPage)).toMatchObject({
-      type: SEARCH_SET_RESULTS_PER_PAGE,
-      payload: resultsPerPage,
+    it('updateData returns the right action type and payload', () => {
+      const resultsPerPage = '999';
+      expect(searchSetResultsPerPage(resultsPerPage)).toMatchObject({
+        type: SEARCH_SET_RESULTS_PER_PAGE,
+        payload: resultsPerPage,
+      });
     });
   });
 });

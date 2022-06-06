@@ -260,15 +260,21 @@ describe('SingleRowForm', () => {
     it('shows the "Update" and "Delete" buttons after "Delete" has been clicked and cancelled', () => {
       render(<SingleRowForm fields={fields} data={data} />);
 
-      const deleteBtn = element('button#deleteRow');
+      let deleteBtn = element('button#deleteRow');
       click(deleteBtn);
+
+      //check for existence after click
+      deleteBtn = element('button#deleteRow');
+      expect(deleteBtn).toBeNull();
 
       const cancelDeleteBtn = element('button#cancelDelete');
       click(cancelDeleteBtn);
 
+      //check for existence after cancel
+      deleteBtn = element('button#deleteRow');
+
       expect(deleteBtn).not.toBeNull();
       const updateBtn = element('button#updateRow');
-      console.log(deleteBtn);
       expect(updateBtn).not.toBeNull();
     });
   });
