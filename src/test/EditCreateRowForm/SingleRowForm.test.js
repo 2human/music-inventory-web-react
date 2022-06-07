@@ -238,13 +238,12 @@ describe('SingleRowForm', () => {
       expect(cancelDeleteBtn.textContent).toEqual('Cancel');
     });
 
-    it('returns the formInputs id when "Delete" button is clicked and confirmed', () => {
-      const dataWithId = { id: 999 };
+    it('returns the formInputs when "Delete" button is clicked and confirmed', () => {
       const deleteSpy = jest.fn();
       render(
         <SingleRowForm
           fields={fields}
-          data={dataWithId}
+          data={data}
           deleteRow={deleteSpy}
         />
       );
@@ -254,7 +253,7 @@ describe('SingleRowForm', () => {
 
       const confirmDeleteBtn = element('button#confirmDelete');
       click(confirmDeleteBtn);
-      expect(deleteSpy).toHaveBeenCalledWith(dataWithId.id);
+      expect(deleteSpy).toHaveBeenCalledWith(data);
     });
 
     it('shows the "Update" and "Delete" buttons after "Delete" has been clicked and cancelled', () => {

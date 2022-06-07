@@ -10,17 +10,18 @@ import { dataType } from './sagaHelpers';
 const fetch = (data) => {
   return window.fetch(`/${dataType(data)}`, {
     body: JSON.stringify(data),
-    method: 'PUT',
+    method: 'POST',
     credentials: 'same-origin',
     headers: { 'Content-Type': 'application/json' },
   });
 };
 
-export function* update({ payload }) {
+export function* createSaga({ payload }) {
   yield put(modalRequestSubmitting());
 
   const data = payload;
   let result;
+
   try {
     result = yield call(fetch, data);
     if (result.ok) {

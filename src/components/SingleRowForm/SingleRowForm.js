@@ -32,7 +32,7 @@ export const SingleRowForm = ({
 
   const handleDeleteBtnClick = () => setDeleting(true);
 
-  const handleConfirmDeleteBtnClick = () => deleteRow(formInputs.id);
+  const handleConfirmDeleteBtnClick = () => deleteRow(formInputs);
 
   const handleCancelDeleteBtnClick = () => setDeleting(false);
 

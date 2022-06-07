@@ -16,6 +16,8 @@ import {
   searchSort,
   searchSubmitting,
   searchSuccessful,
+  submitCreate,
+  submitDelete,
   submitUpdate,
 } from '../../store/actions';
 import {
@@ -26,6 +28,8 @@ import {
   MODAL_REQUEST_FAILED,
   MODAL_REQUEST_SUCCESSFUL,
   MODAL_SUBMITTING_REQUEST,
+  MODAL_SUBMIT_CREATE,
+  MODAL_SUBMIT_DELETE,
   MODAL_SUBMIT_UPDATE,
   SEARCH_FAILED,
   SEARCH_REQUEST,
@@ -95,6 +99,20 @@ describe('actions', () => {
     it('closeModal returns the right action type and payload', () => {
       expect(closeModal()).toMatchObject({
         type: MODAL_CLOSE,
+      });
+    });
+
+    it('submitDelete returns the right action type and payload', () => {
+      expect(submitDelete(data)).toMatchObject({
+        type: MODAL_SUBMIT_DELETE,
+        payload: data,
+      });
+    });
+
+    it('submitCreate returns the right action type and payload', () => {
+      expect(submitCreate(data)).toMatchObject({
+        type: MODAL_SUBMIT_CREATE,
+        payload: data,
       });
     });
   });

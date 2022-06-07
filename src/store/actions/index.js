@@ -6,6 +6,8 @@ import {
   MODAL_REQUEST_FAILED,
   MODAL_REQUEST_SUCCESSFUL,
   MODAL_SUBMITTING_REQUEST,
+  MODAL_SUBMIT_CREATE,
+  MODAL_SUBMIT_DELETE,
   MODAL_SUBMIT_UPDATE,
   SEARCH_FAILED,
   SEARCH_REQUEST,
@@ -51,6 +53,20 @@ export const closeModal = () => {
 export const submitUpdate = (data) => {
   return {
     type: MODAL_SUBMIT_UPDATE,
+    payload: data,
+  };
+};
+
+export const submitDelete = (data) => {
+  return {
+    type: MODAL_SUBMIT_DELETE,
+    payload: data,
+  };
+};
+
+export const submitCreate = (data) => {
+  return {
+    type: MODAL_SUBMIT_CREATE,
     payload: data,
   };
 };

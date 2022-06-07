@@ -10,10 +10,10 @@ import {
   modalRequestFailed,
   modalRequestSubmitting,
   modalRequestSuccessful,
-  submitUpdate,
+  submitCreate,
 } from '../../../store/actions';
 
-describe('delete', () => {
+describe('createSaga', () => {
   let store;
 
   const data = { id: 999, melodicIncipit: 'melodicincipit' };
@@ -27,35 +27,35 @@ describe('delete', () => {
     window.fetch.mockRestore();
   });
 
-  const dispatchSubmitUpdate = (data) =>
-    store.dispatch(submitUpdate(data));
+  const dispatchCreate = (data) => store.dispatch(submitCreate(data));
 
   it('sets current status to submitting', () => {
-    dispatchSubmitUpdate(data);
+    dispatchCreate(data);
     return expectRedux(store)
       .toDispatchAnAction()
       .matching(modalRequestSubmitting());
   });
 
   it('submits request to the fetch api', async () => {
-    dispatchSubmitUpdate(data);
+    dispatchCreate(data);
+
     expect(window.fetch).toHaveBeenCalledWith('/entries', {
       body: JSON.stringify(data),
-      method: 'PUT',
+      method: 'POST',
       credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json' },
     });
   });
 
   it('dispatches searchSuccessful on success', () => {
-    dispatchSubmitUpdate(data);
+    dispatchCreate(data);
     return expectRedux(store)
       .toDispatchAnAction()
       .matching(modalRequestSuccessful());
   });
 
   it('dispatches closeModal on success', () => {
-    dispatchSubmitUpdate(data);
+    dispatchCreate(data);
     return expectRedux(store)
       .toDispatchAnAction()
       .matching(closeModal());
@@ -63,7 +63,7 @@ describe('delete', () => {
 
   it('dispatches modalRequestFailed on non-specific error', () => {
     window.fetch.mockReturnValue(fetchResponseError());
-    dispatchSubmitUpdate(data);
+    dispatchCreate(data);
     return expectRedux(store)
       .toDispatchAnAction()
       .matching(modalRequestFailed());
