@@ -1,14 +1,11 @@
 import {
   MODAL_CLOSE,
-  MODAL_CREATE_ROW,
-  MODAL_EDIT_ROW,
   MODAL_OPEN_CREATE_ROW_FORM,
   MODAL_OPEN_EDIT_ROW_FORM,
   MODAL_OPEN_VIEW_ROW,
   MODAL_REQUEST_FAILED,
   MODAL_REQUEST_SUCCESSFUL,
   MODAL_SUBMITTING_REQUEST,
-  MODAL_VIEW_ROW,
 } from '../actions/actionTypes';
 
 const defaultState = {
@@ -36,6 +33,7 @@ export const modalReducer = (state = defaultState, action) => {
         modalOpen: true,
         modalType: 'create',
         dataType: action.payload,
+        rowId: undefined,
       };
     case MODAL_OPEN_VIEW_ROW:
       return {

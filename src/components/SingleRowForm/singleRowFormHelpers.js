@@ -19,3 +19,8 @@ export const initialFormInputs = (data, fields) => {
     return { ...data };
   }
 };
+
+export const rowData = (data, rowId) =>
+  rowId === undefined
+    ? undefined
+    : data.find((row) => row.id === rowId);

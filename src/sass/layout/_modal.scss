@@ -49,4 +49,15 @@
       background-color: grey;
     }
   }
+
+  &__input {
+    &:not(:last-child) {
+      margin-bottom: 0.75rem;
+    }
+
+    &:disabled,
+    &[disabled] {
+      background-color: grey;
+    }
+  }
 }

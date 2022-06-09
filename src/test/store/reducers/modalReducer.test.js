@@ -51,17 +51,26 @@ describe('modalReducer', () => {
   });
 
   describe('openCreateRow', () => {
+    const dataType = 'dataType';
+
     itMaintainsExistingState(modalReducer, openCreateRow());
     itSetsModalOpenToTrue(modalReducer, openCreateRow());
     itSetsModalTypeTo(modalReducer, openCreateRow(), 'create');
     itSetsModalOpenToTrue(modalReducer, openCreateRow());
 
     it('sets the dataType to the given value', () => {
-      const dataType = 'dataType';
       expect(
         modalReducer(undefined, openCreateRow(dataType))
       ).toMatchObject({
         dataType,
+      });
+    });
+
+    it('sets the rowId to undefined', () => {
+      expect(
+        modalReducer({ rowId: 999 }, openCreateRow(dataType))
+      ).toMatchObject({
+        rowId: undefined,
       });
     });
   });

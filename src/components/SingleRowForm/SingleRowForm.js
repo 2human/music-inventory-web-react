@@ -7,6 +7,7 @@ export const SingleRowForm = ({
   updateRow,
   deleteRow,
   createRow,
+  status,
 }) => {
   const [formInputs, setFormInputs] = useState({
     ...initialFormInputs(data, fields),
@@ -81,15 +82,18 @@ export const SingleRowForm = ({
   return (
     <form id="editCreateRow" className="single-row-form">
       {fields.map((field) => (
-        <SingleRowFormInputGroup key={field.name}>
+        <React.Fragment>
           <SingleRowFormLabel field={field} />
           <SingleRowFormInput
             field={field}
             value={formInputs[field.name]}
             handleInput={handleInput}
           />
-        </SingleRowFormInputGroup>
+        </React.Fragment>
       ))}
+
+      <SingleRowFormStatusMessage status={status} />
+
       <SingleRowFormBtnContainer>
         {renderButtons(data)}
       </SingleRowFormBtnContainer>
@@ -185,16 +189,27 @@ const SingleRowFormClearBtn = ({ handleClearBtnClick }) => (
 );
 
 const SingleRowFormInputGroup = ({ children }) => (
-  <div className="modal__input-group">{children}</div>
+  <div className="">{children}</div>
 );
 
-const SingleRowFormLabel = ({ field }) => (
-  <label
-    htmlFor={field.name}
-    className="form__label form__label--modal">
-    {field.label}
-  </label>
-);
+const SingleRowFormLabel = ({ field }) => {
+  const className = () => {
+    if (
+      field.name === 'inscription' ||
+      field.name === 'description'
+    ) {
+      return 'form__label form__label--modal form__label--textarea';
+    } else {
+      return 'form__label form__label--modal';
+    }
+  };
+
+  return (
+    <label htmlFor={field.name} className={className()}>
+      {field.label}
+    </label>
+  );
+};
 
 const SingleRowFormInput = ({ field, value, handleInput }) => {
   switch (field.name) {
@@ -224,7 +239,7 @@ const SingleRowFormInput = ({ field, value, handleInput }) => {
     default:
       return (
         <input
-          className="form__input form__input--extra-long"
+          className="form__input form__input--extra-long modal__input"
           type="text"
           id={field.name}
           name={field.name}
@@ -234,6 +249,47 @@ const SingleRowFormInput = ({ field, value, handleInput }) => {
       );
   }
 };
+
+const SingleRowFormStatusMessage = ({ status }) => {
+  const renderStatusMessage = () => {
+    if (status === undefined) {
+      return <div />;
+    } else if (status === 'SUBMITTING') {
+      return <MiniLoadingSpinner />;
+    } else if (status === 'FAILED') {
+      return <SingleRowFormErrorMessage />;
+    } else if (status === 'SUCCESSFUL') {
+      return <SingleRowFormSuccessMessage />;
+    }
+  };
+
+  return (
+    <div className="u-center-text u-text-bold" id="statusMessage">
+      {renderStatusMessage()}
+    </div>
+  );
+};
+
+const MiniLoadingSpinner = () => (
+  <div
+    id="loadingSpinner"
+    className="spinner__container--mini u-margin-top-tiny">
+    <div className="spinner__animation spinner__animation--mini" />
+  </div>
+);
+
+const SingleRowFormErrorMessage = () => (
+  <div id="errorMessage" className="u-margin-top-small">
+    There was an error creating a new row. Please check your
+    connection and try again.
+  </div>
+);
+
+const SingleRowFormSuccessMessage = () => (
+  <div id="successMessage" className="u-margin-top-small">
+    Row create successfully.
+  </div>
+);
 
 const SingleRowFormBtnContainer = ({ children }) => (
   <div className="single-row-form__btn-group">{children}</div>

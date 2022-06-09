@@ -26,7 +26,6 @@ export function* createSaga({ payload }) {
     result = yield call(fetch, data);
     if (result.ok) {
       yield put(modalRequestSuccessful());
-      yield put(closeModal());
     }
   } catch (error) {
     result = { ok: false };

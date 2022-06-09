@@ -9,3 +9,15 @@ export const itMapsStateToPropsWhenNoOwnProps = (
     });
   });
 };
+
+export const itMapsStateToProps = (
+  mapStateToProps,
+  property,
+  value
+) => {
+  it(`maps the ${property} to props`, () => {
+    expect(mapStateToProps).toMatchObject({
+      [property]: value,
+    });
+  });
+};

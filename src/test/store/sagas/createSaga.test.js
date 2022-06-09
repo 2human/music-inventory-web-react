@@ -54,13 +54,6 @@ describe('createSaga', () => {
       .matching(modalRequestSuccessful());
   });
 
-  it('dispatches closeModal on success', () => {
-    dispatchCreate(data);
-    return expectRedux(store)
-      .toDispatchAnAction()
-      .matching(closeModal());
-  });
-
   it('dispatches modalRequestFailed on non-specific error', () => {
     window.fetch.mockReturnValue(fetchResponseError());
     dispatchCreate(data);

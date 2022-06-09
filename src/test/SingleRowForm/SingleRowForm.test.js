@@ -186,6 +186,37 @@ describe('SingleRowForm', () => {
       change(textareas[1], withEvent(fields[1].name, 'newtext'));
       expect(textareas[1].value).toEqual('newtext');
     });
+
+    describe('statusMessage', () => {
+      it('is rendered with no text by default', () => {
+        render(<SingleRowForm fields={fields} />);
+        expect(element('div#statusMessage')).not.toBeNull();
+      });
+
+      it('renders the loading spinner while SUBMITTING', () => {
+        render(<SingleRowForm status={'SUBMITTING'} />);
+        const loadingSpinner = element(
+          'div#statusMessage div#loadingSpinner'
+        );
+        expect(loadingSpinner).not.toBeNull();
+      });
+
+      it('displays the #errorMessage when status is FAILED', () => {
+        render(<SingleRowForm status={'FAILED'} />);
+        const errorMessage = element(
+          'div#statusMessage div#errorMessage'
+        );
+        expect(errorMessage).not.toBeNull();
+      });
+
+      it('displays the #successMessage when status is SUCCESSFUL', () => {
+        render(<SingleRowForm status={'SUCCESSFUL'} />);
+        const successMessage = element(
+          'div#statusMessage div#successMessage'
+        );
+        expect(successMessage).not.toBeNull();
+      });
+    });
   });
 
   describe('edit mode', () => {
