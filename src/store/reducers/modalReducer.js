@@ -1,3 +1,4 @@
+import { formFields } from '../../components/SingleRowForm/formData';
 import {
   MODAL_CLOSE,
   MODAL_OPEN_CREATE_ROW_FORM,
@@ -7,6 +8,7 @@ import {
   MODAL_REQUEST_SUCCESSFUL,
   MODAL_SUBMITTING_REQUEST,
 } from '../actions/actionTypes';
+import { dataType } from '../sagas/sagaHelpers';
 
 const defaultState = {
   modalOpen: false,
@@ -15,6 +17,7 @@ const defaultState = {
   rowId: undefined,
   columnName: undefined,
   status: undefined,
+  fields: formFields,
 };
 
 export const modalReducer = (state = defaultState, action) => {
@@ -24,8 +27,11 @@ export const modalReducer = (state = defaultState, action) => {
         ...state,
         modalOpen: true,
         modalType: 'edit',
-        rowId: action.payload.id,
-        columnName: action.payload.column,
+        rowId: action.payload.rowData
+          ? action.payload.rowData.id
+          : undefined,
+        columnName: action.payload.columnClicked,
+        dataType: dataType(action.payload.rowData),
       };
     case MODAL_OPEN_CREATE_ROW_FORM:
       return {
@@ -40,7 +46,7 @@ export const modalReducer = (state = defaultState, action) => {
         ...state,
         modalType: 'view',
         modalOpen: true,
-        rowId: action.payload,
+        rowId: action.payload.id,
       };
     case MODAL_CLOSE:
       return {

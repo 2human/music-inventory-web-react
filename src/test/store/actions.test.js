@@ -46,14 +46,14 @@ import {
 describe('actions', () => {
   const dataType = 'dataType';
   const id = 999;
-  const data = { field1: 'f1data' };
+  const data = { id: '999', field1: 'f1data' };
 
   describe('modal', () => {
     it('openEditRow returns the right action type and payload', () => {
-      const column = 'col';
-      expect(openEditRow(id, column)).toMatchObject({
+      const columnClicked = 'col';
+      expect(openEditRow(data, columnClicked)).toMatchObject({
         type: MODAL_OPEN_EDIT_ROW_FORM,
-        payload: { id, column },
+        payload: { rowData: data, columnClicked },
       });
     });
 

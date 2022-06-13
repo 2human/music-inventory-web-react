@@ -8,7 +8,7 @@ import {
 import { dataType } from './sagaHelpers';
 
 const fetch = (data) => {
-  return window.fetch(`/${dataType(data)}`, {
+  return window.fetch(`http://localhost:8080/${dataType(data)}`, {
     body: JSON.stringify(data),
     method: 'DELETE',
     credentials: 'same-origin',

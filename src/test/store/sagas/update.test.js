@@ -13,7 +13,7 @@ import {
   submitUpdate,
 } from '../../../store/actions';
 
-describe('delete', () => {
+describe('update', () => {
   let store;
 
   const data = { id: 999, melodicIncipit: 'melodicincipit' };
@@ -39,12 +39,15 @@ describe('delete', () => {
 
   it('submits request to the fetch api', async () => {
     dispatchSubmitUpdate(data);
-    expect(window.fetch).toHaveBeenCalledWith('/entries', {
-      body: JSON.stringify(data),
-      method: 'PUT',
-      credentials: 'same-origin',
-      headers: { 'Content-Type': 'application/json' },
-    });
+    expect(window.fetch).toHaveBeenCalledWith(
+      'http://localhost:8080/entries',
+      {
+        body: JSON.stringify(data),
+        method: 'PUT',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
   });
 
   it('dispatches searchSuccessful on success', () => {

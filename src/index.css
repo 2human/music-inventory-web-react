@@ -388,7 +388,7 @@ body {
   .form__label--textarea {
     vertical-align: top;
     font-size: 1.25rem;
-    margin-top: 0.25rem; }
+    margin-top: 0.5rem; }
 
 @media only screen and (max-width: 37.5em) {
   .form__group--keyword {
@@ -665,7 +665,7 @@ body {
 
 /* The Modal (background) */
 .modal {
-  display: none;
+  display: block;
   position: fixed;
   padding-top: 4.25em;
   z-index: 100;

@@ -79,6 +79,7 @@ export const searchReducer = (state = defaultState, action) => {
       return {
         ...state,
         resultsPerPage: action.payload,
+        currentPage: 1,
       };
     default:
       return state;

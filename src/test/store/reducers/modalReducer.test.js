@@ -1,3 +1,4 @@
+import { formFields } from '../../../components/SingleRowForm/formData';
 import {
   closeModal,
   modalRequestFailed,
@@ -8,8 +9,10 @@ import {
   openViewRow,
 } from '../../../store/actions';
 import { modalReducer } from '../../../store/reducers/modalReducer';
+import { dataType } from '../../../store/sagas/sagaHelpers';
 import {
   itMaintainsExistingState,
+  itSetsDataTypeTo,
   itSetsModalOpenToTrue,
   itSetsModalTypeTo,
   itSetsStatus,
@@ -18,6 +21,7 @@ import {
 
 describe('modalReducer', () => {
   const rowId = 999;
+  const rowData = { id: 999, val: 'val', callNumber: 'callnum' };
 
   it('returns a default state for an undefined existing state', () => {
     expect(modalReducer(undefined, {})).toEqual({
@@ -27,23 +31,29 @@ describe('modalReducer', () => {
       rowId: undefined,
       columnName: undefined,
       status: undefined,
+      fields: formFields,
     });
   });
 
   describe('openEditRow', () => {
-    itMaintainsExistingState(modalReducer, openEditRow());
-    itSetsModalOpenToTrue(modalReducer, openEditRow());
-    itSetsModalTypeTo(modalReducer, openEditRow(), 'edit');
+    itMaintainsExistingState(modalReducer, openEditRow(rowData));
+    itSetsModalOpenToTrue(modalReducer, openEditRow(rowData));
+    itSetsModalTypeTo(modalReducer, openEditRow(rowData), 'edit');
+    itSetsDataTypeTo(
+      modalReducer,
+      openEditRow(rowData),
+      dataType(rowData)
+    );
     itSetsTheRowIdToGivenValue(
       modalReducer,
-      openEditRow(rowId),
-      rowId
+      openEditRow(rowData),
+      rowData.id
     );
 
     it('sets the columnName to the given value', () => {
       const columnName = 'colname';
       expect(
-        modalReducer(undefined, openEditRow(999, columnName))
+        modalReducer(undefined, openEditRow(rowData, columnName))
       ).toMatchObject({
         columnName,
       });
@@ -76,13 +86,13 @@ describe('modalReducer', () => {
   });
 
   describe('openViewRow', () => {
-    itMaintainsExistingState(modalReducer, openViewRow());
-    itSetsModalTypeTo(modalReducer, openViewRow(), 'view');
-    itSetsModalOpenToTrue(modalReducer, openViewRow());
+    itMaintainsExistingState(modalReducer, openViewRow(rowData));
+    itSetsModalTypeTo(modalReducer, openViewRow(rowData), 'view');
+    itSetsModalOpenToTrue(modalReducer, openViewRow(rowData));
     itSetsTheRowIdToGivenValue(
       modalReducer,
-      openViewRow(rowId),
-      rowId
+      openViewRow(rowData),
+      rowData.id
     );
   });
 

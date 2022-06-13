@@ -1,6 +1,5 @@
 import { put, call } from 'redux-saga/effects';
 import {
-  closeModal,
   modalRequestFailed,
   modalRequestSubmitting,
   modalRequestSuccessful,
@@ -8,7 +7,7 @@ import {
 import { dataType } from './sagaHelpers';
 
 const fetch = (data) => {
-  return window.fetch(`/${dataType(data)}`, {
+  return window.fetch(`http://localhost:8080/${dataType(data)}`, {
     body: JSON.stringify(data),
     method: 'POST',
     credentials: 'same-origin',

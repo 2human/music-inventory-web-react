@@ -8,7 +8,7 @@ import {
 import { dataType } from './sagaHelpers';
 
 const fetch = (data) => {
-  return window.fetch(`/${dataType(data)}`, {
+  return window.fetch(`http://localhost:8080/${dataType(data)}`, {
     body: JSON.stringify(data),
     method: 'PUT',
     credentials: 'same-origin',
@@ -23,6 +23,7 @@ export function* update({ payload }) {
   let result;
   try {
     result = yield call(fetch, data);
+    console.log(JSON.stringify(data));
     if (result.ok) {
       yield put(modalRequestSuccessful());
       yield put(closeModal());

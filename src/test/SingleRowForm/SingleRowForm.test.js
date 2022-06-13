@@ -44,8 +44,8 @@ describe('SingleRowForm', () => {
     it('displays the right label text', () => {
       render(<SingleRowForm fields={fields} />);
       const labels = elements('label');
-      expect(labels[0].textContent).toEqual(fields[0].label);
-      expect(labels[1].textContent).toEqual(fields[1].label);
+      expect(labels[0].textContent).toEqual(`${fields[0].label}:`);
+      expect(labels[1].textContent).toEqual(`${fields[1].label}:`);
     });
   });
 

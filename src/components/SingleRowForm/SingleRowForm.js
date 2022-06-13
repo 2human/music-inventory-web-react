@@ -82,7 +82,7 @@ export const SingleRowForm = ({
   return (
     <form id="editCreateRow" className="single-row-form">
       {fields.map((field) => (
-        <React.Fragment>
+        <React.Fragment key={field.name}>
           <SingleRowFormLabel field={field} />
           <SingleRowFormInput
             field={field}
@@ -188,10 +188,6 @@ const SingleRowFormClearBtn = ({ handleClearBtnClick }) => (
   </button>
 );
 
-const SingleRowFormInputGroup = ({ children }) => (
-  <div className="">{children}</div>
-);
-
 const SingleRowFormLabel = ({ field }) => {
   const className = () => {
     if (
@@ -206,7 +202,7 @@ const SingleRowFormLabel = ({ field }) => {
 
   return (
     <label htmlFor={field.name} className={className()}>
-      {field.label}
+      {field.label}:
     </label>
   );
 };
@@ -226,15 +222,18 @@ const SingleRowFormInput = ({ field, value, handleInput }) => {
       );
     case 'isSecular':
       return (
-        <input
-          type="checkbox"
-          className="form__input u-margin-left-tiny"
-          id={field.name}
-          name={field.name}
-          value={field.name}
-          checked={value === 'true'}
-          onChange={handleInput}
-        />
+        <React.Fragment>
+          <input
+            type="checkbox"
+            className="form__input u-margin-left-tiny modal__input"
+            id={field.name}
+            name={field.name}
+            value={field.name}
+            checked={value === 'true'}
+            onChange={handleInput}
+          />
+          <br />
+        </React.Fragment>
       );
     default:
       return (

@@ -138,7 +138,7 @@ const ResultTableDataRow = ({
     {expandColumnExists && (
       <ResultTableExpandIconCell
         handleExpandIconClick={handleExpandIconClick}
-        rowId={rowData.id}
+        rowData={rowData}
       />
     )}
     {Object.keys(rowData).map(
@@ -157,20 +157,20 @@ const ResultTableDataRow = ({
 
 const ResultTableExpandIconCell = ({
   handleExpandIconClick,
-  rowId,
+  rowData,
 }) => (
   <td className="table__data">
     <ExpandIcon
       handleExpandIconClick={handleExpandIconClick}
-      rowId={rowId}
+      rowData={rowData}
     />
   </td>
 );
 
-const ExpandIcon = ({ handleExpandIconClick, rowId }) => (
+const ExpandIcon = ({ handleExpandIconClick, rowData }) => (
   <svg
     className="btn-expand"
-    onClick={() => handleExpandIconClick(rowId)}>
+    onClick={() => handleExpandIconClick(rowData)}>
     <use xlinkHref="images/sprite.svg#icon-magnifying-glass"></use>
   </svg>
 );
@@ -189,17 +189,22 @@ const ResultTableDataCell = ({
   rowData,
   handleCellDoubleClick,
 }) => {
+  const renderCellContent = () => {
+    if (columnName === 'isSecular') {
+      return (
+        <IsSecularCheckbox checked={rowData[columnName] === 'true'} />
+      );
+    } else {
+      return rowData[columnName];
+    }
+  };
   return (
     <td
       className={`table__data ${cellClassMods(columnName)}`}
       onDoubleClick={() =>
-        handleCellDoubleClick(rowData.id, columnName)
+        handleCellDoubleClick(rowData, columnName)
       }>
-      {columnName !== 'isSecular' ? (
-        rowData[columnName]
-      ) : (
-        <IsSecularCheckbox checked={rowData[columnName] === 'true'} />
-      )}
+      {renderCellContent()}
     </td>
   );
 };

@@ -39,12 +39,15 @@ describe('deleteSaga', () => {
   it('submits request to the fetch api', async () => {
     dispatchDelete(data);
 
-    expect(window.fetch).toHaveBeenCalledWith('/entries', {
-      body: JSON.stringify(data),
-      method: 'DELETE',
-      credentials: 'same-origin',
-      headers: { 'Content-Type': 'application/json' },
-    });
+    expect(window.fetch).toHaveBeenCalledWith(
+      'http://localhost:8080/entries',
+      {
+        body: JSON.stringify(data),
+        method: 'DELETE',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
   });
 
   it('dispatches searchSuccessful on success', () => {

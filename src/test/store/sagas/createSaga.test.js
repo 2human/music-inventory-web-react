@@ -6,7 +6,6 @@ import {
   fetchResponseOk,
 } from '../../spyHelpers';
 import {
-  closeModal,
   modalRequestFailed,
   modalRequestSubmitting,
   modalRequestSuccessful,
@@ -39,12 +38,15 @@ describe('createSaga', () => {
   it('submits request to the fetch api', async () => {
     dispatchCreate(data);
 
-    expect(window.fetch).toHaveBeenCalledWith('/entries', {
-      body: JSON.stringify(data),
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: { 'Content-Type': 'application/json' },
-    });
+    expect(window.fetch).toHaveBeenCalledWith(
+      'http://localhost:8080/entries',
+      {
+        body: JSON.stringify(data),
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
   });
 
   it('dispatches searchSuccessful on success', () => {

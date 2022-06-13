@@ -21,6 +21,14 @@ export const itSetsModalTypeTo = (reducer, action, modalType) => {
   });
 };
 
+export const itSetsDataTypeTo = (reducer, action, dataType) => {
+  it(`sets the dataType to "${dataType}"`, () => {
+    expect(reducer(undefined, action)).toMatchObject({
+      dataType,
+    });
+  });
+};
+
 export const itSetsTheRowIdToGivenValue = (
   reducer,
   action,

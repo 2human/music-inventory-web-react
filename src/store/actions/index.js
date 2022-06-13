@@ -23,10 +23,10 @@ import {
 
 //MODAL
 
-export const openEditRow = (rowId, column) => {
+export const openEditRow = (rowData, columnClicked) => {
   return {
     type: MODAL_OPEN_EDIT_ROW_FORM,
-    payload: { id: rowId, column },
+    payload: { rowData, columnClicked },
   };
 };
 

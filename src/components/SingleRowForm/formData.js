@@ -1,4 +1,4 @@
-const formFields = {
+export const formFields = {
   entries: [
     { name: 'collection', label: 'Collection' },
     { name: 'sourceNumber', label: 'Source Number' },
@@ -12,6 +12,7 @@ const formFields = {
     { name: 'isSecular', label: 'Secular' },
     { name: 'notes', label: 'Notes' },
   ],
+
   sources: [
     { name: 'collection', label: 'Collection' },
     { name: 'sourceNumber', label: 'Source Number' },

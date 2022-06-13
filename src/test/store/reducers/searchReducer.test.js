@@ -177,5 +177,14 @@ describe('searchReducer', () => {
         )
       ).toMatchObject({ resultsPerPage: 888 });
     });
+
+    it('sets the page number to one', () => {
+      expect(
+        searchReducer(
+          { resultsPerPage: 999, currentPage: 4 },
+          searchSetResultsPerPage(888)
+        )
+      ).toMatchObject({ currentPage: 1 });
+    });
   });
 });

@@ -248,7 +248,7 @@ describe('ResultTable', () => {
       expect(secondRowExpandIcon).not.toBeNull();
     });
 
-    it('returns the id property of the data row when the expand icon is clicked', () => {
+    it('returns the the row data when the expand icon is clicked', () => {
       const columnDataWithExpand = {
         expand: {
           label: '',
@@ -256,7 +256,7 @@ describe('ResultTable', () => {
         },
         ...columnData,
       };
-      const resultWithIdProperty = [{ id: 1 }];
+      const resultWithIdProperty = [{ id: 1, val: 'val' }];
       const iconClickSpy = jest.fn();
       render(
         <ResultTable
@@ -273,7 +273,7 @@ describe('ResultTable', () => {
       click(expandIcon);
 
       expect(iconClickSpy).toHaveBeenCalledWith(
-        resultWithIdProperty[0].id
+        resultWithIdProperty[0]
       );
     });
 
@@ -359,7 +359,10 @@ describe('ResultTable', () => {
       const rowCells = elements('tbody tr:first-child td');
       dblClick(rowCells[0]);
 
-      expect(dblClickSpy).toHaveBeenCalledWith(999, 'col1');
+      expect(dblClickSpy).toHaveBeenCalledWith(
+        resultRowWithId[0],
+        'col1'
+      );
     });
   });
 });

@@ -68,10 +68,10 @@ describe('ConnectedResultTable', () => {
 
     return expectRedux(store)
       .toDispatchAnAction()
-      .matching(openEditRow(results[0].id, columnNames[0]));
+      .matching(openEditRow(results[0], columnNames[0]));
   });
 
-  it('dispatches the openEditRow action when clicking an expand icon', () => {
+  it('dispatches the openViewRow action when clicking an expand icon', () => {
     const columnDataWithExpand = {
       expand: {
         label: '',
@@ -94,7 +94,7 @@ describe('ConnectedResultTable', () => {
     click(expandIcon);
     return expectRedux(store)
       .toDispatchAnAction()
-      .matching(openViewRow(resultWithIdProperty[0].id));
+      .matching(openViewRow(resultWithIdProperty[0]));
   });
 
   it('returns column name when header text is clicked', () => {
