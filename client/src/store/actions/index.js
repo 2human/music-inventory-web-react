@@ -19,6 +19,7 @@ import {
   SEARCH_SORT,
   SEARCH_SUBMITTING,
   SEARCH_SUCCESSFUL,
+  SEARCH_UPDATE_RESULTS,
 } from './actionTypes';
 
 //MODAL
@@ -154,5 +155,12 @@ export const searchSetResultsPerPage = (resultsPerPage) => {
   return {
     type: SEARCH_SET_RESULTS_PER_PAGE,
     payload: resultsPerPage,
+  };
+};
+
+export const updateResults = (result) => {
+  return {
+    type: SEARCH_UPDATE_RESULTS,
+    payload: result,
   };
 };

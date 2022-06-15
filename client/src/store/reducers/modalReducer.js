@@ -52,6 +52,7 @@ export const modalReducer = (state = defaultState, action) => {
       return {
         ...state,
         modalOpen: false,
+        status: undefined,
       };
     case MODAL_SUBMITTING_REQUEST:
       return {

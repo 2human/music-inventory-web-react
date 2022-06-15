@@ -132,5 +132,13 @@ describe('modalReducer', () => {
         modalOpen: false,
       });
     });
+
+    it('sets status to undefined', () => {
+      expect(
+        modalReducer({ status: 'SUCCESSFUL' }, closeModal())
+      ).toMatchObject({
+        status: undefined,
+      });
+    });
   });
 });

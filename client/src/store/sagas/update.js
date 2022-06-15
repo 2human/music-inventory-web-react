@@ -23,10 +23,10 @@ export function* update({ payload }) {
   let result;
   try {
     result = yield call(fetch, data);
-    console.log(JSON.stringify(data));
     if (result.ok) {
       yield put(modalRequestSuccessful());
-      yield put(closeModal());
+
+      //UPDATE DATA CELL WITH RESULTS
     }
   } catch (error) {
     result = { ok: false };

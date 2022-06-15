@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { formMode, initialFormInputs } from './singleRowFormHelpers';
+import {
+  formMode,
+  initialFormInputs,
+  renderSuccessMessage,
+} from './singleRowFormHelpers';
 
 export const SingleRowForm = ({
   fields,
@@ -47,6 +51,7 @@ export const SingleRowForm = ({
   const renderButtons = (data) => {
     if (formMode(data) === 'edit') {
       if (deleting) {
+        //deletion in progress
         return (
           <SingleRowFormConfirmDeletePrompt
             handleConfirmDeleteBtnClick={handleConfirmDeleteBtnClick}
@@ -66,6 +71,7 @@ export const SingleRowForm = ({
         );
       }
     } else {
+      //create mode buttons
       return (
         <React.Fragment>
           <SingleRowFormCreateBtn
@@ -92,7 +98,10 @@ export const SingleRowForm = ({
         </React.Fragment>
       ))}
 
-      <SingleRowFormStatusMessage status={status} />
+      <SingleRowFormStatusMessage
+        status={status}
+        mode={formMode(data)}
+      />
 
       <SingleRowFormBtnContainer>
         {renderButtons(data)}
@@ -249,7 +258,7 @@ const SingleRowFormInput = ({ field, value, handleInput }) => {
   }
 };
 
-const SingleRowFormStatusMessage = ({ status }) => {
+const SingleRowFormStatusMessage = ({ status, mode }) => {
   const renderStatusMessage = () => {
     if (status === undefined) {
       return <div />;
@@ -258,7 +267,7 @@ const SingleRowFormStatusMessage = ({ status }) => {
     } else if (status === 'FAILED') {
       return <SingleRowFormErrorMessage />;
     } else if (status === 'SUCCESSFUL') {
-      return <SingleRowFormSuccessMessage />;
+      return <SingleRowFormSuccessMessage mode={mode} />;
     }
   };
 
@@ -284,9 +293,9 @@ const SingleRowFormErrorMessage = () => (
   </div>
 );
 
-const SingleRowFormSuccessMessage = () => (
+const SingleRowFormSuccessMessage = ({ mode }) => (
   <div id="successMessage" className="u-margin-top-small">
-    Row create successfully.
+    {renderSuccessMessage(mode)}
   </div>
 );
 

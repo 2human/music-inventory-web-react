@@ -19,6 +19,7 @@ import {
   submitCreate,
   submitDelete,
   submitUpdate,
+  updateResults,
 } from '../../store/actions';
 import {
   MODAL_CLOSE,
@@ -41,6 +42,7 @@ import {
   SEARCH_SORT,
   SEARCH_SUBMITTING,
   SEARCH_SUCCESSFUL,
+  SEARCH_UPDATE_RESULTS,
 } from '../../store/actions/actionTypes';
 
 describe('actions', () => {
@@ -194,6 +196,13 @@ describe('actions', () => {
       expect(searchSetResultsPerPage(resultsPerPage)).toMatchObject({
         type: SEARCH_SET_RESULTS_PER_PAGE,
         payload: resultsPerPage,
+      });
+    });
+
+    it('updateResults returns the right action type and payload', () => {
+      expect(updateResults(data)).toMatchObject({
+        type: SEARCH_UPDATE_RESULTS,
+        payload: data,
       });
     });
   });

@@ -24,3 +24,12 @@ export const rowData = (data, rowId) =>
   rowId === undefined
     ? undefined
     : data.find((row) => row.id === rowId);
+
+export const renderSuccessMessage = (mode) => {
+  if (mode === 'edit') {
+    return 'Row updated successfully.';
+  } else {
+    //create mode
+    return 'Row created successfully.';
+  }
+};

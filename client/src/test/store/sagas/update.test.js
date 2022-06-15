@@ -57,13 +57,6 @@ describe('update', () => {
       .matching(modalRequestSuccessful());
   });
 
-  it('dispatches closeModal on success', () => {
-    dispatchSubmitUpdate(data);
-    return expectRedux(store)
-      .toDispatchAnAction()
-      .matching(closeModal());
-  });
-
   it('dispatches modalRequestFailed on non-specific error', () => {
     window.fetch.mockReturnValue(fetchResponseError());
     dispatchSubmitUpdate(data);
