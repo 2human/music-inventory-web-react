@@ -19,6 +19,8 @@ export const SingleRowForm = ({
 
   const [deleting, setDeleting] = useState(false);
 
+  const mode = formMode(data);
+
   const handleInput = ({ target }) => {
     if (target.name === 'isSecular') {
       setFormInputs({
@@ -30,6 +32,15 @@ export const SingleRowForm = ({
         ...formInputs,
         [target.name]: target.value,
       });
+    }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (mode === 'edit') {
+      updateRow(formInputs);
+    } else {
+      createRow(formInputs);
     }
   };
 
@@ -49,7 +60,7 @@ export const SingleRowForm = ({
   const handleClearBtnClick = () => clearInputs();
 
   const renderButtons = (data) => {
-    if (formMode(data) === 'edit') {
+    if (mode === 'edit') {
       if (deleting) {
         //deletion in progress
         return (
@@ -86,7 +97,10 @@ export const SingleRowForm = ({
   };
 
   return (
-    <form id="editCreateRow" className="single-row-form">
+    <form
+      id="editCreateRow"
+      className="single-row-form"
+      onSubmit={handleSubmit}>
       {fields.map((field) => (
         <React.Fragment key={field.name}>
           <SingleRowFormLabel field={field} />
@@ -98,10 +112,7 @@ export const SingleRowForm = ({
         </React.Fragment>
       ))}
 
-      <SingleRowFormStatusMessage
-        status={status}
-        mode={formMode(data)}
-      />
+      <SingleRowFormStatusMessage status={status} mode={mode} />
 
       <SingleRowFormBtnContainer>
         {renderButtons(data)}
@@ -157,12 +168,11 @@ const SingleRowFormCancelDeleteBtn = ({
   </button>
 );
 
-const SingleRowFormUpdateBtn = ({ handleUpdateBtnClick }) => (
+const SingleRowFormUpdateBtn = ({}) => (
   <button
-    type="button"
+    type="submit"
     id="updateRow"
-    className="btn btn--blue u-margin-right-small"
-    onClick={handleUpdateBtnClick}>
+    className="btn btn--blue u-margin-right-small">
     Update
   </button>
 );
@@ -179,7 +189,7 @@ const SingleRowFormDeleteBtn = ({ handleDeleteBtnClick }) => (
 
 const SingleRowFormCreateBtn = ({ handleCreateBtnClick }) => (
   <button
-    type="button"
+    type="submit"
     id="createRow"
     className="btn btn--blue u-margin-right-small"
     onClick={handleCreateBtnClick}>

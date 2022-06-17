@@ -158,9 +158,9 @@ export const searchSetResultsPerPage = (resultsPerPage) => {
   };
 };
 
-export const updateResults = (result) => {
+export const updateResults = (updateType, data) => {
   return {
     type: SEARCH_UPDATE_RESULTS,
-    payload: result,
+    payload: { updateType, data },
   };
 };

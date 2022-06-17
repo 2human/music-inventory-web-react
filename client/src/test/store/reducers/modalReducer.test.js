@@ -20,7 +20,6 @@ import {
 } from '../../reducerHelpers';
 
 describe('modalReducer', () => {
-  const rowId = 999;
   const rowData = { id: 999, val: 'val', callNumber: 'callnum' };
 
   it('returns a default state for an undefined existing state', () => {

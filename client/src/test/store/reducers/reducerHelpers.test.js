@@ -1,6 +1,7 @@
 import {
   sortProperties,
   sortResults,
+  updatedResults,
 } from '../../../store/reducers/reducerHelpers';
 
 describe('reducerHelpers', () => {
@@ -106,6 +107,40 @@ describe('reducerHelpers', () => {
         sortResults(resultsWithCollectionSourceNum, sortByDesc)[2]
           .sourceNumber
       ).toEqual('src1');
+    });
+  });
+
+  describe('updatedResults', () => {
+    const results = [
+      { id: 998, field1: 'fieldvalue1' },
+      { id: 999, field1: 'fieldvalue2' },
+    ];
+
+    it('returns the original results by default', () => {
+      expect(updatedResults('', results)).toEqual([...results]);
+    });
+
+    it('returns the updated results when row is edited', () => {
+      const editedRow = { id: 999, field1: 'newvalue' };
+      expect(updatedResults('edit', results, editedRow)).toEqual([
+        { id: 998, field1: 'fieldvalue1' },
+        editedRow,
+      ]);
+    });
+
+    it('returns the updated results when data is deleted', () => {
+      const deletedRow = { id: 999, field1: 'newvalue' };
+      expect(updatedResults('delete', results, deletedRow)).toEqual([
+        { id: 998, field1: 'fieldvalue1' },
+      ]);
+    });
+
+    it('returns the updated results when data is added', () => {
+      const createdRow = { id: 997, field1: 'createdvalue' };
+      expect(updatedResults('create', results, createdRow)).toEqual([
+        ...results,
+        createdRow,
+      ]);
     });
   });
 });

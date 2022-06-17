@@ -200,9 +200,10 @@ describe('actions', () => {
     });
 
     it('updateResults returns the right action type and payload', () => {
-      expect(updateResults(data)).toMatchObject({
+      const updateType = 'updatetype';
+      expect(updateResults(updateType, data)).toMatchObject({
         type: SEARCH_UPDATE_RESULTS,
-        payload: data,
+        payload: { updateType, data },
       });
     });
   });

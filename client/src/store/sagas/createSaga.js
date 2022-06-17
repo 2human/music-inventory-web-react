@@ -3,6 +3,7 @@ import {
   modalRequestFailed,
   modalRequestSubmitting,
   modalRequestSuccessful,
+  updateResults,
 } from '../actions';
 import { dataType } from './sagaHelpers';
 
@@ -25,6 +26,7 @@ export function* createSaga({ payload }) {
     result = yield call(fetch, data);
     if (result.ok) {
       yield put(modalRequestSuccessful());
+      yield put(updateResults('create', data));
     }
   } catch (error) {
     result = { ok: false };

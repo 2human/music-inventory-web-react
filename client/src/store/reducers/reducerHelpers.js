@@ -55,6 +55,7 @@ const sortDescending = (a, b, column) => {
  * @returns Results sorted according to search properties
  */
 export const sortResults = (results, sortBy) => {
+  if (!sortBy) return results;
   return [...results].sort((a, b) =>
     sortBy.order === 'ascending'
       ? sortAscending(a, b, sortBy.column)
@@ -76,5 +77,27 @@ export const selectedResultPage = (value, currentPage) => {
       return ++currentPage;
     default:
       return value;
+  }
+};
+
+/**
+ * Updates result set according to the updateType and data input.
+ * @param {*} updateType How results were changed.
+ * @param {*} oldResults Previous result set.
+ * @param {*} data Data relevent to update.
+ * @returns
+ */
+export const updatedResults = (updateType, oldResults, data) => {
+  switch (updateType) {
+    case 'edit':
+      return oldResults.map((result) =>
+        result.id === data.id ? data : result
+      );
+    case 'delete':
+      return oldResults.filter((result) => result.id !== data.id);
+    case 'create':
+      return [...oldResults, data];
+    default:
+      return oldResults;
   }
 };

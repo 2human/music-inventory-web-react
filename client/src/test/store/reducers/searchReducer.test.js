@@ -4,7 +4,6 @@ import {
 } from '../../reducerHelpers';
 import { searchReducer } from '../../../store/reducers/searchReducer';
 import {
-  modalRequestSubmitting,
   searchFailed,
   searchResetSort,
   searchSelectPage,
@@ -13,18 +12,22 @@ import {
   searchSort,
   searchSubmitting,
   searchSuccessful,
+  updateResults,
 } from '../../../store/actions';
 import { columnData } from '../../../components/SearchResults/ResultTable/columnData';
 import { basicSearchFields } from '../../../components/SearchForm/form-fields/basicSearch';
 import { tableSelectFields } from '../../../components/SearchForm/form-fields/tableSelect';
 import { advancedSearchFields } from '../../../components/SearchForm/form-fields/advancedSearch';
-import { sortResults } from '../../../store/reducers/reducerHelpers';
+import {
+  sortResults,
+  updatedResults,
+} from '../../../store/reducers/reducerHelpers';
 
 describe('searchReducer', () => {
-  const results = {
-    field1: 'field1value',
-    field2: 'field2value',
-  };
+  const results = [
+    { id: 998, field1: 'fieldvalue1' },
+    { id: 999, field1: 'fieldvalue2' },
+  ];
 
   it('returns a default state for an undefined existing state', () => {
     expect(searchReducer(undefined, {})).toEqual({
@@ -185,6 +188,19 @@ describe('searchReducer', () => {
           searchSetResultsPerPage(888)
         )
       ).toMatchObject({ currentPage: 1 });
+    });
+  });
+
+  describe('updateResults', () => {
+    itMaintainsExistingState(searchReducer, updateResults('', []));
+
+    it('updates the edited result when updateType is "edit"', () => {
+      const editedRow = { id: 999, field1: 'newvalue' };
+      expect(
+        searchReducer({ results }, updateResults('edit', editedRow))
+      ).toMatchObject({
+        results: updatedResults('edit', results, editedRow),
+      });
     });
   });
 });

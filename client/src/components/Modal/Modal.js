@@ -7,7 +7,7 @@ const Modal = ({ content, onDismiss }) => {
       <div
         id="modalContent"
         onClick={(e) => e.stopPropagation()}
-        className="modal-content">
+        className="modal__content">
         {content}
       </div>
     </div>,

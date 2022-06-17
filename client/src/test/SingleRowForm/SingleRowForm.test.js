@@ -5,7 +5,7 @@ import { initialFormInputs } from '../../components/SingleRowForm/singleRowFormH
 import { createContainer, withEvent } from '../domManipulators';
 
 describe('SingleRowForm', () => {
-  let render, element, elements, change, inputsOfType;
+  let render, element, elements, change, form, submit;
 
   const fields = [
     { name: 'field1', label: 'field1label' },
@@ -18,7 +18,7 @@ describe('SingleRowForm', () => {
   };
 
   beforeEach(() => {
-    ({ render, element, elements, change, inputsOfType } =
+    ({ render, element, elements, change, submit, form } =
       createContainer());
   });
 
@@ -219,17 +219,29 @@ describe('SingleRowForm', () => {
     });
   });
 
+  describe('submitting', () => {
+    it('prevents default behavior on submission', async () => {
+      const preventDefaultSpy = jest.fn();
+      render(<SingleRowForm />);
+      await submit(form('editCreateRow'), {
+        preventDefault: preventDefaultSpy,
+      });
+      expect(preventDefaultSpy).toHaveBeenCalled();
+    });
+  });
+
   describe('edit mode', () => {
     //edit mode is active when data object is provided
-    it('renders the "Update" button', () => {
+    it('renders the "Update" button as type "submit"', () => {
       render(<SingleRowForm fields={fields} data={data} />);
 
       const updateBtn = element('button#updateRow');
       expect(updateBtn).not.toBeNull();
       expect(updateBtn.textContent).toEqual('Update');
+      expect(updateBtn.type).toEqual('submit');
     });
 
-    it('returns the formInputs when "Update" button is clicked', () => {
+    it('calls updateRow with formInputs on submission', async () => {
       const updateSpy = jest.fn();
       render(
         <SingleRowForm
@@ -239,8 +251,7 @@ describe('SingleRowForm', () => {
         />
       );
 
-      const updateBtn = element('button#updateRow');
-      click(updateBtn);
+      await submit(form('editCreateRow'));
       expect(updateSpy).toHaveBeenCalledWith(data);
     });
 
@@ -317,14 +328,14 @@ describe('SingleRowForm', () => {
       const createBtn = element('button#createRow');
       expect(createBtn).not.toBeNull();
       expect(createBtn.textContent).toEqual('Create');
+      expect(createBtn.type).toEqual('submit');
     });
 
-    it('returns the formInputs when "Create" button is clicked', () => {
+    it('returns the formInputs when "Create" button is clicked', async () => {
       const createSpy = jest.fn();
       render(<SingleRowForm fields={fields} createRow={createSpy} />);
 
-      const createBtn = element('button#createRow');
-      click(createBtn);
+      await submit(form('editCreateRow'));
       expect(createSpy).toHaveBeenCalledWith({
         ...initialFormInputs({}, fields),
       });

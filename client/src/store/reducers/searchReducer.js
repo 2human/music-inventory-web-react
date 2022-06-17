@@ -11,11 +11,13 @@ import {
   SEARCH_SORT,
   SEARCH_SUBMITTING,
   SEARCH_SUCCESSFUL,
+  SEARCH_UPDATE_RESULTS,
 } from '../actions/actionTypes';
 import {
   selectedResultPage,
   sortProperties,
   sortResults,
+  updatedResults,
 } from './reducerHelpers';
 
 const defaultState = {
@@ -80,6 +82,21 @@ export const searchReducer = (state = defaultState, action) => {
         ...state,
         resultsPerPage: action.payload,
         currentPage: 1,
+      };
+    case SEARCH_UPDATE_RESULTS:
+      return {
+        ...state,
+        results:
+          state.results === undefined
+            ? undefined
+            : sortResults(
+                updatedResults(
+                  action.payload.updateType,
+                  state.results,
+                  action.payload.data
+                ),
+                state.sortBy
+              ),
       };
     default:
       return state;

@@ -1,37 +1,37 @@
 .dropdown {
-
   position: absolute;
 
   display: flex;
   flex-direction: column;
   font-weight: 500;
-  z-index: 50;     
+  z-index: 50;
+  cursor: pointer;
 
   @include respond(tab-port) {
-    display: none; 
-  }     
+    display: none;
+  }
 
   &--container {
     display: inline-block;
   }
 
   &:not(:last-child) {
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 
-  &--parent {
+  &__parent {
     font-size: 1.6rem;
   }
-  
-  &--content {
+
+  &__link {
     display: none;
     font-size: 1.4rem;
-    padding-left: .5rem;
+    padding-left: 0.5rem;
   }
-  
-  &:hover &--content,  
-  &:active &--content,    
-  &:focus &--content {
+
+  &:hover &__link,
+  &:active &__link,
+  &:focus &__link {
     display: inline-block;
   }
 }

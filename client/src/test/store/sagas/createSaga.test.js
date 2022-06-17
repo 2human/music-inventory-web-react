@@ -10,6 +10,7 @@ import {
   modalRequestSubmitting,
   modalRequestSuccessful,
   submitCreate,
+  updateResults,
 } from '../../../store/actions';
 
 describe('createSaga', () => {
@@ -54,6 +55,13 @@ describe('createSaga', () => {
     return expectRedux(store)
       .toDispatchAnAction()
       .matching(modalRequestSuccessful());
+  });
+
+  it('dispatches updateResults on success', () => {
+    dispatchCreate(data);
+    return expectRedux(store)
+      .toDispatchAnAction()
+      .matching(updateResults('create', data));
   });
 
   it('dispatches modalRequestFailed on non-specific error', () => {

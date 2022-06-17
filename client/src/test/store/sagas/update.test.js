@@ -6,7 +6,6 @@ import {
   fetchResponseOk,
 } from '../../spyHelpers';
 import {
-  closeModal,
   modalRequestFailed,
   modalRequestSubmitting,
   modalRequestSuccessful,
