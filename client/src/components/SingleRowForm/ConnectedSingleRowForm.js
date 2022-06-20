@@ -11,6 +11,7 @@ export const mapStateToProps = (state) => ({
   fields: state.modal.fields[state.modal.dataType],
   data: rowData(state.search.results, state.modal.rowId),
   status: state.modal.status,
+  selectedField: state.modal.columnName,
 });
 
 export const mapDispatchToProps = {

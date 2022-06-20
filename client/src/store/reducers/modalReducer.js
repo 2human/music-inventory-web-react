@@ -40,6 +40,7 @@ export const modalReducer = (state = defaultState, action) => {
         modalType: 'create',
         dataType: action.payload,
         rowId: undefined,
+        columnName: undefined,
       };
     case MODAL_OPEN_VIEW_ROW:
       return {

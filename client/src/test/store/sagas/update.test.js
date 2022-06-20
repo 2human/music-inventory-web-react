@@ -10,6 +10,7 @@ import {
   modalRequestSubmitting,
   modalRequestSuccessful,
   submitUpdate,
+  updateResults,
 } from '../../../store/actions';
 
 describe('update', () => {
@@ -54,6 +55,13 @@ describe('update', () => {
     return expectRedux(store)
       .toDispatchAnAction()
       .matching(modalRequestSuccessful());
+  });
+
+  it('dispatches updateRow on success', () => {
+    dispatchSubmitUpdate(data);
+    return expectRedux(store)
+      .toDispatchAnAction()
+      .matching(updateResults('edit', data));
   });
 
   it('dispatches modalRequestFailed on non-specific error', () => {

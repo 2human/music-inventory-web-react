@@ -4,6 +4,7 @@ import {
   modalRequestFailed,
   modalRequestSubmitting,
   modalRequestSuccessful,
+  updateResults,
 } from '../actions';
 import { dataType } from './sagaHelpers';
 
@@ -27,6 +28,7 @@ export function* deleteSaga({ payload }) {
 
     if (result.ok) {
       yield put(modalRequestSuccessful());
+      yield put(updateResults('delete', data));
       yield put(closeModal());
     }
   } catch (error) {

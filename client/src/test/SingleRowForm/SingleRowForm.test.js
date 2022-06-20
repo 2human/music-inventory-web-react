@@ -5,7 +5,7 @@ import { initialFormInputs } from '../../components/SingleRowForm/singleRowFormH
 import { createContainer, withEvent } from '../domManipulators';
 
 describe('SingleRowForm', () => {
-  let render, element, elements, change, form, submit;
+  let render, element, elements, change, form, submit, activeElement;
 
   const fields = [
     { name: 'field1', label: 'field1label' },
@@ -18,8 +18,15 @@ describe('SingleRowForm', () => {
   };
 
   beforeEach(() => {
-    ({ render, element, elements, change, submit, form } =
-      createContainer());
+    ({
+      render,
+      element,
+      elements,
+      change,
+      submit,
+      form,
+      activeElement,
+    } = createContainer());
   });
 
   it('renders the #editCreateRow form element', () => {
@@ -89,6 +96,34 @@ describe('SingleRowForm', () => {
       const inputs = elements('input');
       change(inputs[1], withEvent(fields[1].name, 'newtext'));
       expect(inputs[1].value).toEqual('newtext');
+    });
+
+    describe('sourceNumber validation', () => {
+      const fieldsWithSourceNumber = [
+        { name: 'sourceNumber', label: 'Source Number' },
+      ];
+
+      it('does not accept input from non-double', () => {
+        render(<SingleRowForm fields={fieldsWithSourceNumber} />);
+
+        const inputs = elements('input');
+        change(
+          inputs[0],
+          withEvent(fieldsWithSourceNumber[0].name, 'onlytext')
+        );
+        expect(inputs[0].value).toEqual('');
+      });
+
+      it('accepts text in the form of doubles', () => {
+        render(<SingleRowForm fields={fieldsWithSourceNumber} />);
+
+        const inputs = elements('input');
+        change(
+          inputs[0],
+          withEvent(fieldsWithSourceNumber[0].name, '123.4')
+        );
+        expect(inputs[0].value).toEqual('123.4');
+      });
     });
   });
 
@@ -331,22 +366,11 @@ describe('SingleRowForm', () => {
       expect(createBtn.type).toEqual('submit');
     });
 
-    it('returns the formInputs when "Create" button is clicked', async () => {
+    it('returns the formInputs when form is submitted', async () => {
       const createSpy = jest.fn();
       render(<SingleRowForm fields={fields} createRow={createSpy} />);
 
       await submit(form('editCreateRow'));
-      expect(createSpy).toHaveBeenCalledWith({
-        ...initialFormInputs({}, fields),
-      });
-    });
-
-    it('returns the formInputs when "Create" button is clicked', () => {
-      const createSpy = jest.fn();
-      render(<SingleRowForm fields={fields} createRow={createSpy} />);
-
-      const createBtn = element('button#createRow');
-      click(createBtn);
       expect(createSpy).toHaveBeenCalledWith({
         ...initialFormInputs({}, fields),
       });

@@ -24,6 +24,7 @@ describe('ConnectedResultsMessage', () => {
       rowId: 999,
       status: 'statusval',
       dataType: 'entries',
+      selectedField: 'colname',
     },
     search: {
       results: [{ id: 999, field1: 'field1val' }],
@@ -67,6 +68,12 @@ describe('ConnectedResultsMessage', () => {
       mapStateToProps(state),
       'status',
       state.modal.status
+    );
+
+    itMapsStateToProps(
+      mapStateToProps(state),
+      'selectedField',
+      state.modal.columnName
     );
   });
 

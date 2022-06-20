@@ -33,3 +33,15 @@ export const renderSuccessMessage = (mode) => {
     return 'Row created successfully.';
   }
 };
+
+const isDecimal = (value) => {
+  var pattern = /\d/;
+  return pattern.test(value) || value === '' || value === '.';
+};
+
+export const isValidInput = (fieldName, value) => {
+  if (fieldName === 'sourceNumber') {
+    return isDecimal(value);
+  }
+  return true;
+};

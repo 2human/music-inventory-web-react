@@ -82,6 +82,17 @@ describe('modalReducer', () => {
         rowId: undefined,
       });
     });
+
+    it('sets the columnName to undefined', () => {
+      expect(
+        modalReducer(
+          { columnName: 'column' },
+          openCreateRow(dataType)
+        )
+      ).toMatchObject({
+        columnName: undefined,
+      });
+    });
   });
 
   describe('openViewRow', () => {

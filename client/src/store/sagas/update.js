@@ -3,6 +3,7 @@ import {
   modalRequestFailed,
   modalRequestSubmitting,
   modalRequestSuccessful,
+  updateResults,
 } from '../actions';
 import { dataType } from './sagaHelpers';
 
@@ -24,6 +25,7 @@ export function* update({ payload }) {
     result = yield call(fetch, data);
     if (result.ok) {
       yield put(modalRequestSuccessful());
+      yield put(updateResults('edit', data));
 
       //UPDATE DATA CELL WITH RESULTS
     }

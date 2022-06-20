@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import {
   formMode,
   initialFormInputs,
+  isValidInput,
   renderSuccessMessage,
 } from './singleRowFormHelpers';
 
 export const SingleRowForm = ({
   fields,
+  selectedField,
   data,
   updateRow,
   deleteRow,
@@ -17,11 +20,21 @@ export const SingleRowForm = ({
     ...initialFormInputs(data, fields),
   });
 
+  useEffect(() => {
+    const selected = document.querySelector(
+      `#editCreateRow [name="${selectedField}"]`
+    );
+    if (selected) {
+      selected.select();
+    }
+  }, []);
+
   const [deleting, setDeleting] = useState(false);
 
   const mode = formMode(data);
 
   const handleInput = ({ target }) => {
+    if (!isValidInput(target.name, target.value)) return;
     if (target.name === 'isSecular') {
       setFormInputs({
         ...formInputs,
@@ -44,22 +57,18 @@ export const SingleRowForm = ({
     }
   };
 
-  const handleUpdateBtnClick = () => updateRow(formInputs);
+  const handleConfirmDeleteBtnClick = () => deleteRow(formInputs);
 
   const handleDeleteBtnClick = () => setDeleting(true);
 
-  const handleConfirmDeleteBtnClick = () => deleteRow(formInputs);
-
   const handleCancelDeleteBtnClick = () => setDeleting(false);
-
-  const handleCreateBtnClick = () => createRow(formInputs);
 
   const clearInputs = () =>
     setFormInputs({ ...initialFormInputs({}, fields) });
 
   const handleClearBtnClick = () => clearInputs();
 
-  const renderButtons = (data) => {
+  const renderButtons = () => {
     if (mode === 'edit') {
       if (deleting) {
         //deletion in progress
@@ -72,9 +81,7 @@ export const SingleRowForm = ({
       } else {
         return (
           <React.Fragment>
-            <SingleRowFormUpdateBtn
-              handleUpdateBtnClick={handleUpdateBtnClick}
-            />
+            <SingleRowFormUpdateBtn />
             <SingleRowFormDeleteBtn
               handleDeleteBtnClick={handleDeleteBtnClick}
             />
@@ -85,9 +92,7 @@ export const SingleRowForm = ({
       //create mode buttons
       return (
         <React.Fragment>
-          <SingleRowFormCreateBtn
-            handleCreateBtnClick={handleCreateBtnClick}
-          />
+          <SingleRowFormCreateBtn />
           <SingleRowFormClearBtn
             handleClearBtnClick={handleClearBtnClick}
           />
@@ -127,11 +132,11 @@ const SingleRowFormConfirmDeletePrompt = ({
 }) => (
   <React.Fragment>
     <SingleRowFormDeleteConfirmMessage />
-    <SingleRowFormConfirmDeleteBtn
-      handleConfirmDeleteBtnClick={handleConfirmDeleteBtnClick}
-    />
     <SingleRowFormCancelDeleteBtn
       handleCancelDeleteBtnClick={handleCancelDeleteBtnClick}
+    />
+    <SingleRowFormConfirmDeleteBtn
+      handleConfirmDeleteBtnClick={handleConfirmDeleteBtnClick}
     />
   </React.Fragment>
 );
@@ -150,7 +155,7 @@ const SingleRowFormConfirmDeleteBtn = ({
   <button
     type="button"
     id="confirmDelete"
-    className="btn btn--blue u-margin-right-small"
+    className="btn btn--blue"
     onClick={handleConfirmDeleteBtnClick}>
     Confirm
   </button>
@@ -162,7 +167,7 @@ const SingleRowFormCancelDeleteBtn = ({
   <button
     type="button"
     id="cancelDelete"
-    className="btn btn--blue"
+    className="btn btn--blue u-margin-right-small"
     onClick={handleCancelDeleteBtnClick}>
     Cancel
   </button>
@@ -187,12 +192,11 @@ const SingleRowFormDeleteBtn = ({ handleDeleteBtnClick }) => (
   </button>
 );
 
-const SingleRowFormCreateBtn = ({ handleCreateBtnClick }) => (
+const SingleRowFormCreateBtn = () => (
   <button
     type="submit"
     id="createRow"
-    className="btn btn--blue u-margin-right-small"
-    onClick={handleCreateBtnClick}>
+    className="btn btn--blue u-margin-right-small">
     Create
   </button>
 );

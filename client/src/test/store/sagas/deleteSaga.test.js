@@ -11,6 +11,7 @@ import {
   modalRequestSubmitting,
   modalRequestSuccessful,
   submitDelete,
+  updateResults,
 } from '../../../store/actions';
 
 describe('deleteSaga', () => {
@@ -55,6 +56,13 @@ describe('deleteSaga', () => {
     return expectRedux(store)
       .toDispatchAnAction()
       .matching(modalRequestSuccessful());
+  });
+
+  it('dispatches updateResult on success', () => {
+    dispatchDelete(data);
+    return expectRedux(store)
+      .toDispatchAnAction()
+      .matching(updateResults('delete', data));
   });
 
   it('dispatches closeModal on success', () => {

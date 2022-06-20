@@ -27,7 +27,10 @@ export const createContainer = () => {
         ReactTestUtils.Simulate[eventName](element, eventData)
       );
 
+  const activeElement = document.activeElement;
+
   return {
+    activeElement,
     render: (component) => ReactDOM.render(component, container),
     container,
     labelFor,
@@ -37,6 +40,7 @@ export const createContainer = () => {
     click: simulateEvent('click'),
     dblClick: simulateEvent('doubleClick'),
     change: simulateEvent('change'),
+    input: simulateEvent('input'),
     submit: simulateEventAndWait('submit'),
     field,
     form,
