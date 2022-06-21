@@ -38,10 +38,10 @@ export const openCreateRow = (dataType) => {
   };
 };
 
-export const openViewRow = (rowId) => {
+export const openViewRow = (rowData) => {
   return {
     type: MODAL_OPEN_VIEW_ROW,
-    payload: rowId,
+    payload: rowData,
   };
 };
 

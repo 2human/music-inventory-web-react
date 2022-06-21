@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Modal from '../../components/Modal/Modal';
 import { ModalController } from '../../components/Modal/ModalController/ModalController';
 import { ConnectedSingleRowForm } from '../../components/SingleRowForm/ConnectedSingleRowForm';
+import { ConnectedSingleRowView } from '../../components/SingleRowView/ConnectedSingleRowView';
 import { createShallowRenderer, id, type } from '../shallowHelpers';
 
 describe('ModalController', () => {
@@ -46,6 +47,15 @@ describe('ModalController', () => {
     );
     expect(elementMatching(type(Modal)).props.content).toEqual(
       <ConnectedSingleRowForm />
+    );
+  });
+
+  it('passes the ConnectedSingleRowView component to the Modal as props when modalType is "create"', () => {
+    shallowRender(
+      <ModalController modalOpen={true} modalType={'view'} />
+    );
+    expect(elementMatching(type(Modal)).props.content).toEqual(
+      <ConnectedSingleRowView />
     );
   });
 

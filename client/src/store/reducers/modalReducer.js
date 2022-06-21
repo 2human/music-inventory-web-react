@@ -48,6 +48,7 @@ export const modalReducer = (state = defaultState, action) => {
         modalType: 'view',
         modalOpen: true,
         rowId: action.payload.id,
+        dataType: dataType(action.payload),
       };
     case MODAL_CLOSE:
       return {

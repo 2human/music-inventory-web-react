@@ -9,7 +9,7 @@ import {
   openViewRow,
 } from '../../../store/actions';
 import { modalReducer } from '../../../store/reducers/modalReducer';
-import { dataType } from '../../../store/sagas/sagaHelpers';
+import { dataType as dataTypeFrom } from '../../../store/sagas/sagaHelpers';
 import {
   itMaintainsExistingState,
   itSetsDataTypeTo,
@@ -41,7 +41,7 @@ describe('modalReducer', () => {
     itSetsDataTypeTo(
       modalReducer,
       openEditRow(rowData),
-      dataType(rowData)
+      dataTypeFrom(rowData)
     );
     itSetsTheRowIdToGivenValue(
       modalReducer,
@@ -104,6 +104,14 @@ describe('modalReducer', () => {
       openViewRow(rowData),
       rowData.id
     );
+
+    it('sets the dataType to the given value', () => {
+      expect(
+        modalReducer(undefined, openViewRow(rowData))
+      ).toMatchObject({
+        dataType: dataTypeFrom(rowData),
+      });
+    });
   });
 
   describe('modalRequestSubmitting', () => {
