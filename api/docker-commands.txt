@@ -1,0 +1,54 @@
+C:\Users\Andrew\Documents\Computer Science\STS Workspace\MusicEntriesWeb
+
+sudo mvn clean install
+
+docker build . -t music-entries-web
+
+docker run -p 8088:8080 --name mew -d mew xx
+docker run -p 8080:8080 --name mew --link mew-mysql:mysql -d mew xx
+
+docker run -p 80:80 --name mew -d mew --restart=always
+docker update mew --restart=always
+--restart=on-failure
+
+
+xx docker run --name test-mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=test -e MYSQL_USER=2h -e MYSQL_PASSWORD=password -p 3367:3306 -d mysql:8 xx
+docker run --name mew-mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=collections -e MYSQL_USER=2h -e MYSQL_PASSWORD=password -d mysql:8
+
+docker exec test-mysql /usr/bin/mysqldump -u 2h --password=password --no-tablespaces test>db-dump.sql
+
+mysqldump [specified_options] name_of_database [name_of_table ...] > nameOfBackupFile.sql
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>
+mysqldump -uroot -ppassword --databases testcollections > C:\Users\Andrew\Documents\sql\schema-mysql.sql
+
+
+spring.datasource.url=jdbc:mysql://mew-mysql:3306/collections
+spring.datasource.username=2h
+spring.datasource.password=password
+
+use AWS secret access key to login
+aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin  902412163876.dkr.ecr.us-east-2.amazonaws.com
+docker tag music-entries-web:latest 902412163876.dkr.ecr.us-east-2.amazonaws.com/music-entries-web:latest
+docker push 902412163876.dkr.ecr.ecr.us-east-2.amazonaws.com/music-entries-web:latest
+
+
+changing boolean to tinyint
+
+UPDATE entries
+SET entry_is_secular = 1
+WHERE entry_is_secular = "true"
+
+
+Setting up SSL key
+1. Open command prompt as administrator
+2. Go to: C:\Program Files\Java\jdk-17.0.2\bin>3. 
+3. Execute command: keytool -genkey -alias tomcat -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12 -validity 3650
+4. Copy to route folder
+5. Set up HTTPS by inserting the following into your application.properties folder:
+		server.port: 443
+		server.ssl.key-store: keystore.p12
+		server.ssl.key-store-password: password
+		server.ssl.keyStoreType: PKCS12
+		server.ssl.keyAlias: tomcat
+   
